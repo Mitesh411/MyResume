@@ -28,3 +28,8 @@ jobs:
       with:
         name: Lighthouse reports
         path: ${{ github.workspace }}/tmp/artifacts   
+    - name: Screenshot Website
+      uses: swinton/screenshot-website@v1.x
+      with:
+        source: https://mitesh411.github.io/MyResume/
+        destination: screenshot.png    
