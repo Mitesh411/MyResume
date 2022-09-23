@@ -34,6 +34,14 @@ jobs:
         source: https://mitesh411.github.io/MyResume/
         destination: screenshot.png 
         full-page: true
-    - name: Broken Link Checker Action
-      uses: technote-space/broken-link-checker-action@v1.1.3
+    - name: Broken-Links-Crawler
+      uses: ScholliYT/Broken-Links-Crawler-Action@v3
+      with:
+         website_url: 'https://mitesh411.github.io/MyResume/'
+         include_url_prefix: 'https://mitesh411.github.io/MyResume/'
+         resolve_before_filtering: 'true'
+         verbose: 'true'
+         max_retry_time: 30
+         max_retries: 5
+         max_depth: 1
      
