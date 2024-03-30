@@ -76,9 +76,16 @@
     });
   }
 
+  /**
+ * Displays an error message on the form.
+ *
+ * @param {HTMLElement} thisForm - The form element.
+ * @param {string} error - The error message to display.
+ * @return {void} This function does not return a value.
+ */
   function displayError(thisForm, error) {
     thisForm.querySelector('.loading').classList.remove('d-block');
-    thisForm.querySelector('.error-message').innerHTML = error;
+    thisForm.querySelector('.error-message').innerText = error;
     thisForm.querySelector('.error-message').classList.add('d-block');
   }
 
