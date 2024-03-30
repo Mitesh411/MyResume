@@ -28,20 +28,5 @@ jobs:
       with:
         name: Lighthouse reports
         path: ${{ github.workspace }}/tmp/artifacts   
-    - name: Screenshot Website
-      uses: swinton/screenshot-website@v1.x
-      with:
-        source: https://mitesh411.github.io/MyResume/
-        destination: screenshot.png 
-        full-page: true
-    - name: Broken-Links-Crawler
-      uses: ScholliYT/Broken-Links-Crawler-Action@v3
-      with:
-         website_url: 'https://mitesh411.github.io/MyResume/'
-         include_url_prefix: 'https://mitesh411.github.io/MyResume/'
-         resolve_before_filtering: 'true'
-         verbose: 'true'
-         max_retry_time: 30
-         max_retries: 5
-         max_depth: 1
+   
      

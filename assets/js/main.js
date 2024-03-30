@@ -36,6 +36,11 @@
   /**
    * Easy on scroll event listener 
    */
+  /**
+ * Adds an event listener for the 'scroll' event to the provided element.
+ * @param {Element} el The element to add the event listener to. 
+ * @param {Function} listener The callback function to execute when the event occurs.
+ */
   const onscroll = (el, listener) => {
     el.addEventListener('scroll', listener)
   }
