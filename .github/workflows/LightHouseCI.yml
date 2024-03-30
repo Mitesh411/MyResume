@@ -28,5 +28,5 @@ jobs:
       with:
         name: Lighthouse reports
         path: ${{ github.workspace }}/tmp/artifacts   
-   
+    
      
