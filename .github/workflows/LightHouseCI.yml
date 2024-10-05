@@ -18,13 +18,13 @@ jobs:
  lighthouse-check:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@master
+    - uses: actions/checkout@v4.2.0
     - name: Lighthouse
-      uses: foo-software/lighthouse-check-action@v10.0.0
+      uses: foo-software/lighthouse-check-action@v12.0.1
       with:
         urls: 'https://mitesh411.github.io/MyResume/'
     - name: Upload artifacts
-      uses: actions/upload-artifact@v4.3.1
+      uses: actions/upload-artifact@v4.4.0
       with:
         name: Lighthouse reports
         path: ${{ github.workspace }}/tmp/artifacts

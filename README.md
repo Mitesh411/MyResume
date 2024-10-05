@@ -23,42 +23,34 @@ Here are the steps to build a Dockerfile for the resume website described in the
 Create a Dockerfile
 FROM nginx:alpine
 
-
+# Exclude unnecessary files
+COPY .dockerignore ./
+COPY . /usr/share/nginx/html
 
 This starts from the nginx Alpine image as the base.
 
 Copy the website files into the container
 COPY . /usr/share/nginx/html
 
-
-
 This copies the local context (current directory) to the default nginx document root.
 
 Expose port 80
 EXPOSE 80
-
-
 
 This exposes port 80 for the web server.
 
 Set the default command to nginx
 CMD ["nginx", "-g", "daemon off;"]
 
-
-
 This overrides the default CMD and starts nginx.
 
 Build the Docker image
 docker build -t my-resume .
 
-
-
 This builds the image using the Dockerfile in the current directory and tags it as my-resume.
 
 Run a container from the image
 docker run -p 80:80 my-resume
-
-
 
 This starts a container on port 80 from the my-resume image.
 
