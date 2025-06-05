@@ -50,13 +50,19 @@
   * Author: BootstrapMade.com
   * License: https://bootstrapmade.com/license/
   ======================================================== -->
+
+  <!-- Add security-related meta tags -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'">
+  <meta http-equiv="X-Frame-Options" content="DENY">
 </head>
 
 <body>
 
   <!-- ======= Mobile nav toggle button ======= -->
   <!-- <button type="button" class="mobile-nav-toggle d-xl-none"><i class="bi bi-list mobile-nav-toggle"></i></button> -->
-  <i class="bi bi-list mobile-nav-toggle d-xl-none"></i>
+  <button class="mobile-nav-toggle d-xl-none" aria-label="Toggle navigation">
+    <span class="bi bi-list" aria-hidden="true"></span>
+  </button>
   <!-- ======= Header ======= -->
   <header id="header" class="d-flex flex-column justify-content-center">
 
@@ -105,7 +111,7 @@
 
         <div class="row">
           <div class="col-lg-4">
-            <img src="assets/img/profile-img.jpg" class="img-fluid" alt="">
+            <img src="assets/img/profile-img.jpg" class="img-fluid" alt="Mitesh Dandade - Automation Engineer, FrontEnd Developer, Freelancer, Photographer">
           </div>
           <div class="col-lg-8 pt-4 pt-lg-0 content">
             <h3>Automation Engineer &amp; Beginner in Web Development.</h3>
@@ -146,7 +152,7 @@
 
         <div class="section-title">
           <h2>Facts</h2>
-          <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>
+          <p>Key achievements and metrics from my professional career in software testing and automation.</p>
         </div>
 
         <div class="row">
@@ -682,7 +688,7 @@
               <div class="phone">
                 <i class="bi bi-phone"></i>
                 <h4>Call:</h4>
-                <p>+1 5589 55488 55s</p>
+                <p><span class="contact-info" data-contact="phone">Contact via form</span></p>
               </div>
 
             </div>
@@ -691,10 +697,10 @@
 
           <div class="col-lg-8 mt-5 mt-lg-0">
 
-            <form action="forms/contact.php" method="post" role="form" class="php-email-form">
+            <form action="forms/contact.php" method="post" class="php-email-form">
               <div class="row">
                 <div class="col-md-6 form-group">
-                  <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" required>
+                  <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" pattern="[A-Za-z ]+" maxlength="50" required>
                 </div>
                 <div class="col-md-6 form-group mt-3 mt-md-0">
                   <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" required>
@@ -764,6 +770,16 @@
 
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
+
+  <!-- Create a single source of social links -->
+<script>
+const socialLinks = {
+    linkedin: "https://www.linkedin.com/in/mitesh-dandade-1a62085b/",
+    twitter: "#",
+    facebook: "https://www.facebook.com/mitesh.dandade",
+    // ...
+};
+</script>
 
 </body>
 
