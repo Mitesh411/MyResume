@@ -62,18 +62,33 @@
       }
     })
   }
-  window.addEventListener('load', navbarlinksActive)
-  onscroll(document, navbarlinksActive)
+  // Return cleanup functions
+  const initNavbarLinks = () => {
+    const cleanup = () => {
+      window.removeEventListener('load', navbarlinksActive);
+      document.removeEventListener('scroll', navbarlinksActive);
+    };
+    
+    window.addEventListener('load', navbarlinksActive);
+    onscroll(document, navbarlinksActive);
+    
+    return cleanup;
+  };
 
   /**
    * Scrolls to an element with header offset
    */
   const scrollto = (el) => {
-    let elementPos = select(el).offsetTop
+    const element = select(el);
+    if (!element) {
+      console.warn(`Element ${el} not found`);
+      return;
+    }
+    let elementPos = element.offsetTop;
     window.scrollTo({
       top: elementPos,
       behavior: 'smooth'
-    })
+    });
   }
 
   /**
@@ -266,4 +281,19 @@
     })
   });
 
+  const throttle = (func, limit) => {
+    let inThrottle;
+    return function() {
+      const args = arguments;
+      const context = this;
+      if (!inThrottle) {
+        func.apply(context, args);
+        inThrottle = true;
+        setTimeout(() => inThrottle = false, limit);
+      }
+    }
+  };
+
+  // Usage
+  onscroll(document, throttle(navbarlinksActive, 100));
 })()
