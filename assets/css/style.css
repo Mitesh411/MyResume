@@ -190,10 +190,11 @@ h1, h2, h3, h4, h5, h6 {
 }
 .nav-menu a:hover, .nav-menu .active, .nav-menu .active:focus, .nav-menu li:hover > a {
   color: #fff;
-  background: #0563bb;
+  font-style: oblique;
+  background: #000000;
 }
 .nav-menu a:hover span, .nav-menu .active span, .nav-menu .active:focus span, .nav-menu li:hover > a span {
-  color: #fff;
+  color: #9b805a;
 }
 .nav-menu a:hover, .nav-menu li:hover > a {
   width: 100%;
@@ -265,10 +266,10 @@ h1, h2, h3, h4, h5, h6 {
   font-size: 64px;
   font-weight: 700;
   line-height: 56px;
-  color: #45505b;
+  color: #000000;
 }
 #hero p {
-  color: #45505b;
+  color: #000000;
   margin: 15px 0 0 0;
   font-size: 26px;
   font-family: "Poppins", sans-serif;
@@ -281,9 +282,9 @@ h1, h2, h3, h4, h5, h6 {
   margin-top: 30px;
 }
 #hero .social-links a {
-  font-size: 24px;
+  font-size: 50px;
   display: inline-block;
-  color: #45505b;
+  color: #000;
   line-height: 1;
   margin-right: 20px;
   transition: 0.3s;
@@ -397,15 +398,15 @@ section {
   top: -25px;
   left: 50%;
   transform: translateX(-50%);
-  font-size: 24px;
-  background: #0563bb;
+  font-size: 40px;
+  background: #000000;
   color: #fff;
   border-radius: 50px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 48px;
-  height: 48px;
+  width: 65px;
+  height: 65px;
 }
 .facts .count-box span {
   font-size: 36px;
