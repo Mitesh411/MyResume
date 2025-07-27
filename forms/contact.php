@@ -1,83 +1,174 @@
 <?php
-// Add rate limiting to prevent spam
-session_start();
-$last_submit = $_SESSION['last_submit'] ?? 0;
-if (time() - $last_submit < 60) {
-    http_response_code(429);
-    die('Please wait before submitting again');
+// --- New contact.php using PHPMailer ---
+
+// Import PHPMailer classes into the global namespace
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
+ 
+// Include Mail configuratin file
+$config = require 'config.php';
+
+// Load PHPMailer files
+require '../assets/vendor/PHPMailer/Exception.php';
+require '../assets/vendor/PHPMailer/PHPMailer.php';
+require '../assets/vendor/PHPMailer/SMTP.php';
+
+// Sanitize user input
+$name    = filter_var($_POST['name'], FILTER_SANITIZE_STRING);
+$email   = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
+$subject = filter_var($_POST['subject'], FILTER_SANITIZE_STRING);
+$message = filter_var($_POST['message'], FILTER_SANITIZE_STRING);
+
+// Create an instance of PHPMailer; passing `true` enables exceptions
+$mail = new PHPMailer(true);
+
+try {
+    // --- Server settings ---
+    $mail->SMTPDebug = SMTP::DEBUG_OFF; // Change to SMTP::DEBUG_SERVER for detailed debugging output
+    $mail->isSMTP();
+    $mail->Host       = $config['smtp_host'];
+    $mail->SMTPAuth   = true;
+    $mail->Username   = $config['smtp_user'];
+    $mail->Password   = $config['smtp_pass'];
+    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+    $mail->Port       = $config['smtp_port'];
+
+    // --- Recipients ---
+    $mail->setFrom($email, $name); // Sender's email and name
+    $mail->addAddress($config['your_email_address'], 'Mitesh Dandade'); // Recipient's email and name
+    $mail->addReplyTo($email, $name);
+
+    // --- Content ---
+    $mail->isHTML(true);
+    // Prepare the HTML email body
+    $htmlBody = <<<HTML
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <style>
+                body {
+                    font-family: Arial, sans-serif;
+                    margin: 0;
+                    padding: 0;
+                    background-color: #f4f4f4;
+                }
+                .container {
+                    width: 100%;
+                    max-width: 600px;
+                    margin: 0 auto;
+                    background-color: #ffffff;
+                    border-radius: 8px;
+                    overflow: hidden;
+                    border: 1px solid #dddddd;
+                }
+                .header {
+                    background-color: #007bff;
+                    color: #ffffff;
+                    padding: 20px;
+                    text-align: center;
+                }
+                .header h1 {
+                    margin: 0;
+                    font-size: 24px;
+                }
+                .content {
+                    padding: 30px;
+                    line-height: 1.6;
+                    color: #333333;
+                }
+                .content table {
+                    width: 100%;
+                    border-collapse: collapse;
+                }
+                .content td {
+                    padding: 10px 0;
+                    border-bottom: 1px solid #eeeeee;
+                }
+                .content .label {
+                    font-weight: bold;
+                    width: 100px;
+                    color: #555555;
+                }
+                .footer {
+                    background-color: #f4f4f4;
+                    color: #888888;
+                    padding: 20px;
+                    text-align: center;
+                    font-size: 12px;
+                }
+            </style>
+        </head>
+        <body>
+            <div class="container">
+                <div class="header">
+                    <h1>New Form Submission</h1>
+                </div>
+                <div class="content">
+                    <p>You have received a new message from your portfolio contact form.</p>
+                    <table>
+                        <tr>
+                            <td class="label">Name:</td>
+                            <td>$name</td>
+                        </tr>
+                        <tr>
+                            <td class="label">Email:</td>
+                            <td><a href="mailto:$email">$email</a></td>
+                        </tr>
+                        <tr>
+                            <td class="label">Subject:</td>
+                            <td>$subject</td>
+                        </tr>
+                        <tr>
+                            <td class="label" style="vertical-align: top;">Message:</td>
+                            <td>
+                                __MESSAGE_BODY__
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="footer">
+                    <p>This email was sent from your portfolio website.</p>
+                </div>
+            </div>
+        </body>
+        </html>
+    HTML;
+    $formattedMessage = nl2br(htmlspecialchars($message));
+    // Replace placeholders with sanitized variables
+    $htmlBody = str_replace(
+        ['$name', '$email', '$subject', '__MESSAGE_BODY__'],
+        [
+            htmlspecialchars($name),
+            htmlspecialchars($email),
+            htmlspecialchars($subject),
+            $formattedMessage,
+        ],
+        $htmlBody
+    );
+    $mail->Body = $htmlBody;
+    $mail->Subject = 'New Contact Form Submission: ' . $subject;
+    $mail->AltBody = "You have received a new message.\n\n" .
+                     "From: " . $name . " (" . $email . ")\n" .
+                     "Subject: " . $subject . "\n" .
+                     "Message:\n" . $message;
+
+    // Send the email
+    $mail->send();
+    
+    // --- Send Success JSON Response ---
+    header('Content-Type: application/json');
+    echo json_encode(['success' => true, 'message' => 'Your message has been sent. Thank you!']);
+
+} catch (Exception $e) {
+    // --- Send Error JSON Response ---
+    header('Content-Type: application/json');
+    http_response_code(500);
+    // For extra security, you might not want to show the detailed error to the user.
+    // But for debugging, it's very helpful.
+    echo json_encode(['success' => false, 'message' => "Message could not be sent. Mailer Error: {$mail->ErrorInfo}"]);
 }
-$_SESSION['last_submit'] = time();
 
-if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
-      http_response_code(403);
-      die('Invalid request');
-  }
-  /**
-  * Requires the "PHP Email Form" library
-  * The "PHP Email Form" library is available only in the pro version of the template
-  * The library should be uploaded to: vendor/php-email-form/php-email-form.php
-  * For more info and help: https://bootstrapmade.com/php-email-form/
-  */
-
-  // Move configuration to separate file
-  require_once 'config.php';
-  // Replace contact@example.com with your real receiving email address
-  $receiving_email_address = CONFIG['admin_email'];
-
-  $php_email_form = '../assets/vendor/php-email-form/php-email-form.php';
-  if (!is_readable($php_email_form)) {
-      error_log('PHP Email Form library not found');
-      http_response_code(500);
-      die('Internal server error');
-  }
-  include($php_email_form);
-
-  $contact = new PHP_Email_Form;
-  $contact->ajax = true;
-  
-  // Add input validation before processing
-  $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING);
-  $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
-  $subject = filter_input(INPUT_POST, 'subject', FILTER_SANITIZE_STRING);
-  $message = filter_input(INPUT_POST, 'message', FILTER_SANITIZE_STRING);
-
-  if (!$name || !$email || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
-      die('Invalid input data');
-  }
-
-  $contact->to = $receiving_email_address;
-  $contact->from_name = $name;
-  $contact->from_email = $email;
-  $contact->subject = $subject;
-
-  // Load SMTP settings from environment or config file
-  $smtp_config = [
-      'host' => getenv('SMTP_HOST'),
-      'username' => getenv('SMTP_USER'),
-      'password' => getenv('SMTP_PASS'),
-      'port' => getenv('SMTP_PORT') ?: '587',
-      'encryption' => 'tls'
-  ];
-
-  if ($smtp_config['host']) {
-      $contact->smtp = $smtp_config;
-  }
-
-  $contact->add_message( $_POST['name'], 'From');
-  $contact->add_message( $_POST['email'], 'Email');
-  $contact->add_message( $_POST['message'], 'Message', 10);
-
-  try {
-      $result = $contact->send();
-      echo json_encode([
-          'success' => true,
-          'message' => 'Message sent successfully'
-      ]);
-  } catch (Exception $e) {
-      http_response_code(500);
-      echo json_encode([
-          'success' => false,
-          'message' => 'Failed to send message'
-      ]);
-  }
 ?>
