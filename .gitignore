@@ -1,3 +1,4 @@
 # Vendor dependencies
 assets/vendor/
 assets/vendor/*
+forms/config.php
