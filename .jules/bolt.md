@@ -1,0 +1,3 @@
+## 2024-05-22 - [Isotope Layout & Lazy Loading]
+**Learning:** Isotope layout library calculates element positions based on content size. When using native lazy loading (`loading="lazy"`), images might not be loaded when Isotope initializes, potentially causing overlapping items.
+**Action:** Always provide explicit `width` and `height` attributes to images within an Isotope grid. This allows the browser to reserve the correct space even before the image loads, ensuring Isotope can calculate the layout correctly without needing to wait for the `load` event of each image or using `imagesLoaded` script.
