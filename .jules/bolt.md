@@ -1,0 +1,3 @@
+## 2025-06-28 - Image Optimization for Isotope Layout
+**Learning:** This project uses Isotope for the portfolio grid. When implementing lazy loading for images (`loading="lazy"`), it is CRITICAL to include explicit `width` and `height` attributes on the `<img>` tags. Without them, the browser cannot calculate the image aspect ratio before loading, causing Isotope to calculate layout based on 0-height images. This results in overlapping items and a broken layout until a window resize event triggers a re-layout.
+**Action:** Always ensure `width` and `height` attributes are present for images within Isotope grids, especially when using lazy loading.
