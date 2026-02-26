@@ -2,3 +2,4 @@
 assets/vendor/
 assets/vendor/*
 forms/config.php
+.vscode/settings.json
