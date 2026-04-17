@@ -15,10 +15,10 @@ require '../assets/vendor/PHPMailer/PHPMailer.php';
 require '../assets/vendor/PHPMailer/SMTP.php';
 
 // Sanitize user input
-$name    = filter_var($_POST['name'], FILTER_SANITIZE_STRING);
-$email   = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
-$subject = filter_var($_POST['subject'], FILTER_SANITIZE_STRING);
-$message = filter_var($_POST['message'], FILTER_SANITIZE_STRING);
+$name    = isset($_POST['name']) ? htmlspecialchars(strip_tags($_POST['name'])) : '';
+$email   = isset($_POST['email']) ? filter_var($_POST['email'], FILTER_SANITIZE_EMAIL) : '';
+$subject = isset($_POST['subject']) ? htmlspecialchars(strip_tags($_POST['subject'])) : '';
+$message = isset($_POST['message']) ? htmlspecialchars(strip_tags($_POST['message'])) : '';
 
 // Create an instance of PHPMailer; passing `true` enables exceptions
 $mail = new PHPMailer(true);
@@ -166,9 +166,8 @@ try {
     // --- Send Error JSON Response ---
     header('Content-Type: application/json');
     http_response_code(500);
-    // For extra security, you might not want to show the detailed error to the user.
-    // But for debugging, it's very helpful.
-    echo json_encode(['success' => false, 'message' => "Message could not be sent. Mailer Error: {$mail->ErrorInfo}"]);
+    error_log("Mailer Error: {$mail->ErrorInfo}");
+    echo json_encode(['success' => false, 'message' => "Message could not be sent. Please try again later."]);
 }
 
 ?>
