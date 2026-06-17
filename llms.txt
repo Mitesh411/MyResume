@@ -1,0 +1,43 @@
+Title: MyResume — LLM & SEO metadata
+Site: https://Mitesh411.github.io/MyResume
+Description: Personal portfolio static HTML pages showcasing resume, projects, skills and contact information for a web developer.
+Author: Mitesh (GitHub: Mitesh411)
+Primary languages: HTML, CSS, JavaScript, PHP
+
+Important pages:
+- / (Home)
+- /about.html (About)
+- /resume.html (Resume / CV)
+- /projects.html (Projects / Portfolio)
+- /contact.html (Contact)
+
+Primary keywords: resume, portfolio, web developer, front-end developer, full-stack developer, JavaScript, HTML5, CSS3
+
+SEO guidelines for LLMs and content generators:
+- Keep meta title under 60 characters and meta description between 150-160 characters.
+- Use a clear H1 on each page, then H2/H3 for subsections. Include target keywords naturally.
+- Avoid hallucinations: do not invent project names, dates, or contact details that are not present in the repository. If a fact is unknown, ask for clarification.
+- Provide accessible content: include descriptive alt text for images, use semantic HTML, and ensure links are descriptive.
+- Produce concise, professional tone. When creating copy for the resume, emphasize accomplishments with measurable outcomes where possible.
+
+Structured data / JSON-LD examples (use on appropriate pages):
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Mitesh",
+  "url": "https://Mitesh411.github.io/MyResume/",
+  "jobTitle": "Web Developer",
+  "sameAs": [
+    "https://github.com/Mitesh411"
+  ]
+}
+
+Sitemap: /sitemap.xml
+Robots: /robots.txt
+
+Last-updated: 2026-06-17
+
+Notes for developers and crawlers:
+- Replace the site base URL above with the production URL if different.
+- Keep sitemap.xml updated when adding or removing top-level pages.
+- Use canonical links on pages with multiple URL variants.
