@@ -30,7 +30,13 @@
   <link href="assets/img/favicon.png" rel="icon">
   <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
 
+  <!-- LCP Optimization: Preload hero background image to improve Largest Contentful Paint metric -->
+  <link rel="preload" as="image" href="assets/img/hero-bg.jpg">
+
   <!-- Google Fonts -->
+  <!-- Performance Optimization: Preconnect to Google Fonts domains to speed up DNS/TCP/TLS -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
 
   <!-- Vendor CSS Files -->
