@@ -55,9 +55,18 @@
       body: formData,
       headers: {'X-Requested-With': 'XMLHttpRequest'}
     })
-    .then(response => {
+    .then(async response => {
       if (!response.ok) {
-        throw new Error(`${response.status} ${response.statusText}`);
+        let errMessage = `${response.status} ${response.statusText}`;
+        try {
+          const errData = await response.json();
+          if (errData.message) {
+            errMessage = errData.message;
+          }
+        } catch (e) {
+          // Keep default error message if JSON parsing fails
+        }
+        throw new Error(errMessage);
       }
       return response.json();
     })
