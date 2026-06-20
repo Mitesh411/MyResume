@@ -166,9 +166,8 @@ try {
     // --- Send Error JSON Response ---
     header('Content-Type: application/json');
     http_response_code(500);
-    // For extra security, you might not want to show the detailed error to the user.
-    // But for debugging, it's very helpful.
-    echo json_encode(['success' => false, 'message' => "Message could not be sent. Mailer Error: {$mail->ErrorInfo}"]);
+    // Generic error message to prevent information disclosure.
+    echo json_encode(['success' => false, 'message' => 'Message could not be sent. Please try again later.']);
 }
 
 ?>
