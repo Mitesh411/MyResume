@@ -6,7 +6,9 @@ This project is a personal resume website designed to showcase skills, experienc
 
 **Purpose:**
 
-The primary purpose of this website is to provide a comprehensive and engaging platform for individuals to present their qualifications to potential employers, collaborators, or anyone interested in their professional background. It aims to make a strong first impression and facilitate easy access to relevant information.
+The primary purpose of this website is to provide a comprehensive and engaging platform for individuals to present their qualifications to potential employers, collaborators, or anyone interested in their professional background. It aims to make a strong first impression and facilitate easy access to relevant information. 
+
+
 
 **Target Audience:**
 
