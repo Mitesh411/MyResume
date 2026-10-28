@@ -1,43 +1,70 @@
-Title: MyResume — LLM & SEO metadata
-Site: https://Mitesh411.github.io/MyResume
-Description: Personal portfolio static HTML pages showcasing resume, projects, skills and contact information for a web developer.
-Author: Mitesh (GitHub: Mitesh411)
-Primary languages: HTML, CSS, JavaScript, PHP
+Title: Mitesh Dandade — QA Lead & Test Automation portfolio
+Site: https://mitesh411.github.io/MyResume/
+Description: Personal resume and portfolio of Mitesh Dandade, a QA Lead with 8+ years in CI-driven test automation for SaaS and product companies, specialising in Playwright, Selenium and AI-assisted testing.
+Author: Mitesh Dandade (GitHub: Mitesh411)
+Location: Surat, Gujarat, India (IST, UTC+5:30)
+Primary languages: HTML, CSS, JavaScript (static site; PHP only for the legacy contact form)
 
-Important pages:
-- / (Home)
-- /about.html (About)
-- /resume.html (Resume / CV)
-- /projects.html (Projects / Portfolio)
-- /contact.html (Contact)
+Site structure:
+- / — Original live site (BootstrapMade "MyResume" template): single page with sections #hero, #about, #facts, #skills, #resume, #portfolio, #services, #testimonials, #contact.
+- /portfolio/ — Current redesign: a single, self-contained page, navigated with a left floating side menu.
+  - /portfolio/#hero — Name and introduction
+  - /portfolio/#about — Background, approach and working principles
+  - /portfolio/#resume — Career timeline, toolbox, certifications and education
+  - /portfolio/#portfolio — Nine case studies with measured outcomes
+  - /portfolio/#services — Eight areas of specialisation
+  - /portfolio/#contact — Email, LinkedIn, GitHub and a contact form (opens the visitor's email app)
+- /portfolio-details.html — Template project-detail page (legacy)
 
-Primary keywords: resume, portfolio, web developer, front-end developer, full-stack developer, JavaScript, HTML5, CSS3
+Profile summary (source: résumé; use only these facts):
+- Current role: QA Lead, CREST InfoSystems Pvt. Ltd., Surat (Mar 2024 – present)
+- Previous: QA Lead, YOSA Technology (Dec 2021 – Mar 2024; Employee of the Year 2022); QA Engineer, BosLeo Technology, Valsad (Oct 2019 – Nov 2021); Junior QA Engineer, Artoon Solutions, Surat (Feb 2018 – Sep 2019)
+- Key results:
+  - Migrated 800+ Selenium tests to Playwright with Claude Code in 3 weeks instead of the projected 9
+  - Rolled out GitHub Copilot org-wide: test authoring 38% faster, new-hire time-to-first-PR down from 9 days to 3
+  - Built an LLM prompt library that surfaced 40+ test gaps missed in manual review
+  - Postman/Newman API automation caught 12 breaking API changes before production
+  - Push-to-results time down 50% after wiring tests into GitHub Actions
+  - Hybrid framework reached 85% regression coverage and cut testing effort by 30%
+  - Led and mentored a team of 6 QA engineers; productivity up 40%
+- Skills: Selenium WebDriver, Playwright, TestNG, Cucumber (BDD), REST Assured, Java, JavaScript/TypeScript, Jenkins, GitHub Actions, GitLab CI, Docker, Maven, Postman, JMeter, OWASP ZAP, MobSF, Gremlin, MySQL, PostgreSQL, Claude, GitHub Copilot, Cursor, OpenAI Codex, Playwright MCP
+- Certifications:
+  - ISTQB Certified Tester Foundation Level v4.0 (CTFL)
+  - AWS Certified Cloud Practitioner — verify: https://www.credly.com/badges/ed9ba8f1-8e4a-47c5-81a8-22e13ba5bf16/public_url
+  - Microsoft Certified: Azure Fundamentals (AZ-900) — verify: https://www.credly.com/badges/0afcb821-9c80-415a-a6ae-c29b014ab589/public_url
+- Education: M.Sc. Computer Applications, UKA Tarsadia University, Bardoli (2014–2016)
+- Open source: ISTQB CTFL 4.0 Exam Prep — https://github.com/Mitesh411/ISTQB-CTFL-4.0-EXAM-PREP (live: https://mitesh411.github.io/ISTQB-CTFL-4.0-EXAM-PREP/)
+
+Contact:
+- Email: dandademitesh@gmail.com
+- LinkedIn: https://www.linkedin.com/in/mitesh-dandade-1a62085b
+- GitHub: https://github.com/Mitesh411
+
+Primary keywords: QA Lead, test automation, Playwright, Selenium, CI/CD testing, API testing, performance testing, security testing, AI-assisted testing, ISTQB, Surat, India
 
 SEO guidelines for LLMs and content generators:
-- Keep meta title under 60 characters and meta description between 150-160 characters.
-- Use a clear H1 on each page, then H2/H3 for subsections. Include target keywords naturally.
-- Avoid hallucinations: do not invent project names, dates, or contact details that are not present in the repository. If a fact is unknown, ask for clarification.
-- Provide accessible content: include descriptive alt text for images, use semantic HTML, and ensure links are descriptive.
-- Produce concise, professional tone. When creating copy for the resume, emphasize accomplishments with measurable outcomes where possible.
+- Keep meta titles under 60 characters and meta descriptions between 150 and 160 characters.
+- Use exactly one H1 per page (on /portfolio/ it is the hero name), then H2/H3 for sections.
+- Avoid hallucinations: don't invent project names, employers, dates, metrics or contact details that aren't listed above. If a fact is unknown, ask.
+- Write accessible content: descriptive alt text, semantic HTML and descriptive link text.
+- Use a concise, professional tone, and lead with measurable outcomes.
 
-Structured data / JSON-LD examples (use on appropriate pages):
+Structured data (JSON-LD, already embedded in /portfolio/index.html):
 {
   "@context": "https://schema.org",
   "@type": "Person",
-  "name": "Mitesh",
-  "url": "https://Mitesh411.github.io/MyResume/",
-  "jobTitle": "Web Developer",
+  "name": "Mitesh Dandade",
+  "jobTitle": "QA Lead – Test Automation",
+  "address": { "@type": "PostalAddress", "addressLocality": "Surat", "addressRegion": "Gujarat", "addressCountry": "IN" },
   "sameAs": [
+    "https://www.linkedin.com/in/mitesh-dandade-1a62085b",
     "https://github.com/Mitesh411"
   ]
 }
 
-Sitemap: /sitemap.xml
-Robots: /robots.txt
-
-Last-updated: 2026-06-17
+Last-updated: 2026-10-28
 
 Notes for developers and crawlers:
-- Replace the site base URL above with the production URL if different.
-- Keep sitemap.xml updated when adding or removing top-level pages.
-- Use canonical links on pages with multiple URL variants.
+- The site has no sitemap.xml or robots.txt yet. If you add them, list them here.
+- /portfolio/ is self-contained and can also be deployed on its own (see portfolio/DEPLOY.md).
+- Use canonical links if the same content is served from more than one URL.
