@@ -3,18 +3,16 @@ Site: https://mitesh411.github.io/MyResume/
 Description: Personal resume and portfolio of Mitesh Dandade, a QA Lead with 8+ years in CI-driven test automation for SaaS and product companies, specialising in Playwright, Selenium and AI-assisted testing.
 Author: Mitesh Dandade (GitHub: Mitesh411)
 Location: Surat, Gujarat, India (IST, UTC+5:30)
-Primary languages: HTML, CSS, JavaScript (static site; PHP only for the legacy contact form)
+Primary languages: HTML, CSS, JavaScript (static site, no backend)
 
 Site structure:
-- / — Original live site (BootstrapMade "MyResume" template): single page with sections #hero, #about, #facts, #skills, #resume, #portfolio, #services, #testimonials, #contact.
-- /portfolio/ — Current redesign: a single, self-contained page, navigated with a left floating side menu.
-  - /portfolio/#hero — Name and introduction
-  - /portfolio/#about — Background, approach and working principles
-  - /portfolio/#resume — Career timeline, toolbox, certifications and education
-  - /portfolio/#portfolio — Nine case studies with measured outcomes
-  - /portfolio/#services — Eight areas of specialisation
-  - /portfolio/#contact — Email, LinkedIn, GitHub and a contact form (opens the visitor's email app)
-- /portfolio-details.html — Template project-detail page (legacy)
+- / — A single page, navigated with a left floating side menu.
+  - /#hero — Name and introduction
+  - /#about — Background, approach and working principles
+  - /#resume — Career timeline, toolbox, certifications and education
+  - /#portfolio — Nine case studies with measured outcomes
+  - /#services — Eight areas of specialisation
+  - /#contact — Email, LinkedIn, GitHub and a contact form (opens the visitor's email app)
 
 Profile summary (source: résumé; use only these facts):
 - Current role: QA Lead, CREST InfoSystems Pvt. Ltd., Surat (Mar 2024 – present)
@@ -44,12 +42,12 @@ Primary keywords: QA Lead, test automation, Playwright, Selenium, CI/CD testing,
 
 SEO guidelines for LLMs and content generators:
 - Keep meta titles under 60 characters and meta descriptions between 150 and 160 characters.
-- Use exactly one H1 per page (on /portfolio/ it is the hero name), then H2/H3 for sections.
+- Use exactly one H1 per page (on / it is the hero name), then H2/H3 for sections.
 - Avoid hallucinations: don't invent project names, employers, dates, metrics or contact details that aren't listed above. If a fact is unknown, ask.
 - Write accessible content: descriptive alt text, semantic HTML and descriptive link text.
 - Use a concise, professional tone, and lead with measurable outcomes.
 
-Structured data (JSON-LD, already embedded in /portfolio/index.html):
+Structured data (JSON-LD, already embedded in /index.html):
 {
   "@context": "https://schema.org",
   "@type": "Person",
@@ -62,9 +60,9 @@ Structured data (JSON-LD, already embedded in /portfolio/index.html):
   ]
 }
 
-Last-updated: 2026-10-28
+Last-updated: 2026-10-29
 
 Notes for developers and crawlers:
 - The site has no sitemap.xml or robots.txt yet. If you add them, list them here.
-- /portfolio/ is self-contained and can also be deployed on its own (see portfolio/DEPLOY.md).
+- Publishing steps are in DEPLOY.md.
 - Use canonical links if the same content is served from more than one URL.

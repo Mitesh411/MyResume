@@ -1,299 +1,226 @@
-/**
-* Template Name: MyResume - v4.7.0
-* Template URL: https://bootstrapmade.com/free-html-bootstrap-template-my-resume/
-* Author: BootstrapMade.com
-* License: https://bootstrapmade.com/license/
-*/
-(function() {
+/* Mitesh Dandade — Portfolio
+   Small, dependency-free enhancements (plus Typed.js and AOS for the hero).
+   Content is readable without this file; everything here is progressive. */
+(() => {
   "use strict";
 
-  /**
-   * Easy selector helper function
-   */
-  const select = (el, all = false) => {
-    el = el.trim()
-    if (all) {
-      return [...document.querySelectorAll(el)]
-    } else {
-      return document.querySelector(el)
+  const root = document.documentElement;
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* ---------- Theme toggle ---------- */
+  const THEME_KEY = "md-theme";
+
+  const storeTheme = (value) => {
+    try {
+      localStorage.setItem(THEME_KEY, value);
+    } catch (e) {
+      /* storage unavailable — theme still applies for this page view */
     }
-  }
-
-  /**
-   * Easy event listener function
-   */
-  const on = (type, el, listener, all = false) => {
-    let selectEl = select(el, all)
-    if (selectEl) {
-      if (all) {
-        selectEl.forEach(e => e.addEventListener(type, listener))
-      } else {
-        selectEl.addEventListener(type, listener)
-      }
-    }
-  }
-
-  /**
-   * Easy on scroll event listener 
-   */
-  /**
- * Adds an event listener for the 'scroll' event to the provided element.
- * @param {Element} el The element to add the event listener to. 
- * @param {Function} listener The callback function to execute when the event occurs.
- */
-  const onscroll = (el, listener) => {
-    el.addEventListener('scroll', listener)
-  }
-
-  /**
-   * Navbar links active state on scroll
-   */
-  let navbarlinks = select('#navbar .scrollto', true)
-  const navbarlinksActive = () => {
-    let position = window.scrollY + 200
-    navbarlinks.forEach(navbarlink => {
-      if (!navbarlink.hash) return
-      let section = select(navbarlink.hash)
-      if (!section) return
-      if (position >= section.offsetTop && position <= (section.offsetTop + section.offsetHeight)) {
-        navbarlink.classList.add('active')
-      } else {
-        navbarlink.classList.remove('active')
-      }
-    })
-  }
-  // Return cleanup functions
-  const initNavbarLinks = () => {
-    const cleanup = () => {
-      window.removeEventListener('load', navbarlinksActive);
-      document.removeEventListener('scroll', navbarlinksActive);
-    };
-    
-    window.addEventListener('load', navbarlinksActive);
-    onscroll(document, navbarlinksActive);
-    
-    return cleanup;
   };
 
-  /**
-   * Scrolls to an element with header offset
-   */
-  const scrollto = (el) => {
-    const element = select(el);
-    if (!element) {
-      console.warn(`Element ${el} not found`);
-      return;
-    }
-    let elementPos = element.offsetTop;
-    window.scrollTo({
-      top: elementPos,
-      behavior: 'smooth'
+  const applyTheme = (theme) => {
+    root.setAttribute("data-theme", theme);
+    document.querySelectorAll(".theme-toggle").forEach((btn) => {
+      const next = theme === "dark" ? "light" : "dark";
+      btn.setAttribute("aria-label", `Switch to ${next} theme`);
+      btn.setAttribute("aria-pressed", String(theme === "dark"));
     });
-  }
+  };
 
-  /**
-   * Back to top button
-   */
-  let backtotop = select('.back-to-top')
-  if (backtotop) {
-    const toggleBacktotop = () => {
-      if (window.scrollY > 100) {
-        backtotop.classList.add('active')
-      } else {
-        backtotop.classList.remove('active')
-      }
+  applyTheme(root.getAttribute("data-theme") || "light");
+
+  document.querySelectorAll(".theme-toggle").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const next = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
+      applyTheme(next);
+      storeTheme(next);
+    });
+  });
+
+  /* ---------- Left floating side menu (behaviour from the original main.js) ---------- */
+  const body = document.body;
+  const sideToggle = document.querySelector(".mobile-nav-toggle");
+
+  const toggleSideMenu = () => {
+    body.classList.toggle("mobile-nav-active");
+    const icon = sideToggle && sideToggle.querySelector(".bi");
+    if (icon) {
+      icon.classList.toggle("bi-list");
+      icon.classList.toggle("bi-x");
     }
-    window.addEventListener('load', toggleBacktotop)
-    onscroll(document, toggleBacktotop)
-  }
+  };
 
-  /**
-   * Mobile nav toggle
-   */
-  on('click', '.mobile-nav-toggle', function(e) {
-    select('body').classList.toggle('mobile-nav-active')
-    this.classList.toggle('bi-list')
-    this.classList.toggle('bi-x')
-  })
+  if (sideToggle) sideToggle.addEventListener("click", toggleSideMenu);
 
-  /**
-   * Scrool with ofset on links with a class name .scrollto
-   */
-  on('click', '.scrollto', function(e) {
-    if (select(this.hash)) {
-      e.preventDefault()
+  const scrollto = (hash) => {
+    const el = document.querySelector(hash);
+    if (!el) return;
+    window.scrollTo({ top: el.offsetTop, behavior: reduceMotion ? "auto" : "smooth" });
+  };
 
-      let body = select('body')
-      if (body.classList.contains('mobile-nav-active')) {
-        body.classList.remove('mobile-nav-active')
-        let navbarToggle = select('.mobile-nav-toggle')
-        navbarToggle.classList.toggle('bi-list')
-        navbarToggle.classList.toggle('bi-x')
-      }
-      scrollto(this.hash)
-    }
-  }, true)
+  document.querySelectorAll("#navbar .scrollto").forEach((link) => {
+    link.addEventListener("click", (e) => {
+      if (!document.querySelector(link.hash)) return;
+      e.preventDefault();
+      if (body.classList.contains("mobile-nav-active")) toggleSideMenu();
+      scrollto(link.hash);
+    });
+  });
 
-  /**
-   * Scroll with ofset on page load with hash links in the url
-   */
-  window.addEventListener('load', () => {
-    if (window.location.hash) {
-      if (select(window.location.hash)) {
-        scrollto(window.location.hash)
-      }
+  // Highlight the menu item for the section in view.
+  const navLinks = [...document.querySelectorAll("#navbar .scrollto")];
+  const navbarlinksActive = () => {
+    const position = window.scrollY + 200;
+    navLinks.forEach((link) => {
+      const section = link.hash && document.querySelector(link.hash);
+      if (!section) return;
+      const inView =
+        position >= section.offsetTop && position <= section.offsetTop + section.offsetHeight;
+      link.classList.toggle("active", inView);
+    });
+  };
+  window.addEventListener("load", navbarlinksActive);
+  document.addEventListener("scroll", navbarlinksActive, { passive: true });
+
+  window.addEventListener("load", () => {
+    if (window.location.hash && document.querySelector(window.location.hash)) {
+      scrollto(window.location.hash);
     }
   });
 
-  /**
-   * Preloader
-   */
-  let preloader = select('#preloader');
-  if (preloader) {
-    window.addEventListener('load', () => {
-      preloader.remove()
-    });
-  }
-
-  /**
-   * Hero type effect
-   */
-  const typed = select('.typed')
-  if (typed) {
-    let typed_strings = typed.getAttribute('data-typed-items')
-    typed_strings = typed_strings.split(',')
-    new Typed('.typed', {
-      strings: typed_strings,
+  /* ---------- Hero type effect + AOS (same settings as the original) ---------- */
+  const typed = document.querySelector(".typed");
+  if (typed && window.Typed) {
+    new Typed(".typed", {
+      strings: typed.getAttribute("data-typed-items").split(","),
       loop: true,
       typeSpeed: 100,
       backSpeed: 50,
-      backDelay: 2000
+      backDelay: 2000,
     });
   }
 
-  /**
-   * Skills animation
-   */
-  let skilsContent = select('.skills-content');
-  if (skilsContent) {
-    new Waypoint({
-      element: skilsContent,
-      offset: '80%',
-      handler: function(direction) {
-        let progress = select('.progress .progress-bar', true);
-        progress.forEach((el) => {
-          el.style.width = el.getAttribute('aria-valuenow') + '%'
-        });
-      }
-    })
+  if (window.AOS) {
+    window.addEventListener("load", () => {
+      AOS.init({
+        duration: 1000,
+        easing: "ease-in-out",
+        once: true,
+        mirror: false,
+      });
+    });
   }
 
-  /**
-   * Porfolio isotope and filter
-   */
-  window.addEventListener('load', () => {
-    let portfolioContainer = select('.portfolio-container');
-    if (portfolioContainer) {
-      let portfolioIsotope = new Isotope(portfolioContainer, {
-        itemSelector: '.portfolio-item'
+  /* ---------- Reveal on scroll ---------- */
+  const revealables = document.querySelectorAll("[data-reveal], .fig, .case");
+
+  if (reduceMotion || !("IntersectionObserver" in window)) {
+    revealables.forEach((el) => el.classList.add("is-visible"));
+  } else {
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add("is-visible");
+          io.unobserve(entry.target);
+        });
+      },
+      { rootMargin: "0px 0px -10% 0px", threshold: 0.12 }
+    );
+    revealables.forEach((el) => io.observe(el));
+  }
+
+  /* ---------- Local time in Surat (IST) ---------- */
+  const clocks = document.querySelectorAll("[data-clock]");
+  if (clocks.length) {
+    const fmt = new Intl.DateTimeFormat("en-GB", {
+      hour: "2-digit",
+      minute: "2-digit",
+      timeZone: "Asia/Kolkata",
+    });
+    const tick = () => clocks.forEach((c) => (c.textContent = `${fmt.format(new Date())} IST`));
+    tick();
+    setInterval(tick, 30000);
+  }
+
+  /* ---------- Footer year ---------- */
+  document.querySelectorAll("[data-year]").forEach((el) => {
+    el.textContent = String(new Date().getFullYear());
+  });
+
+  /* ---------- Portfolio filters ---------- */
+  const filterBtns = document.querySelectorAll(".filter");
+  const cases = document.querySelectorAll(".case");
+  const filterStatus = document.getElementById("filter-status");
+
+  filterBtns.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const key = btn.dataset.filter;
+      filterBtns.forEach((b) => b.setAttribute("aria-pressed", String(b === btn)));
+      let shown = 0;
+      cases.forEach((c) => {
+        const match = key === "all" || (c.dataset.tags || "").split(" ").includes(key);
+        c.hidden = !match;
+        if (match) {
+          shown += 1;
+          c.classList.add("is-visible");
+        }
       });
-
-      let portfolioFilters = select('#portfolio-flters li', true);
-
-      on('click', '#portfolio-flters li', function(e) {
-        e.preventDefault();
-        portfolioFilters.forEach(function(el) {
-          el.classList.remove('filter-active');
-        });
-        this.classList.add('filter-active');
-
-        portfolioIsotope.arrange({
-          filter: this.getAttribute('data-filter')
-        });
-        portfolioIsotope.on('arrangeComplete', function() {
-          AOS.refresh()
-        });
-      }, true);
-    }
-
-  });
-
-  /**
-   * Initiate portfolio lightbox 
-   */
-  const portfolioLightbox = GLightbox({
-    selector: '.portfolio-lightbox'
-  });
-
-  /**
-   * Initiate portfolio details lightbox 
-   */
-  const portfolioDetailsLightbox = GLightbox({
-    selector: '.portfolio-details-lightbox',
-    width: '90%',
-    height: '90vh'
-  });
-
-  /**
-   * Portfolio details slider
-   */
-  new Swiper('.portfolio-details-slider', {
-    speed: 400,
-    loop: true,
-    autoplay: {
-      delay: 5000,
-      disableOnInteraction: false
-    },
-    pagination: {
-      el: '.swiper-pagination',
-      type: 'bullets',
-      clickable: true
-    }
-  });
-
-  /**
-   * Testimonials slider
-   */
-  new Swiper('.testimonials-slider', {
-    speed: 600,
-    loop: true,
-    autoplay: {
-      delay: 5000,
-      disableOnInteraction: false
-    },
-    slidesPerView: 'auto',
-    pagination: {
-      el: '.swiper-pagination',
-      type: 'bullets',
-      clickable: true
-    }
-  });
-
-  /**
-   * Animation on scroll
-   */
-  window.addEventListener('load', () => {
-    AOS.init({
-      duration: 1000,
-      easing: 'ease-in-out',
-      once: true,
-      mirror: false
-    })
-  });
-
-  const throttle = (func, limit) => {
-    let inThrottle;
-    return function() {
-      const args = arguments;
-      const context = this;
-      if (!inThrottle) {
-        func.apply(context, args);
-        inThrottle = true;
-        setTimeout(() => inThrottle = false, limit);
+      if (filterStatus) {
+        filterStatus.textContent = `Showing ${shown} ${shown === 1 ? "project" : "projects"}`;
       }
-    }
-  };
+    });
+  });
 
-  // Usage
-  onscroll(document, throttle(navbarlinksActive, 100));
-})()
+  /* ---------- Contact form → pre-filled email ----------
+     The site is static, so the form composes a message in the visitor's
+     own mail app instead of posting to a server. */
+  const form = document.getElementById("contact-form");
+
+  if (form) {
+    const status = document.getElementById("form-status");
+    const fields = ["name", "email", "topic", "message"].map((id) => form.elements[id]);
+
+    const showError = (field, msg) => {
+      const err = document.getElementById(`${field.id}-error`);
+      if (err) err.textContent = msg;
+      field.setAttribute("aria-invalid", msg ? "true" : "false");
+    };
+
+    const validate = (field) => {
+      if (field.validity.valueMissing) {
+        showError(field, "Required");
+        return false;
+      }
+      if (field.validity.typeMismatch) {
+        showError(field, "Please enter a valid email address");
+        return false;
+      }
+      showError(field, "");
+      return true;
+    };
+
+    fields.forEach((f) => f && f.addEventListener("blur", () => validate(f)));
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const firstInvalid = fields.find((f) => f && !validate(f));
+      if (firstInvalid) {
+        firstInvalid.focus();
+        return;
+      }
+
+      const [name, email, topic, message] = fields.map((f) => f.value.trim());
+      const subject = `${topic} — from ${name}`;
+      const mailBody = `${message}\n\n—\n${name}\n${email}`;
+      const to = form.dataset.to;
+
+      window.location.href =
+        `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(mailBody)}`;
+
+      if (status) {
+        status.textContent = "Opening your email app with the message ready to send…";
+      }
+    });
+  }
+})();

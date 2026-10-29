@@ -1,6 +1,6 @@
 # How to put your portfolio online
 
-This guide assumes no coding or hosting experience. The website is the `portfolio` folder: a single page (`index.html`), plus an `assets` folder holding the styles, scripts, fonts and images. There is nothing to install or build. You upload the folder as it is.
+This guide assumes no coding or hosting experience. The website is the `MyResume` folder: a single page (`index.html`), plus an `assets` folder holding the styles, scripts, fonts and images. There is nothing to install or build. You upload the files as they are.
 
 Choose **one** of the two options below.
 
@@ -11,7 +11,7 @@ Choose **one** of the two options below.
 
 ## Before you start: check the site on your computer
 
-1. Open the `portfolio` folder in File Explorer.
+1. Open the `MyResume` folder in File Explorer.
 2. Double-click `index.html`. The site opens in your browser.
 3. Click each round button in the menu on the left (Home, About, Resume, Portfolio, Services, Contact). The page should scroll to that section.
 4. Click the round moon/sun button at the top right to switch between light and dark mode.
@@ -19,7 +19,7 @@ Choose **one** of the two options below.
 
 If all of that works, the site is ready to publish.
 
-**Optional: add your photo.** Save a portrait as `portfolio/assets/img/portrait.jpg`. A tall image works best, for example 720 × 900 pixels. Then open `index.html` in Notepad, find the line that starts with `<!-- <img src="assets/img/portrait.jpg"`, delete the `<!--` at its start and the `-->` at its end, and save. Until you do this, a large "md" monogram appears in place of the photo.
+**Optional: add your photo.** Save a portrait as `assets/img/portrait.jpg`. A tall image works best, for example 720 × 900 pixels. Then open `index.html` in Notepad, find the line that starts with `<!-- <img src="assets/img/portrait.jpg"`, delete the `<!--` at its start and the `-->` at its end, and save. Until you do this, a large "md" monogram appears in place of the photo.
 
 ---
 
@@ -28,7 +28,7 @@ If all of that works, the site is ready to publish.
 1. Go to **https://app.netlify.com/drop** in your browser.
 2. Sign up for a free account, or log in. "Sign up with GitHub" is the fastest way.
 3. You'll see a box that says *"Drag and drop your site output folder here"*.
-4. In File Explorer, drag the whole **`portfolio`** folder (the folder itself, not the files inside it) onto that box.
+4. Make a new, empty folder (for example `site`). Copy `index.html` and the `assets` folder into it, then drag that whole folder onto the box. This keeps the repository's other files, such as `.git` and `CLAUDE.md`, off the public site.
 5. Wait about 10–30 seconds. Netlify shows **"Your site is published"** and a link such as `https://glittering-otter-12ab34.netlify.app`.
 6. Click the link. Your site is live, and you can share that address with anyone.
 
@@ -37,41 +37,36 @@ If all of that works, the site is ready to publish.
 2. Type a name, for example `mitesh-dandade`, and click **Save**.
 3. The address becomes `https://mitesh-dandade.netlify.app`.
 
-**Update the site later:** open the site in Netlify, click the **Deploys** tab, and drag the updated `portfolio` folder onto the box at the bottom of that page.
+**Update the site later:** open the site in Netlify, click the **Deploys** tab, and drag the updated `site` folder onto the box at the bottom of that page.
 
 ---
 
 ## Option B: GitHub Pages (uses your existing repository)
 
-Your repository `Mitesh411/MyResume` is already published at `https://mitesh411.github.io/MyResume/`. If you add the `portfolio` folder to it, the new site appears at:
+Your repository `Mitesh411/MyResume` is published at **`https://mitesh411.github.io/MyResume/`**. Because `index.html` is at the top of the repository, this new site becomes your main page as soon as you push it.
 
-**`https://mitesh411.github.io/MyResume/portfolio/`**
+### Using the command line
 
-Your current site keeps working at its usual address.
+From the `MyResume` folder:
+
+```
+git add -A
+git commit -m "Replace template site with new portfolio"
+git push
+```
+
+`git add -A` records everything: the new files, and the old template files you deleted.
 
 ### Using the GitHub website (no command line)
 
 1. Go to **https://github.com/Mitesh411/MyResume** and sign in.
 2. Click **Add file → Upload files**.
-3. Drag the **`portfolio`** folder from File Explorer onto the page. GitHub keeps the folder structure.
-4. Scroll down, type a short message such as `Add new portfolio site`, and click **Commit changes**.
-5. Wait one to two minutes, then visit `https://mitesh411.github.io/MyResume/portfolio/`.
+3. Drag `index.html` and the `assets` folder from File Explorer onto the page. GitHub keeps the folder structure.
+4. Scroll down, type a short message such as `Update portfolio site`, and click **Commit changes**.
 
-To check on progress, open the **Actions** tab in the repository. The most recent "pages build and deployment" run shows a green ✓ when it has finished.
+The upload page can only add or replace files. To remove old template files from the repository, use the command-line steps above.
 
-### Using the command line (if you prefer)
-
-From the `MyResume` folder:
-
-```
-git add portfolio
-git commit -m "Add new portfolio site"
-git push
-```
-
-### Make the new site your main page (optional)
-
-When you're ready for the new design to replace the old one at `https://mitesh411.github.io/MyResume/`, ask a developer, or Claude Code, to move the contents of `portfolio/` to the root of the repository. The old `index.html` gets replaced, and the old template files can be removed. Do this only once you're happy with the new site.
+Wait one to two minutes, then visit `https://mitesh411.github.io/MyResume/`. To check on progress, open the **Actions** tab. The most recent "pages build and deployment" run shows a green ✓ when it has finished.
 
 ---
 

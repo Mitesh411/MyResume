@@ -315,6 +315,39 @@
   z-index: 101;
 }
 
+/* ---------- Dark theme for the hero ----------
+   Light mode keeps the original rules above unchanged. Dark mode swaps the
+   white veil for the page's dark veil and lightens text, icons and the
+   mobile menu button. The no-JS fallback follows the OS setting. */
+:root[data-theme="dark"] #hero:before {
+  background: var(--page-veil);
+}
+:root[data-theme="dark"] #hero h1,
+:root[data-theme="dark"] #hero p,
+:root[data-theme="dark"] #hero .social-links a,
+:root[data-theme="dark"] .mobile-nav-toggle {
+  color: var(--ink);
+}
+:root[data-theme="dark"] #hero p span,
+:root[data-theme="dark"] #hero .social-links a:hover {
+  color: #5aa9ff;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) #hero:before {
+    background: var(--page-veil);
+  }
+  :root:not([data-theme="light"]) #hero h1,
+  :root:not([data-theme="light"]) #hero p,
+  :root:not([data-theme="light"]) #hero .social-links a,
+  :root:not([data-theme="light"]) .mobile-nav-toggle {
+    color: var(--ink);
+  }
+  :root:not([data-theme="light"]) #hero p span,
+  :root:not([data-theme="light"]) #hero .social-links a:hover {
+    color: #5aa9ff;
+  }
+}
+
 /* ---------- Fit the rest of this page around the fixed side menu ---------- */
 @media (min-width: 992px) {
   .site-footer {

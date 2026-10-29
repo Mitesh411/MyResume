@@ -959,7 +959,8 @@ em {
 }
 
 .cred__badge-link {
-  display: inline-block;
+  display: block;
+  width: fit-content;
   margin-bottom: 16px;
   transition: transform 0.3s var(--ease);
 }
