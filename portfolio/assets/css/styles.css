@@ -19,6 +19,7 @@
   --pass: #356243;
   --mark: rgba(214, 170, 60, 0.32);
   --grain-opacity: 0.07;
+  --page-veil: rgba(255, 255, 255, 0.8);
 
   --serif: "Fraunces", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
   --sans: "Instrument Sans", "Segoe UI", system-ui, -apple-system, sans-serif;
@@ -46,6 +47,7 @@
   --pass: #8cc198;
   --mark: rgba(214, 170, 60, 0.22);
   --grain-opacity: 0.05;
+  --page-veil: rgba(21, 19, 15, 0.9);
   color-scheme: dark;
 }
 
@@ -65,6 +67,7 @@
     --pass: #8cc198;
     --mark: rgba(214, 170, 60, 0.22);
     --grain-opacity: 0.05;
+    --page-veil: rgba(21, 19, 15, 0.9);
     color-scheme: dark;
   }
 }
@@ -91,6 +94,24 @@ body {
   line-height: 1.6;
   overflow-x: hidden;
   transition: background-color 0.4s var(--ease), color 0.4s var(--ease);
+}
+
+/* Page background: the hero's image and white veil (see hero.css), fixed
+   behind every section. Dark mode swaps in a dark veil so text stays readable. */
+.page-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: url("../img/hero-bg.jpg") top right / cover no-repeat;
+}
+
+.page-bg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--page-veil);
+  transition: background-color 0.4s var(--ease);
 }
 
 /* Paper grain — an SVG noise tile, not a gradient. */
