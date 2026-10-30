@@ -1,0 +1,13 @@
+{
+  "name": "myresume",
+  "private": true,
+  "description": "Mitesh Dandade's resume/portfolio site — unit tests for index.html and assets/js/main.js",
+  "scripts": {
+    "test": "jest",
+    "test:coverage": "jest --coverage"
+  },
+  "devDependencies": {
+    "jest": "30.5.2",
+    "jest-environment-jsdom": "30.5.2"
+  }
+}

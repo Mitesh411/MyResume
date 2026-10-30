@@ -1,0 +1,12 @@
+.git
+.github
+.vscode
+.jules
+.qodo
+node_modules
+coverage
+tests
+package.json
+package-lock.json
+jest.config.js
+*.md

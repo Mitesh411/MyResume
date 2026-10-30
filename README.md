@@ -6,7 +6,7 @@ The personal resume and portfolio site of Mitesh Dandade, a QA Lead with 8+ year
 
 ## Overview
 
-The site is one static page made of HTML, CSS and plain JavaScript. It has no framework, no build step and no backend. Visitors move between sections with a floating menu on the left; on phones the menu becomes a slide-out drawer.
+The site is one static page made of HTML, CSS and plain JavaScript. It has no framework, no build step and no backend; npm is used only to run the tests. Visitors move between sections with a floating menu on the left; on phones the menu becomes a slide-out drawer.
 
 ### Sections
 
@@ -44,8 +44,15 @@ MyResume/
 │   │   ├── favicon.svg
 │   │   └── badges/         # AWS, Azure and ISTQB certification badges
 │   └── vendor/             # Typed.js, AOS, Boxicons, Bootstrap Icons (stored locally)
+├── tests/
+│   ├── main.test.js        # Unit tests for assets/js/main.js, run against the real index.html
+│   ├── index.html.test.js  # Structural checks: navigation, accessibility, SEO, asset paths
+│   └── helpers.js          # Loads the page into jsdom and mocks browser APIs
+├── package.json            # Test scripts and dev dependencies (Jest + jsdom)
+├── jest.config.js          # Test environment, coverage target and thresholds
 ├── DEPLOY.md               # Step-by-step publishing guide for beginners
 ├── Dockerfile              # nginx image that serves the site
+├── .dockerignore           # Keeps tests, node_modules and docs out of the image
 ├── llms.txt                # Site facts and SEO guidance for search engines and AI tools
 ├── CLAUDE.md               # Notes for AI coding assistants
 └── .github/workflows/
@@ -64,6 +71,28 @@ You don't need to install anything.
   python -m http.server
   ```
   Then visit http://localhost:8000.
+
+## Tests and coverage
+
+The tests use [Jest](https://jestjs.io/) with jsdom, a simulated browser. They need [Node.js](https://nodejs.org/) 18 or later.
+
+```bash
+npm install             # once
+npm test                # run all tests
+npm run test:coverage   # run tests and write a coverage report
+```
+
+The coverage report opens from `coverage/lcov-report/index.html`. Coverage is measured on `assets/js/main.js`, the site's only script with logic, and the run fails if it drops below the thresholds in `jest.config.js`.
+
+- **`tests/main.test.js`** loads the real `index.html` and checks every behaviour in `main.js`: the theme toggle, side menu and scroll highlighting, Typed and AOS start-up, reveal-on-scroll, the clock, the portfolio filters and contact-form validation. It also covers fallbacks, such as missing libraries or blocked storage.
+- **`tests/index.html.test.js`** checks the page itself:
+  - menu links match section IDs
+  - there is one `h1`
+  - images have alt text and dimensions
+  - links that open a new tab use `noopener`
+  - the title and meta description follow the length rules
+  - the JSON-LD is valid
+  - every local file the page references exists
 
 ## Editing content
 
@@ -105,7 +134,7 @@ Then open http://localhost.
 
 1. Fork the repository and clone your fork.
 2. Create a branch, such as `feature/short-description` or `fix/short-description`.
-3. Make your changes and check them by opening `index.html` in a browser, in both light and dark themes and at phone width.
+3. Make your changes, run `npm test`, and check the page in a browser in both light and dark themes and at phone width.
 4. Commit with a clear message and push to your fork.
 5. Open a pull request against the **`master`** branch.
 

@@ -1,0 +1,195 @@
+/**
+ * Structural tests for index.html: navigation, accessibility, SEO metadata
+ * and asset references. These guard the rules in CLAUDE.md and llms.txt.
+ */
+const fs = require("fs");
+const path = require("path");
+const { ROOT, parseIndex } = require("./helpers");
+
+const doc = parseIndex();
+const $ = (sel) => doc.querySelector(sel);
+const $$ = (sel) => [...doc.querySelectorAll(sel)];
+
+const MENU = ["#hero", "#about", "#resume", "#portfolio", "#services", "#contact"];
+
+describe("navigation", () => {
+  test("side menu has the six template entries, in order", () => {
+    expect($$("#navbar a.scrollto").map((a) => a.getAttribute("href"))).toEqual(MENU);
+  });
+
+  test("every side-menu link points at a section that exists", () => {
+    MENU.forEach((hash) => expect(doc.getElementById(hash.slice(1))).not.toBeNull());
+  });
+
+  test("Home is marked active by default", () => {
+    expect($$("#navbar a.active").map((a) => a.getAttribute("href"))).toEqual(["#hero"]);
+  });
+
+  test("chapters appear in menu order", () => {
+    const order = $$("#hero, main .chapter").map((el) => `#${el.id}`);
+    expect(order).toEqual(MENU);
+  });
+
+  test("in-page links all resolve", () => {
+    $$('a[href^="#"]').forEach((a) => {
+      const id = a.getAttribute("href").slice(1);
+      expect({ href: a.getAttribute("href"), found: !!doc.getElementById(id) }).toEqual({
+        href: a.getAttribute("href"),
+        found: true,
+      });
+    });
+  });
+
+  test("ids are unique", () => {
+    const ids = $$("[id]").map((el) => el.id);
+    const dupes = ids.filter((id, i) => ids.indexOf(id) !== i);
+    expect(dupes).toEqual([]);
+  });
+});
+
+describe("accessibility", () => {
+  test("has exactly one h1, inside the hero", () => {
+    const h1s = $$("h1");
+    expect(h1s).toHaveLength(1);
+    expect(h1s[0].closest("#hero")).not.toBeNull();
+  });
+
+  test("declares the page language", () => {
+    expect(doc.documentElement.getAttribute("lang")).toBe("en");
+  });
+
+  test("skip link targets the main content", () => {
+    expect($(".skip-link").getAttribute("href")).toBe("#main");
+    expect(doc.getElementById("main").tagName).toBe("MAIN");
+  });
+
+  test("every image has alt text and explicit width/height", () => {
+    const imgs = $$("img");
+    expect(imgs.length).toBeGreaterThan(0);
+    imgs.forEach((img) => {
+      const src = img.getAttribute("src");
+      expect({ src, alt: !!img.getAttribute("alt") }).toEqual({ src, alt: true });
+      expect({ src, w: img.getAttribute("width"), h: img.getAttribute("height") }).toEqual({
+        src,
+        w: expect.stringMatching(/^\d+$/),
+        h: expect.stringMatching(/^\d+$/),
+      });
+    });
+  });
+
+  test("links that open a new tab use rel=noopener", () => {
+    $$('a[target="_blank"]').forEach((a) => {
+      expect({ href: a.href, rel: a.getAttribute("rel") || "" }).toEqual({
+        href: a.href,
+        rel: expect.stringContaining("noopener"),
+      });
+    });
+  });
+
+  test("every contact form control has a label and an error slot", () => {
+    ["name", "email", "topic", "message"].forEach((id) => {
+      expect($(`label[for="${id}"]`)).not.toBeNull();
+      expect(doc.getElementById(`${id}-error`)).not.toBeNull();
+    });
+  });
+
+  test("theme and menu toggles are labelled buttons", () => {
+    expect($(".theme-toggle").tagName).toBe("BUTTON");
+    expect($(".theme-toggle").getAttribute("aria-label")).toBeTruthy();
+    expect($(".mobile-nav-toggle").getAttribute("aria-label")).toBeTruthy();
+  });
+});
+
+describe("SEO metadata (llms.txt rules)", () => {
+  test("title is under 60 characters", () => {
+    expect(doc.title.length).toBeGreaterThan(0);
+    expect(doc.title.length).toBeLessThan(60);
+  });
+
+  test("meta description is 150–160 characters", () => {
+    const len = $('meta[name="description"]').getAttribute("content").length;
+    expect(len).toBeGreaterThanOrEqual(150);
+    expect(len).toBeLessThanOrEqual(160);
+  });
+
+  test("Person JSON-LD is valid and matches the profile", () => {
+    const data = JSON.parse($('script[type="application/ld+json"]').textContent);
+    expect(data).toMatchObject({
+      "@context": "https://schema.org",
+      "@type": "Person",
+      name: "Mitesh Dandade",
+    });
+    expect(data.sameAs).toEqual(
+      expect.arrayContaining(["https://github.com/Mitesh411"])
+    );
+  });
+});
+
+describe("hero (from the original template)", () => {
+  test("typed name list includes the English and Devanagari spellings", () => {
+    const items = $(".typed").getAttribute("data-typed-items").split(",");
+    expect(items[0]).toBe("MITESH DANDADE");
+    expect(items.some((s) => s.includes("मितेश"))).toBe(true);
+  });
+
+  test("hero container keeps the AOS zoom-in animation", () => {
+    const container = $("#hero .container");
+    expect(container.getAttribute("data-aos")).toBe("zoom-in");
+  });
+});
+
+describe("portfolio and contact content", () => {
+  test("every filter button matches at least one case study", () => {
+    const tags = new Set($$(".case").flatMap((c) => c.dataset.tags.split(" ")));
+    $$(".filter")
+      .map((b) => b.dataset.filter)
+      .filter((f) => f !== "all")
+      .forEach((f) => expect({ filter: f, used: tags.has(f) }).toEqual({ filter: f, used: true }));
+  });
+
+  test("contact form sends to the résumé email", () => {
+    expect($("#contact-form").dataset.to).toBe("dandademitesh@gmail.com");
+  });
+
+  test("Credly verification links point at credly.com badge pages", () => {
+    const credly = $$('a[href*="credly.com"]');
+    expect(credly.length).toBeGreaterThanOrEqual(2);
+    credly.forEach((a) => expect(a.getAttribute("href")).toMatch(/^https:\/\/www\.credly\.com\/badges\/[\w-]+\/public_url$/));
+  });
+});
+
+describe("assets", () => {
+  const localRefs = () =>
+    $$("[src], link[href]")
+      .map((el) => el.getAttribute("src") || el.getAttribute("href"))
+      .filter((u) => u && !/^(https?:|data:|mailto:|#)/.test(u));
+
+  test("every local file referenced by the page exists", () => {
+    const refs = localRefs();
+    expect(refs.length).toBeGreaterThan(5);
+    refs.forEach((ref) => {
+      const file = path.join(ROOT, ref.split(/[?#]/)[0]);
+      expect({ ref, exists: fs.existsSync(file) }).toEqual({ ref, exists: true });
+    });
+  });
+
+  test("site CSS and JS share one cache-busting version", () => {
+    const versioned = localRefs().filter((r) => /assets\/(css\/(styles|hero)\.css|js\/main\.js)/.test(r));
+    expect(versioned).toHaveLength(3);
+    const versions = new Set(versioned.map((r) => (r.match(/\?v=(\d{8})$/) || [])[1]));
+    expect(versions.size).toBe(1);
+    expect([...versions][0]).toMatch(/^\d{8}$/);
+  });
+
+  test("hero.css loads after styles.css", () => {
+    const sheets = $$('link[rel="stylesheet"]').map((l) => l.getAttribute("href"));
+    const styles = sheets.findIndex((h) => h.startsWith("assets/css/styles.css"));
+    const hero = sheets.findIndex((h) => h.startsWith("assets/css/hero.css"));
+    expect(styles).toBeGreaterThanOrEqual(0);
+    expect(hero).toBeGreaterThan(styles);
+  });
+
+  test("full Bootstrap is not loaded", () => {
+    expect($$('link[href*="bootstrap.min.css"], script[src*="bootstrap"]')).toHaveLength(0);
+  });
+});

@@ -4,12 +4,13 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this is
 
-Mitesh Dandade's resume/portfolio site, published with GitHub Pages at https://mitesh411.github.io/MyResume/ from `master`. It is a single static page (`index.html` + `assets/`) with no package manager, no build step, no linter and no test suite.
+Mitesh Dandade's resume/portfolio site, published with GitHub Pages at https://mitesh411.github.io/MyResume/ from `master`. It is a single static page (`index.html` + `assets/`) with no build step and no linter. npm is used only for the Jest test suite (`devDependencies`); the site itself has no runtime dependencies.
 
 ## Running locally
 
 - Preview: open `index.html` in a browser, or run `python -m http.server` and visit http://localhost:8000.
 - Docker (nginx:alpine, with a healthcheck): `docker build -t my-resume .` then `docker run -p 80:80 my-resume`. The image copies the whole repo (`COPY .`), so the leftover pages and docs are served too.
+- Tests: `npm install` once, then `npm test`. `npm run test:coverage` writes a coverage report to `coverage/` (open `coverage/lcov-report/index.html`). Run a single file with `npx jest tests/main.test.js`, or a single test with `npx jest -t "filter"`.
 - Lighthouse CI (`.github/workflows/LightHouseCI.yml`) runs only when triggered manually (`workflow_dispatch`). It audits the live URL, not the working tree.
 
 ## Architecture
@@ -33,9 +34,17 @@ Mitesh Dandade's resume/portfolio site, published with GitHub Pages at https://m
 
 - `Landing Page.html` and `testindex.html` are old template pages. They now load the new `assets/js/main.js` against old markup, and their template CSS, Bootstrap and other vendor files have been deleted. Console errors from these pages don't indicate bugs in `index.html`. Nothing links to them.
 
-## Verifying changes
+## Tests
 
-There are no tests, so check changes visually with headless Chrome (`C:/Program Files/Google/Chrome/Application/chrome.exe --headless=new --screenshot=... --window-size=...`). To test a specific width or scroll position, load the page in an `<iframe>` inside a scratch HTML file. Three quirks have caused false alarms:
+- `tests/main.test.js` loads the real `index.html` into jsdom and runs `assets/js/main.js` through `tests/helpers.js` (`loadPage()`). `loadPage()` mocks what jsdom lacks (`matchMedia`, `scrollTo`, `IntersectionObserver`, `Typed`, `AOS`), accepts a `mutate(doc)` hook for edge cases, and removes the previous test's window/document listeners.
+- `tests/index.html.test.js` checks structure: menu ↔ section ids, one `h1`, image `alt`/`width`/`height`, `rel=noopener`, SEO limits from `llms.txt`, JSON-LD, local asset paths, and a matching `?v=` cache-busting version.
+- Coverage is measured on `assets/js/main.js` only, with thresholds in `jest.config.js` (statements, functions and lines 95%; branches 90%). The one uncovered branch is the defensive `if (!el) return` in `scrollto`, which its callers never reach.
+- jsdom can't follow `mailto:` links or replace `window.location`, so the contact-form test checks the composed email by spying on `encodeURIComponent`.
+- `node_modules/` and `coverage/` are git-ignored, and `.dockerignore` keeps the test tooling out of the Docker image.
+
+## Verifying changes visually
+
+Check layout changes with headless Chrome (`C:/Program Files/Google/Chrome/Application/chrome.exe --headless=new --screenshot=... --window-size=...`). To test a specific width or scroll position, load the page in an `<iframe>` inside a scratch HTML file. Three quirks have caused false alarms:
 
 - **Smooth scrolling never finishes under `--virtual-time-budget`.** Scroll with `scrollTo({top, behavior: 'instant'})`.
 - **CSS transitions stay frozen at their start value.** Inject `*{transition:none!important}` before reading colours after a theme switch.
