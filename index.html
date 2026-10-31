@@ -3,6 +3,13 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Security policy as meta tags (GitHub Pages can't send custom headers).
+       The script-src hash covers the inline theme script below: if that script
+       changes, recompute the hash (tests/index.html.test.js checks it).
+       'unsafe-inline' styles are needed for the style="" attributes (--d, --w)
+       and the cursor style Typed.js injects. -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-9xeJ0E9l63r4AAB0I4e94Jkkm6kZjWCdG3HajvF8ZYA='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; manifest-src 'self'; worker-src 'self'; form-action mailto:; base-uri 'self'; object-src 'none'; upgrade-insecure-requests">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
   <title>Mitesh Dandade — QA Lead &amp; Test Automation</title>
   <meta name="description" content="Mitesh Dandade is a QA Lead with 8+ years building CI-driven test automation for SaaS and product teams, using Playwright, Selenium and AI-assisted testing.">
   <meta name="theme-color" content="#f2ede3" media="(prefers-color-scheme: light)">
@@ -10,29 +17,69 @@
   <meta property="og:title" content="Mitesh Dandade — QA Lead &amp; Test Automation">
   <meta property="og:description" content="CI-driven test automation, framework modernization and AI-assisted QA. 8+ years across SaaS and product companies.">
   <meta property="og:type" content="website">
+  <meta property="og:url" content="https://mitesh411.github.io/MyResume/">
+  <meta property="og:site_name" content="Mitesh Dandade">
+  <meta property="og:image" content="https://mitesh411.github.io/MyResume/assets/img/og-card.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Mitesh Dandade — QA Lead and test automation, Surat, India">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Mitesh Dandade — QA Lead &amp; Test Automation">
+  <meta name="twitter:description" content="CI-driven test automation, framework modernization and AI-assisted QA. 8+ years across SaaS and product companies.">
+  <meta name="twitter:image" content="https://mitesh411.github.io/MyResume/assets/img/og-card.png">
+  <meta name="twitter:image:alt" content="Mitesh Dandade — QA Lead and test automation, Surat, India">
+  <link rel="canonical" href="https://mitesh411.github.io/MyResume/">
+  <link rel="sitemap" type="application/xml" href="sitemap.xml">
   <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="assets/img/icons/apple-touch-icon.png">
+  <link rel="manifest" href="manifest.webmanifest">
   <script>(function(){var d=document.documentElement,t;d.classList.add("js");try{t=localStorage.getItem("md-theme")}catch(e){}if(t!=="light"&&t!=="dark"){t=window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"}d.setAttribute("data-theme",t)})();</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,100..900,0..100,0..1;1,9..144,100..900,0..100,0..1&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i">
   <link rel="stylesheet" href="assets/vendor/aos/aos.css">
-  <link rel="stylesheet" href="assets/vendor/bootstrap-icons/bootstrap-icons.css">
-  <link rel="stylesheet" href="assets/vendor/boxicons/css/boxicons.min.css">
-  <link rel="stylesheet" href="assets/css/styles.css?v=20261029">
-  <link rel="stylesheet" href="assets/css/hero.css?v=20261029">
+  <link rel="stylesheet" href="assets/css/styles.css?v=20261031">
+  <link rel="stylesheet" href="assets/css/hero.css?v=20261031">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "Person",
+    "@id": "https://mitesh411.github.io/MyResume/#person",
     "name": "Mitesh Dandade",
+    "url": "https://mitesh411.github.io/MyResume/",
+    "image": "https://mitesh411.github.io/MyResume/assets/img/og-card.png",
+    "email": "mailto:dandademitesh@gmail.com",
     "jobTitle": "QA Lead – Test Automation",
+    "worksFor": { "@type": "Organization", "name": "CREST InfoSystems Pvt. Ltd.", "address": { "@type": "PostalAddress", "addressLocality": "Surat", "addressRegion": "Gujarat", "addressCountry": "IN" } },
+    "alumniOf": { "@type": "CollegeOrUniversity", "name": "UKA Tarsadia University", "address": { "@type": "PostalAddress", "addressLocality": "Bardoli", "addressRegion": "Gujarat", "addressCountry": "IN" } },
+    "hasCredential": [
+      { "@type": "EducationalOccupationalCredential", "name": "ISTQB Certified Tester Foundation Level v4.0 (CTFL)", "credentialCategory": "certification", "recognizedBy": { "@type": "Organization", "name": "ISTQB" }, "url": "https://www.istqb.in/about-us/certified-tester/foundation-level" },
+      { "@type": "EducationalOccupationalCredential", "name": "AWS Certified Cloud Practitioner", "credentialCategory": "certification", "recognizedBy": { "@type": "Organization", "name": "Amazon Web Services" }, "url": "https://www.credly.com/badges/ed9ba8f1-8e4a-47c5-81a8-22e13ba5bf16/public_url" },
+      { "@type": "EducationalOccupationalCredential", "name": "Microsoft Certified: Azure Fundamentals (AZ-900)", "credentialCategory": "certification", "recognizedBy": { "@type": "Organization", "name": "Microsoft" }, "url": "https://www.credly.com/badges/0afcb821-9c80-415a-a6ae-c29b014ab589/public_url" }
+    ],
+    "knowsAbout": ["Selenium WebDriver", "Playwright", "TestNG", "Cucumber (BDD)", "REST Assured", "Java", "JavaScript", "TypeScript", "Jenkins", "GitHub Actions", "GitLab CI", "Docker", "Maven", "Postman", "JMeter", "OWASP ZAP", "MobSF", "Gremlin", "MySQL", "PostgreSQL", "Claude", "GitHub Copilot", "Cursor", "OpenAI Codex", "Playwright MCP"],
     "address": { "@type": "PostalAddress", "addressLocality": "Surat", "addressRegion": "Gujarat", "addressCountry": "IN" },
     "sameAs": ["https://www.linkedin.com/in/mitesh-dandade-1a62085b", "https://github.com/Mitesh411"]
   }
   </script>
 </head>
 <body>
+  <!-- Icon sprite: paths from Boxicons 2.0.7 (MIT) and Bootstrap Icons (MIT).
+       Use with <svg class="icon"><use href="#i-NAME"/></svg>. -->
+  <svg class="sprite" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+    <symbol id="i-home" viewBox="0 0 1024 1024"><path transform="matrix(1 0 0 -1 0 960)" d="M128 405.333h42.667v-298.667c0-47.061 38.272-85.333 85.333-85.333h512c47.061 0 85.333 38.272 85.333 85.333v298.667h42.667c23.56 0.005 42.658 19.106 42.658 42.667 0 11.78-4.774 22.445-12.492 30.165l-384 384c-7.716 7.729-18.382 12.51-30.165 12.51s-22.449-4.781-30.165-12.509l-384.001-384.001c-7.718-7.721-12.492-18.386-12.492-30.165 0-23.561 19.097-42.661 42.657-42.667h0.001zM426.667 106.667v213.333h170.667v-213.333h-170.667zM512 771.669l256-256v-195.669l0.043-213.333h-85.376v213.333c0 47.061-38.272 85.333-85.333 85.333h-170.667c-47.061 0-85.333-38.272-85.333-85.333v-213.333h-85.333v409.003l256 256z"/></symbol>
+    <symbol id="i-user" viewBox="0 0 1024 1024"><path transform="matrix(1 0 0 -1 0 960)" d="M512 874.667c-117.821 0-213.333-95.513-213.333-213.333s95.513-213.333 213.333-213.333c117.821 0 213.333 95.513 213.333 213.333v0c0 117.821-95.513 213.333-213.333 213.333v0zM512 533.333c-70.692 0-128 57.308-128 128s57.308 128 128 128c70.692 0 128-57.308 128-128v0c0-70.692-57.308-128-128-128v0zM896 64v42.667c0 164.949-133.718 298.667-298.667 298.667v0h-170.667c-164.949 0-298.667-133.718-298.667-298.667v0-42.667h85.333v42.667c0 117.821 95.513 213.333 213.333 213.333v0h170.667c117.821 0 213.333-95.513 213.333-213.333v0-42.667z"/></symbol>
+    <symbol id="i-file" viewBox="0 0 1024 1024"><path transform="matrix(1 0 0 -1 0 960)" d="M850.645 589.653c-0.469 1.365-0.853 2.688-1.408 4.011-2.14 4.832-4.953 8.969-8.375 12.514l-255.988 255.988c-3.532 3.41-7.67 6.222-12.231 8.255l-0.27 0.108c-1.28 0.597-2.645 0.939-4.011 1.408-3.253 1.147-7.019 1.924-10.929 2.17l-0.122 0.006c-0.939 0.085-1.749 0.555-2.645 0.555h-298.667c-47.061 0-85.333-38.272-85.333-85.333v-682.667c0-47.061 38.272-85.333 85.333-85.333h512c47.061 0 85.333 38.272 85.333 85.333v469.333c0 0.896-0.469 1.707-0.555 2.645-0.24 4.012-1.003 7.765-2.222 11.305l0.089-0.297zM707.669 618.667h-110.336v110.336l110.336-110.336zM256 106.667v682.667h256v-213.333c0-23.564 19.103-42.667 42.667-42.667v0h213.333l0.085-426.667h-512.085z"/></symbol>
+    <symbol id="i-book" viewBox="0 0 1024 1024"><path transform="matrix(1 0 0 -1 0 960)" d="M853.333 832h-682.667c-47.061 0-85.333-38.272-85.333-85.333v-597.333c0-47.061 38.272-85.333 85.333-85.333h682.667c47.061 0 85.333 38.272 85.333 85.333v597.333c0 47.061-38.272 85.333-85.333 85.333zM170.667 149.333v597.333h298.667v-597.333h-298.667zM554.667 149.333v597.333h298.667l0.043-597.333h-298.709zM640 661.333h128v-85.333h-128zM640 490.667h128v-85.333h-128z"/></symbol>
+    <symbol id="i-server" viewBox="0 0 1024 1024"><path transform="matrix(1 0 0 -1 0 960)" d="M853.333 832h-682.667c-47.128 0-85.333-38.205-85.333-85.333v0-170.667c0-47.128 38.205-85.333 85.333-85.333v0h682.667c47.128 0 85.333 38.205 85.333 85.333v0 170.667c0 47.128-38.205 85.333-85.333 85.333v0zM170.667 576v170.667h682.667v-170.667zM853.333 405.333h-682.667c-47.128 0-85.333-38.205-85.333-85.333v0-170.667c0-47.128 38.205-85.333 85.333-85.333v0h682.667c47.128 0 85.333 38.205 85.333 85.333v0 170.667c0 47.128-38.205 85.333-85.333 85.333v0zM170.667 149.333v170.667h682.667v-170.667zM725.333 704h85.333v-85.333h-85.333zM597.333 704h85.333v-85.333h-85.333zM725.333 277.333h85.333v-85.333h-85.333zM597.333 277.333h85.333v-85.333h-85.333z"/></symbol>
+    <symbol id="i-envelope" viewBox="0 0 1024 1024"><path transform="matrix(1 0 0 -1 0 960)" d="M853.333 789.333h-682.667c-47.061 0-85.333-38.272-85.333-85.333v-512c0-47.061 38.272-85.333 85.333-85.333h682.667c47.061 0 85.333 38.272 85.333 85.333v512c0 47.061-38.272 85.333-85.333 85.333zM853.333 704v-21.803l-341.333-265.515-341.333 265.472v21.845h682.667zM170.667 192v382.123l315.136-245.12c7.137-5.647 16.269-9.059 26.197-9.059s19.060 3.412 26.286 9.126l-0.089-0.068 315.136 245.12 0.085-382.123h-682.752z"/></symbol>
+    <symbol id="i-linkedin" viewBox="0 0 1024 1024"><path transform="matrix(1 0 0 -1 0 960)" d="M305.963 746.283c0-51.558-41.796-93.355-93.355-93.355s-93.355 41.796-93.355 93.355c0 51.558 41.796 93.355 93.355 93.355s93.355-41.796 93.355-93.355zM394.112 582.187v-517.931h160.811v256.128c0 67.584 12.715 133.035 96.512 133.035 82.645 0 83.669-77.269 83.669-137.301v-251.904h160.896v284.032c0 139.52-30.037 246.741-193.109 246.741-78.293 0-130.773-42.965-152.235-83.627h-2.176v70.827h-154.368zM132.053 582.187h161.067v-517.931h-161.067z"/></symbol>
+    <symbol id="i-github" viewBox="0 0 1024 1024"><path transform="matrix(1 0 0 -1 0 960)" d="M513.109 874.667c-235.051 0-425.557-190.507-425.557-425.557 0-187.989 121.899-347.52 291.029-403.84 21.291-3.84 28.971 9.259 28.971 20.523 0 10.112-0.341 36.907-0.469 72.363-118.4-25.685-143.403 57.088-143.403 57.088-19.285 49.152-47.232 62.251-47.232 62.251-38.613 26.411 2.944 25.813 2.944 25.813 42.752-2.987 65.152-43.861 65.152-43.861 37.973-65.024 99.669-46.251 123.819-35.371 3.883 27.52 14.976 46.293 27.093 56.917-94.464 10.709-193.792 47.232-193.792 210.347 0 46.379 16.597 84.437 43.691 114.133-4.309 10.795-19.029 54.101 4.224 112.64 0 0 35.712 11.477 116.992-43.563 31.915 9.029 68.579 14.257 106.451 14.336h0.045c37.912-0.063 74.577-5.293 109.364-15.021l-2.868 0.685c81.323 55.083 116.992 43.563 116.992 43.563 23.253-58.539 8.661-101.845 4.224-112.64 27.307-29.696 43.691-67.712 43.691-114.133 0-163.541-99.413-199.467-194.219-210.005 15.147-13.141 28.8-39.083 28.8-78.763 0-56.917-0.512-102.827-0.512-116.779 0-11.392 7.595-24.619 29.312-20.437 169.045 56.405 290.816 215.808 290.816 403.755 0 235.051-190.507 425.557-425.557 425.557z"/></symbol>
+    <symbol id="i-copy" viewBox="0 0 1024 1024"><path transform="matrix(1 0 0 -1 0 960)" d="M853.333 874.667h-426.667c-47.061 0-85.333-38.272-85.333-85.333v-170.667h-170.667c-47.061 0-85.333-38.272-85.333-85.333v-426.667c0-47.061 38.272-85.333 85.333-85.333h426.667c47.061 0 85.333 38.272 85.333 85.333v170.667h170.667c47.061 0 85.333 38.272 85.333 85.333v426.667c0 47.061-38.272 85.333-85.333 85.333zM170.667 106.667v426.667h426.667l0.085-426.667h-426.752zM853.333 362.667h-170.667v170.667c0 47.061-38.272 85.333-85.333 85.333h-170.667v170.667h426.667v-426.667z"/></symbol>
+    <symbol id="i-list" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/></symbol>
+    <symbol id="i-x" viewBox="0 0 16 16"><path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/></symbol>
+  </svg>
   <a class="skip-link" href="#main">Skip to content</a>
   <div class="page-bg" aria-hidden="true"></div>
 
@@ -42,21 +89,21 @@
   </button>
 
   <!-- ======= Mobile nav toggle button ======= -->
-  <!-- <button type="button" class="mobile-nav-toggle d-xl-none"><i class="bi bi-list mobile-nav-toggle"></i></button> -->
-  <button class="mobile-nav-toggle d-xl-none" aria-label="Toggle navigation">
-    <span class="bi bi-list" aria-hidden="true"></span>
+  <button class="mobile-nav-toggle d-xl-none" type="button" aria-label="Toggle navigation" aria-controls="header" aria-expanded="false">
+    <svg class="icon icon--bi icon-open" aria-hidden="true" focusable="false"><use href="#i-list"/></svg>
+    <svg class="icon icon--bi icon-close" aria-hidden="true" focusable="false"><use href="#i-x"/></svg>
   </button>
   <!-- ======= Header ======= -->
   <header id="header" class="d-flex flex-column justify-content-center">
 
     <nav id="navbar" class="navbar nav-menu">
       <ul>
-        <li><a href="#hero" class="nav-link scrollto active"><i class="bx bx-home"></i> <span>Home</span></a></li>
-        <li><a href="#about" class="nav-link scrollto"><i class="bx bx-user"></i> <span>About</span></a></li>
-        <li><a href="#resume" class="nav-link scrollto"><i class="bx bx-file-blank"></i> <span>Resume</span></a></li>
-        <li><a href="#portfolio" class="nav-link scrollto"><i class="bx bx-book-content"></i> <span>Portfolio</span></a></li>
-        <li><a href="#services" class="nav-link scrollto"><i class="bx bx-server"></i> <span>Services</span></a></li>
-        <li><a href="#contact" class="nav-link scrollto"><i class="bx bx-envelope"></i> <span>Contact</span></a></li>
+        <li><a href="#hero" class="nav-link scrollto active"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-home"/></svg> <span>Home</span></a></li>
+        <li><a href="#about" class="nav-link scrollto"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-user"/></svg> <span>About</span></a></li>
+        <li><a href="#resume" class="nav-link scrollto"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-file"/></svg> <span>Resume</span></a></li>
+        <li><a href="#portfolio" class="nav-link scrollto"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-book"/></svg> <span>Portfolio</span></a></li>
+        <li><a href="#services" class="nav-link scrollto"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-server"/></svg> <span>Services</span></a></li>
+        <li><a href="#contact" class="nav-link scrollto"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-envelope"/></svg> <span>Contact</span></a></li>
       </ul>
     </nav><!-- .nav-menu -->
 
@@ -65,20 +112,27 @@
   <!-- ======= Hero Section ======= -->
   <section id="hero" class="d-flex flex-column justify-content-center">
     <div class="container" data-aos="zoom-in" data-aos-delay="100">
-      <h1><span class="typed" data-typed-items="MITESH DANDADE,मितेश 
-        दंडाडे, Mitesh Dandade,મિતેશ દંડાડે"></span></h1>
+      <!-- The name is real text for search engines, link previews and screen readers;
+           the Typed.js animation is decorative, so it is hidden from assistive tech. -->
+      <h1><span class="visually-hidden">Mitesh Dandade</span><span class="typed" aria-hidden="true" data-typed-items="MITESH DANDADE,मितेश दंडाडे,Mitesh Dandade,મિતેશ દંડાડે"></span></h1>
       <p>Passionate about quality assurance, test automation, and building robust testing frameworks that ensure exceptional software reliability and performance.</p>
       <div class="social-links">
-        <a href="https://github.com/Mitesh411" class="twitter"><i class="bx bxl-twitter"></i></a>
-        <a href="https://www.facebook.com/mitesh.dandade" class="facebook"><i class="bx bxl-facebook"></i></a>
-        <a href="https://github.com/Mitesh411" class="instagram"><i class="bx bxl-instagram"></i></a>
-        <a href="https://github.com/Mitesh411" class="google-plus"><i class="bx bxl-github"></i></a> 
-        <a href="https://www.linkedin.com/in/mitesh-dandade-1a62085b/" class="linkedin"><i class="bx bxl-linkedin"></i></a>
+        <a href="https://www.linkedin.com/in/mitesh-dandade-1a62085b" class="linkedin" target="_blank" rel="me noopener" aria-label="LinkedIn profile (opens in a new tab)"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-linkedin"/></svg></a>
+        <a href="https://github.com/Mitesh411" class="github" target="_blank" rel="me noopener" aria-label="GitHub profile (opens in a new tab)"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-github"/></svg></a>
+        <a href="mailto:dandademitesh@gmail.com" class="email" aria-label="Email dandademitesh@gmail.com"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-envelope"/></svg></a>
+        <button class="copy-email copy-email--icon" type="button" data-copy="dandademitesh@gmail.com" aria-label="Copy email address" title="Copy email address"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-copy"/></svg></button>
       </div>
     </div>
   </section><!-- End Hero -->
 
   <main id="main">
+    <!-- Printed résumé header: shown only by the print stylesheet. -->
+    <div class="print-header" aria-hidden="true">
+      <p class="print-header__name">Mitesh Dandade</p>
+      <p class="print-header__role">QA Lead — Test Automation · 8+ years in CI-driven QA for SaaS and product companies</p>
+      <p class="print-header__contact">dandademitesh@gmail.com · linkedin.com/in/mitesh-dandade-1a62085b · github.com/Mitesh411 · Surat, India · mitesh411.github.io/MyResume</p>
+    </div>
+
     <!-- Ticker -->
     <div class="ticker" aria-label="Tools I work with">
       <div class="ticker__track">
@@ -271,10 +325,24 @@
         </dl>
       </div>
     </section>
+    <section class="section toolcloud-section" aria-labelledby="tools-title">
+      <div class="wrap grid">
+        <div class="section-head" style="grid-column:1/-1">
+          <span class="label">§ 02 — In practice</span>
+          <h2 id="tools-title">Pick a tool, see <em>where it shipped</em>.</h2>
+        </div>
+        <div class="toolcloud">
+          <p class="toolcloud__hint muted">Each tool links to the case studies that used it. Larger tools appear in more projects.</p>
+          <!-- Filled by assets/js/main.js from the tags on each .case below. -->
+          <div class="toolcloud__tools" id="tool-cloud" role="group" aria-label="Tools used in the case studies"></div>
+          <div class="toolcloud__result" id="tool-result" aria-live="polite"></div>
+        </div>
+      </div>
+    </section>
     <section class="section" aria-labelledby="creds-title">
       <div class="wrap grid">
         <div class="section-head" style="grid-column:1/-1">
-          <span class="label">§ 02 — Credentials</span>
+          <span class="label">§ 03 — Credentials</span>
           <h2 id="creds-title">Certified foundations.</h2>
         </div>
         <div class="creds">
@@ -688,7 +756,7 @@
         <div class="contact-info" data-reveal>
           <div class="contact-info__item">
             <span class="label">Email</span>
-            <p><a href="mailto:dandademitesh@gmail.com">dandademitesh@gmail.com</a></p>
+            <p><a href="mailto:dandademitesh@gmail.com">dandademitesh@gmail.com</a> <button class="copy-email" type="button" data-copy="dandademitesh@gmail.com" aria-label="Copy email address">Copy</button></p>
           </div>
           <div class="contact-info__item">
             <span class="label">LinkedIn</span>
@@ -756,6 +824,7 @@
       <div class="site-footer__col">
         <span class="label">Write</span>
         <a href="mailto:dandademitesh@gmail.com">dandademitesh@gmail.com</a>
+        <button class="copy-email" type="button" data-copy="dandademitesh@gmail.com" aria-label="Copy email address">Copy</button>
       </div>
       <div class="site-footer__col">
         <span class="label">Based in</span>
@@ -769,8 +838,10 @@
     </div>
   </footer>
 
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
   <script src="assets/vendor/aos/aos.js"></script>
   <script src="assets/vendor/typed.js/typed.min.js"></script>
-  <script src="assets/js/main.js?v=20261029" defer></script>
+  <script src="assets/js/main.js?v=20261031" defer></script>
 </body>
 </html>

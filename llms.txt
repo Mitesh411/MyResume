@@ -9,13 +9,15 @@ Site structure:
 - / — A single page, navigated with a left floating side menu.
   - /#hero — Name and introduction
   - /#about — Background, approach and working principles
-  - /#resume — Career timeline, toolbox, certifications and education
+  - /#resume — Career timeline, toolbox, a tool cloud linking each tool to the case studies that used it, certifications and education
   - /#portfolio — Nine case studies with measured outcomes
   - /#services — Eight areas of specialisation
   - /#contact — Email, LinkedIn, GitHub and a contact form (opens the visitor's email app)
-- /404.html — "Page not found" page, served by GitHub Pages for any missing URL (noindex)
+- /404.html — "Page not found" page, served for any missing URL by GitHub Pages and by the Docker image's nginx (noindex)
 - /sitemap.xml — XML sitemap listing the home page
 - /robots.txt — Allows all crawlers and points to the sitemap
+- /manifest.webmanifest — Web app manifest: the site can be installed on a phone or desktop
+- /sw.js — Service worker: caches the page so it works offline after the first visit
 
 Profile summary (source: résumé; use only these facts):
 - Current role: QA Lead, CREST InfoSystems Pvt. Ltd., Surat (Mar 2024 – present)
@@ -50,13 +52,101 @@ SEO guidelines for LLMs and content generators:
 - Write accessible content: descriptive alt text, semantic HTML and descriptive link text.
 - Use a concise, professional tone, and lead with measurable outcomes.
 
-Structured data (JSON-LD, already embedded in /index.html):
+Structured data (Schema.org Person JSON-LD, embedded in /index.html; keep the two in sync):
 {
   "@context": "https://schema.org",
   "@type": "Person",
+  "@id": "https://mitesh411.github.io/MyResume/#person",
   "name": "Mitesh Dandade",
+  "url": "https://mitesh411.github.io/MyResume/",
+  "image": "https://mitesh411.github.io/MyResume/assets/img/og-card.png",
+  "email": "mailto:dandademitesh@gmail.com",
   "jobTitle": "QA Lead – Test Automation",
-  "address": { "@type": "PostalAddress", "addressLocality": "Surat", "addressRegion": "Gujarat", "addressCountry": "IN" },
+  "worksFor": {
+    "@type": "Organization",
+    "name": "CREST InfoSystems Pvt. Ltd.",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Surat",
+      "addressRegion": "Gujarat",
+      "addressCountry": "IN"
+    }
+  },
+  "alumniOf": {
+    "@type": "CollegeOrUniversity",
+    "name": "UKA Tarsadia University",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Bardoli",
+      "addressRegion": "Gujarat",
+      "addressCountry": "IN"
+    }
+  },
+  "hasCredential": [
+    {
+      "@type": "EducationalOccupationalCredential",
+      "name": "ISTQB Certified Tester Foundation Level v4.0 (CTFL)",
+      "credentialCategory": "certification",
+      "recognizedBy": {
+        "@type": "Organization",
+        "name": "ISTQB"
+      },
+      "url": "https://www.istqb.in/about-us/certified-tester/foundation-level"
+    },
+    {
+      "@type": "EducationalOccupationalCredential",
+      "name": "AWS Certified Cloud Practitioner",
+      "credentialCategory": "certification",
+      "recognizedBy": {
+        "@type": "Organization",
+        "name": "Amazon Web Services"
+      },
+      "url": "https://www.credly.com/badges/ed9ba8f1-8e4a-47c5-81a8-22e13ba5bf16/public_url"
+    },
+    {
+      "@type": "EducationalOccupationalCredential",
+      "name": "Microsoft Certified: Azure Fundamentals (AZ-900)",
+      "credentialCategory": "certification",
+      "recognizedBy": {
+        "@type": "Organization",
+        "name": "Microsoft"
+      },
+      "url": "https://www.credly.com/badges/0afcb821-9c80-415a-a6ae-c29b014ab589/public_url"
+    }
+  ],
+  "knowsAbout": [
+    "Selenium WebDriver",
+    "Playwright",
+    "TestNG",
+    "Cucumber (BDD)",
+    "REST Assured",
+    "Java",
+    "JavaScript",
+    "TypeScript",
+    "Jenkins",
+    "GitHub Actions",
+    "GitLab CI",
+    "Docker",
+    "Maven",
+    "Postman",
+    "JMeter",
+    "OWASP ZAP",
+    "MobSF",
+    "Gremlin",
+    "MySQL",
+    "PostgreSQL",
+    "Claude",
+    "GitHub Copilot",
+    "Cursor",
+    "OpenAI Codex",
+    "Playwright MCP"
+  ],
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Surat",
+    "addressRegion": "Gujarat",
+    "addressCountry": "IN"
+  },
   "sameAs": [
     "https://www.linkedin.com/in/mitesh-dandade-1a62085b",
     "https://github.com/Mitesh411"
@@ -69,4 +159,11 @@ Notes for developers and crawlers:
 - Sitemap: https://mitesh411.github.io/MyResume/sitemap.xml (update <lastmod> when content changes).
 - robots.txt: https://mitesh411.github.io/MyResume/robots.txt. Crawlers only read robots.txt at a host's root, so it takes effect once the site has a custom domain; until then, submit the sitemap in Google Search Console.
 - Publishing steps are in DEPLOY.md.
-- Use canonical links if the same content is served from more than one URL.
+- Canonical URL: https://mitesh411.github.io/MyResume/ (set with <link rel="canonical"> and og:url).
+- Social preview image (Open Graph and Twitter card): https://mitesh411.github.io/MyResume/assets/img/og-card.png (1200×630).
+- The hero h1 contains the name as plain text ("Mitesh Dandade"); the typing animation is decorative.
+- Hero social links: LinkedIn, GitHub and email only (see Contact above). Every email link has a "Copy" button that copies the address and shows a "Copied" toast.
+- Security: a Content Security Policy and a strict-origin-when-cross-origin referrer policy are set with <meta> tags (GitHub Pages can't send headers). Scripts load only from the site itself; fonts come from Google Fonts.
+- Icons are an inline SVG sprite (no icon fonts).
+- The tool cloud is generated from the tags on each case study, so it lists only tools named in the portfolio. There are no proficiency ratings or years per tool.
+- Printing / (Ctrl+P or "Save as PDF") produces a one-page A4 résumé: name and contact header, summary, experience, skills, and certifications and education.

@@ -55,25 +55,31 @@ describe("theme toggle", () => {
 });
 
 describe("left floating side menu", () => {
-  test("mobile toggle opens and closes the drawer and swaps the icon", () => {
+  test("mobile toggle opens and closes the drawer and reports its state", () => {
     loadPage();
     const toggle = $(".mobile-nav-toggle");
-    const icon = toggle.querySelector(".bi");
+    expect(toggle.getAttribute("aria-expanded")).toBe("false");
 
     click(toggle);
     expect(document.body.classList.contains("mobile-nav-active")).toBe(true);
-    expect(icon.classList.contains("bi-x")).toBe(true);
-    expect(icon.classList.contains("bi-list")).toBe(false);
+    expect(toggle.getAttribute("aria-expanded")).toBe("true");
 
     click(toggle);
     expect(document.body.classList.contains("mobile-nav-active")).toBe(false);
-    expect(icon.classList.contains("bi-list")).toBe(true);
+    expect(toggle.getAttribute("aria-expanded")).toBe("false");
   });
 
-  test("toggle without an icon still opens the drawer", () => {
-    loadPage({ mutate: (doc) => doc.querySelector(".mobile-nav-toggle .bi").remove() });
-    click($(".mobile-nav-toggle"));
-    expect(document.body.classList.contains("mobile-nav-active")).toBe(true);
+  test("toggle has both icons; CSS shows one per state", () => {
+    loadPage();
+    expect($(".mobile-nav-toggle .icon-open use").getAttribute("href")).toBe("#i-list");
+    expect($(".mobile-nav-toggle .icon-close use").getAttribute("href")).toBe("#i-x");
+  });
+
+  test("a menu link still closes an open drawer when the page has no toggle", () => {
+    loadPage({ mutate: (doc) => doc.querySelector(".mobile-nav-toggle").remove() });
+    document.body.classList.add("mobile-nav-active");
+    click($('#navbar a[href="#about"]'));
+    expect(document.body.classList.contains("mobile-nav-active")).toBe(false);
   });
 
   test("page without a mobile toggle loads without errors", () => {
@@ -347,5 +353,166 @@ describe("contact form", () => {
 
   test("page without the contact form loads without errors", () => {
     expect(() => loadPage({ mutate: (doc) => doc.getElementById("contact-form").remove() })).not.toThrow();
+  });
+});
+
+describe("copy email", () => {
+  const flush = async () => {
+    await Promise.resolve();
+    await Promise.resolve();
+  };
+  const setClipboard = (value) =>
+    Object.defineProperty(navigator, "clipboard", { configurable: true, value });
+
+  afterEach(() => {
+    setClipboard(undefined);
+    delete document.execCommand;
+  });
+
+  test("every copy button is next to a matching email link", () => {
+    loadPage();
+    const btns = $$("[data-copy]");
+    expect(btns.length).toBe($$('a[href^="mailto:"]').length);
+    btns.forEach((b) =>
+      expect(b.parentElement.querySelector(`a[href="mailto:${b.dataset.copy}"]`)).not.toBeNull()
+    );
+  });
+
+  test("copies with the Clipboard API and shows a toast that fades after 2 seconds", async () => {
+    jest.useFakeTimers();
+    const writeText = jest.fn().mockResolvedValue();
+    setClipboard({ writeText });
+    loadPage();
+
+    click($(".contact-info [data-copy]"));
+    await flush();
+    expect(writeText).toHaveBeenCalledWith("dandademitesh@gmail.com");
+    expect($("#toast").textContent).toBe("Copied");
+    expect($("#toast").classList.contains("is-shown")).toBe(true);
+
+    jest.advanceTimersByTime(2000);
+    expect($("#toast").classList.contains("is-shown")).toBe(false);
+    expect($("#toast").textContent).toBe("");
+  });
+
+  test("falls back to the copy command when the Clipboard API is missing", async () => {
+    document.execCommand = jest.fn(() => true);
+    loadPage();
+    click($(".site-footer [data-copy]"));
+    await flush();
+    expect(document.execCommand).toHaveBeenCalledWith("copy");
+    expect($("textarea[readonly]")).toBeNull();
+    expect($("#toast").textContent).toBe("Copied");
+  });
+
+  test("tells the visitor when copying fails", async () => {
+    loadPage();
+    click($("#hero [data-copy]"));
+    await flush();
+    expect($("#toast").textContent).toMatch(/Couldn’t copy/);
+  });
+
+  test("works without the toast element", async () => {
+    setClipboard({ writeText: jest.fn().mockResolvedValue() });
+    loadPage({ mutate: (doc) => doc.getElementById("toast").remove() });
+    click($("#hero [data-copy]"));
+    await expect(flush()).resolves.toBeUndefined();
+  });
+});
+
+describe("tool cloud", () => {
+  const tool = (name) => $$(".tool").find((b) => b.firstChild.textContent === name);
+
+  test("has one button per case-study tag, most-used first", () => {
+    loadPage();
+    const names = $$(".tool").map((b) => b.firstChild.textContent);
+    const tags = new Set($$(".case .tags .tag").map((t) => t.textContent.trim()));
+    expect(new Set(names)).toEqual(tags);
+    expect(names[0]).toBe("MySQL");
+    expect(tool("MySQL").dataset.weight).toBe("3");
+    expect(tool("Selenium").dataset.weight).toBe("2");
+    expect(tool("Playwright").dataset.weight).toBe("1");
+  });
+
+  test("choosing a tool lists the case studies that used it, as links", () => {
+    loadPage();
+    click(tool("Selenium"));
+    expect(tool("Selenium").getAttribute("aria-pressed")).toBe("true");
+    expect($("#tool-result .label").textContent).toBe("Selenium · used in 2 case studies");
+    expect($$("#tool-result a").map((a) => a.getAttribute("href"))).toEqual([
+      "#playwright-migration",
+      "#hybrid-framework",
+    ]);
+    expect($("#tool-result a").textContent).toBe("01Selenium → Playwright, with an AI pair");
+  });
+
+  test("uses singular wording for a tool in one case study", () => {
+    loadPage();
+    click(tool("Playwright"));
+    expect($("#tool-result .label").textContent).toBe("Playwright · used in 1 case study");
+    expect(tool("Playwright").querySelector(".tool__count").getAttribute("aria-label")).toBe("1 project");
+  });
+
+  test("choosing another tool switches, and choosing the same tool again clears", () => {
+    loadPage();
+    click(tool("Selenium"));
+    click(tool("MySQL"));
+    expect(tool("Selenium").getAttribute("aria-pressed")).toBe("false");
+    expect($$("#tool-result a")).toHaveLength(3);
+
+    click(tool("MySQL"));
+    expect(tool("MySQL").getAttribute("aria-pressed")).toBe("false");
+    expect($("#tool-result").textContent).toBe("");
+  });
+
+  test("following a link to a case hidden by a portfolio filter shows all projects first", () => {
+    loadPage();
+    click($('.filter[data-filter="community"]'));
+    expect($("#playwright-migration").hidden).toBe(true);
+    click(tool("Playwright"));
+    click($('#tool-result a[href="#playwright-migration"]'));
+    expect($("#playwright-migration").hidden).toBe(false);
+    expect($('.filter[data-filter="all"]').getAttribute("aria-pressed")).toBe("true");
+  });
+
+  test("following a link to a visible case leaves the filters alone", () => {
+    loadPage();
+    click($('.filter[data-filter="automation"]'));
+    click(tool("Playwright"));
+    click($('#tool-result a[href="#playwright-migration"]'));
+    expect($('.filter[data-filter="automation"]').getAttribute("aria-pressed")).toBe("true");
+  });
+
+  test("page without the tool cloud loads without errors", () => {
+    expect(() => loadPage({ mutate: (doc) => doc.getElementById("tool-cloud").remove() })).not.toThrow();
+  });
+});
+
+describe("service worker", () => {
+  afterEach(() => {
+    delete navigator.serviceWorker;
+  });
+
+  const setServiceWorker = (register) =>
+    Object.defineProperty(navigator, "serviceWorker", { configurable: true, value: { register } });
+
+  test("registers sw.js once the page has loaded", () => {
+    const register = jest.fn().mockResolvedValue({});
+    setServiceWorker(register);
+    loadPage();
+    expect(register).not.toHaveBeenCalled();
+    window.dispatchEvent(new Event("load"));
+    expect(register).toHaveBeenCalledWith("sw.js");
+  });
+
+  test("a failed registration is ignored", async () => {
+    setServiceWorker(jest.fn().mockRejectedValue(new Error("blocked")));
+    loadPage();
+    window.dispatchEvent(new Event("load"));
+    await expect(Promise.resolve()).resolves.toBeUndefined();
+  });
+
+  test("browsers without service workers load normally", () => {
+    expect(() => loadPage()).not.toThrow();
   });
 });

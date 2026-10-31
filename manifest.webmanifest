@@ -1,0 +1,19 @@
+{
+  "id": "./",
+  "name": "Mitesh Dandade — QA Lead & Test Automation",
+  "short_name": "Mitesh D.",
+  "description": "Resume and portfolio of Mitesh Dandade, a QA Lead with 8+ years in CI-driven test automation.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "lang": "en",
+  "background_color": "#f2ede3",
+  "theme_color": "#f2ede3",
+  "icons": [
+    { "src": "assets/img/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "assets/img/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "assets/img/icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" },
+    { "src": "assets/img/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}
