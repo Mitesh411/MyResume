@@ -36,6 +36,12 @@ describe("404.html", () => {
   });
 });
 
+test("old template pages are gone", () => {
+  ["Landing Page.html", "testindex.html"].forEach((f) =>
+    expect(fs.existsSync(path.join(ROOT, f))).toBe(false)
+  );
+});
+
 describe("robots.txt", () => {
   const robots = read("robots.txt");
 
@@ -53,6 +59,13 @@ describe("sitemap.xml", () => {
     expect(xml.querySelector("parsererror")).toBeNull();
     const locs = [...xml.getElementsByTagName("loc")].map((n) => n.textContent);
     expect(locs).toContain(SITE);
+  });
+
+  test("every image it lists exists locally", () => {
+    [...xml.getElementsByTagNameNS("http://www.google.com/schemas/sitemap-image/1.1", "loc")].forEach((n) => {
+      const local = n.textContent.replace(SITE, "");
+      expect({ local, exists: fs.existsSync(path.join(ROOT, local)) }).toEqual({ local, exists: true });
+    });
   });
 
   test("lastmod dates are valid ISO dates", () => {

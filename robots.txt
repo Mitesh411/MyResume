@@ -6,7 +6,5 @@
 User-agent: *
 Allow: /
 Disallow: /404.html
-Disallow: /Landing%20Page.html
-Disallow: /testindex.html
 
 Sitemap: https://mitesh411.github.io/MyResume/sitemap.xml

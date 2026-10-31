@@ -112,6 +112,22 @@ describe("SEO metadata (llms.txt rules)", () => {
     expect(len).toBeLessThanOrEqual(160);
   });
 
+  test("canonical and og:url point at the live site", () => {
+    const site = "https://mitesh411.github.io/MyResume/";
+    expect($('link[rel="canonical"]').getAttribute("href")).toBe(site);
+    expect($('meta[property="og:url"]').getAttribute("content")).toBe(site);
+  });
+
+  test("social preview image is set for Open Graph and Twitter, and exists locally", () => {
+    const og = $('meta[property="og:image"]').getAttribute("content");
+    expect($('meta[name="twitter:image"]').getAttribute("content")).toBe(og);
+    expect($('meta[name="twitter:card"]').getAttribute("content")).toBe("summary_large_image");
+    expect(og).toMatch(/^https:\/\/mitesh411\.github\.io\/MyResume\//);
+    const local = og.replace("https://mitesh411.github.io/MyResume/", "");
+    expect(fs.existsSync(path.join(ROOT, local))).toBe(true);
+    expect($('meta[property="og:image:alt"]').getAttribute("content")).toBeTruthy();
+  });
+
   test("Person JSON-LD is valid and matches the profile", () => {
     const data = JSON.parse($('script[type="application/ld+json"]').textContent);
     expect(data).toMatchObject({
@@ -130,6 +146,28 @@ describe("hero (from the original template)", () => {
     const items = $(".typed").getAttribute("data-typed-items").split(",");
     expect(items[0]).toBe("MITESH DANDADE");
     expect(items.some((s) => s.includes("मितेश"))).toBe(true);
+  });
+
+  test("h1 holds the name as real text, with the typed animation hidden from screen readers", () => {
+    expect($("h1 .visually-hidden").textContent).toBe("Mitesh Dandade");
+    expect($("h1 .typed").getAttribute("aria-hidden")).toBe("true");
+  });
+
+  test("typed items have no stray whitespace", () => {
+    $(".typed")
+      .getAttribute("data-typed-items")
+      .split(",")
+      .forEach((s) => expect(s).toBe(s.trim().replace(/\s+/g, " ")));
+  });
+
+  test("social links are labelled and point only at approved profiles", () => {
+    const links = $$("#hero .social-links a");
+    expect(links.map((a) => a.getAttribute("href"))).toEqual([
+      "https://www.linkedin.com/in/mitesh-dandade-1a62085b",
+      "https://github.com/Mitesh411",
+      "mailto:dandademitesh@gmail.com",
+    ]);
+    links.forEach((a) => expect(a.getAttribute("aria-label")).toBeTruthy());
   });
 
   test("hero container keeps the AOS zoom-in animation", () => {

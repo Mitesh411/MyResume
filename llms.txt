@@ -69,4 +69,7 @@ Notes for developers and crawlers:
 - Sitemap: https://mitesh411.github.io/MyResume/sitemap.xml (update <lastmod> when content changes).
 - robots.txt: https://mitesh411.github.io/MyResume/robots.txt. Crawlers only read robots.txt at a host's root, so it takes effect once the site has a custom domain; until then, submit the sitemap in Google Search Console.
 - Publishing steps are in DEPLOY.md.
-- Use canonical links if the same content is served from more than one URL.
+- Canonical URL: https://mitesh411.github.io/MyResume/ (set with <link rel="canonical"> and og:url).
+- Social preview image (Open Graph and Twitter card): https://mitesh411.github.io/MyResume/assets/img/og-card.png (1200×630).
+- The hero h1 contains the name as plain text ("Mitesh Dandade"); the typing animation is decorative.
+- Hero social links: LinkedIn, GitHub and email only (see Contact above).

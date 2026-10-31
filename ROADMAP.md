@@ -21,11 +21,11 @@ Bugs and quick wins.
 
 | # | Item | Impact | Effort | Notes |
 |---|------|:-:|:-:|-------|
-| 0.1 | 🔒 Fix the hero social links | H | S | The Twitter and Instagram icons both point to GitHub. The Facebook link isn't among the approved facts in `llms.txt`. None of the links has an `aria-label`. Keep only LinkedIn and GitHub (and any other approved profiles), each with the correct icon and label. |
-| 0.2 | 🔒 Put real text in the `<h1>` | H | S | Typed.js fills the h1 at runtime, so it's empty without JS. Put the name in as static text (it can be visually hidden) so that SEO, social previews and screen readers can read it. |
-| 0.3 | Add the missing SEO tags | H | S | Add `<link rel="canonical">`, `og:url`, `og:image` (1200×630), `twitter:card`, `twitter:title` and `twitter:description`. |
+| 0.1 | ✅ Fix the hero social links | H | S | Done 2026-10-31. Now LinkedIn, GitHub and email, each labelled. The wrong Twitter/Instagram icons and the unapproved Facebook link are removed. |
+| 0.2 | ✅ Put real text in the `<h1>` | H | S | Done 2026-10-31. The name is in a visually hidden span, and the Typed animation is `aria-hidden`. Stray whitespace in the typed items is fixed too. |
+| 0.3 | ✅ Add the missing SEO tags | H | S | Done 2026-10-31. Canonical, Open Graph and Twitter card tags, plus a new `assets/img/og-card.png` preview image. |
 | 0.4 | ✅ Add `robots.txt` and `sitemap.xml` | M | S | Done 2026-10-31. Submit the sitemap in Google Search Console; `robots.txt` only takes effect at a domain root (see 5.2). |
-| 0.5 | Delete the leftover pages | M | S | `Landing Page.html` and `testindex.html` throw console errors and are still served by Docker. |
+| 0.5 | ✅ Delete the leftover pages | M | S | Done 2026-10-31. A test makes sure they stay deleted. |
 | 0.6 | ✅ Add a custom `404.html` | L | S | Done 2026-10-31. Self-contained, with light and dark themes. Docker's nginx doesn't use it yet; that needs an `error_page` config. |
 
 ---
@@ -112,7 +112,7 @@ Timeline: later. Every item here needs real content from the owner.
 
 ## Open decisions
 
-- [ ] Approve changes to the hero markup (items 0.1 and 0.2).
+- [x] Approve changes to the hero markup (items 0.1 and 0.2).
 - [ ] Pick a form endpoint provider (item 1.3), or keep `mailto:` only.
 - [ ] Pick an analytics provider (item 5.1), or no analytics.
 - [ ] Decide whether to use a custom domain (item 5.2).

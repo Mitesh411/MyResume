@@ -9,14 +9,16 @@ Mitesh Dandade's resume/portfolio site, published with GitHub Pages at https://m
 ## Running locally
 
 - Preview: open `index.html` in a browser, or run `python -m http.server` and visit http://localhost:8000.
-- Docker (nginx:alpine, with a healthcheck): `docker build -t my-resume .` then `docker run -p 80:80 my-resume`. The image copies the whole repo (`COPY .`), so the leftover pages and docs are served too.
+- Docker (nginx:alpine, with a healthcheck): `docker build -t my-resume .` then `docker run -p 80:80 my-resume`. The image copies the whole repo (`COPY .`), and `.dockerignore` keeps tests, tooling and `*.md` docs out.
 - Tests: `npm install` once, then `npm test`. `npm run test:coverage` writes a coverage report to `coverage/` (open `coverage/lcov-report/index.html`). Run a single file with `npx jest tests/main.test.js`, or a single test with `npx jest -t "filter"`.
 - Lighthouse CI (`.github/workflows/LightHouseCI.yml`) runs only when triggered manually (`workflow_dispatch`). It audits the live URL, not the working tree.
 
 ## Architecture
 
 - **`index.html` is the whole site.** It is laid out as: left floating side menu (`#header` / `#navbar`), `#hero`, then `<main id="main">`, which holds a ticker, the "by the numbers" ledger, and one `<div class="chapter">` per menu entry: `#about`, `#resume`, `#portfolio`, `#services`, `#contact`. The footer comes last. A fixed `.page-bg` layer puts the hero image behind the whole page, and a floating `.theme-toggle--floating` sits top-right.
-- **The side menu and hero come from the original BootstrapMade "MyResume" template. Don't change their markup or light-mode styles.** The hero's only addition is a dark-theme block at the end of `hero.css`. Menu links are in-page anchors with class `.scrollto`. A chapter `id` must match its menu `href`, because `assets/js/main.js` smooth-scrolls on click and toggles `.active` by comparing `scrollY + 200` with each target's `offsetTop` and `offsetHeight`. Below 992px the menu becomes a drawer, opened by `.mobile-nav-toggle` toggling `body.mobile-nav-active`.
+- **The side menu and hero come from the original BootstrapMade "MyResume" template. Don't change their markup or light-mode styles.** The hero's additions are a dark-theme block at the end of `hero.css`, plus these approved markup fixes (roadmap Phase 0):
+  - The `<h1>` holds the name as real text in a `.visually-hidden` span, for search engines, link previews and screen readers. The `.typed` span next to it is `aria-hidden="true"`, because the typing animation is decorative. Keep the `data-typed-items` list free of line breaks and stray spaces.
+  - `.social-links` has only LinkedIn, GitHub and email, each with an `aria-label`. Don't add profiles that aren't in `llms.txt`. Menu links are in-page anchors with class `.scrollto`. A chapter `id` must match its menu `href`, because `assets/js/main.js` smooth-scrolls on click and toggles `.active` by comparing `scrollY + 200` with each target's `offsetTop` and `offsetHeight`. Below 992px the menu becomes a drawer, opened by `.mobile-nav-toggle` toggling `body.mobile-nav-active`.
 - **There are two stylesheets, with separate jobs:**
   - `assets/css/styles.css` is the editorial design system: colour tokens on `:root` (including `--page-veil`) plus a dark set under `[data-theme="dark"]` and `prefers-color-scheme`, a 12-column `.grid`, and component classes.
   - `assets/css/hero.css` holds the template's hero and side-menu rules, copied verbatim, and only the few Bootstrap 5.1.3 classes the hero uses. It loads after `styles.css`. Don't load full Bootstrap, because it would restyle the rest of the page. `#main { margin-left: 100px }` at ≥992px makes room for the menu, and `#hero` sits above the paper-grain overlay (`body::before`, z-index 100).
@@ -28,24 +30,23 @@ Mitesh Dandade's resume/portfolio site, published with GitHub Pages at https://m
   - portfolio filters (`.filter[data-filter]` matched against `.case[data-tags]`)
   - the contact form, which composes a `mailto:` link because there is no backend
 - **Fonts** come from Google Fonts: Fraunces, Instrument Sans and JetBrains Mono for the site; Open Sans, Raleway and Poppins for the hero and menu.
+- **SEO head tags:** `<link rel="canonical">`, Open Graph (`og:url`, `og:image` with width, height and alt) and Twitter card tags. All of them use absolute `https://mitesh411.github.io/MyResume/` URLs, so update them all if the domain changes. The preview image is `assets/img/og-card.png` (1200×630). It was rendered with headless Chrome from a scratch HTML card in the site's style, so to change the text, re-render it rather than editing the PNG.
 - **Certification badges** are stored locally in `assets/img/badges/`. The AWS and Azure badges link to Credly, and the ISTQB badge links to ISTQB India. The badges belong to their issuers; the ISTQB logo may only be shown while the certification is valid.
 
 ## Supporting files
 
 - **`404.html`** is served by GitHub Pages for any missing URL, at any path depth. Because of that it's self-contained: inline CSS (tokens copied from `styles.css`, so keep them in sync), an inline data-URI favicon, and no relative asset paths. It reads the same `md-theme` key as `index.html`. Its links default to `/MyResume/…`, and a small inline script switches them to `/…` when the page is served from the root (local preview, Docker). It has `noindex`. Docker's nginx doesn't serve it for 404s; that would need an `error_page` config.
-- **`sitemap.xml`** lists only the home page. Update `<lastmod>` when content changes.
-- **`robots.txt`** allows everything, disallows the 404 and leftover pages, and points to the sitemap. Crawlers only read `robots.txt` at a host's root, so under `/MyResume/` it has no effect until the site has a custom domain. Submit the sitemap in Google Search Console instead (see `DEPLOY.md`).
+- **`sitemap.xml`** lists only the home page, with `og-card.png` as an image entry (the `image:` namespace). Update `<lastmod>` when content changes. `index.html` links to it with `<link rel="sitemap">`.
+- **`robots.txt`** allows everything except `/404.html`, and points to the sitemap. Crawlers only read `robots.txt` at a host's root, so under `/MyResume/` it has no effect until the site has a custom domain. Submit the sitemap in Google Search Console instead (see `DEPLOY.md`).
 - **`ROADMAP.md`** is the prioritised future-work list (static HTML/CSS/JS only). Mark items ✅ when they ship.
 
-## Leftovers
-
-- `Landing Page.html` and `testindex.html` are old template pages. They now load the new `assets/js/main.js` against old markup, and their template CSS, Bootstrap and other vendor files have been deleted. Console errors from these pages don't indicate bugs in `index.html`. Nothing links to them.
+The old template pages (`Landing Page.html`, `testindex.html`) were deleted on 2026-10-31, and a test makes sure they don't come back.
 
 ## Tests
 
 - `tests/main.test.js` loads the real `index.html` into jsdom and runs `assets/js/main.js` through `tests/helpers.js` (`loadPage()`). `loadPage()` mocks what jsdom lacks (`matchMedia`, `scrollTo`, `IntersectionObserver`, `Typed`, `AOS`), accepts a `mutate(doc)` hook for edge cases, and removes the previous test's window/document listeners.
-- `tests/static-files.test.js` checks `404.html` (one `h1`, `noindex`, no relative asset paths, home and section links), `robots.txt` (sitemap pointer) and `sitemap.xml` (well-formed, home URL, ISO `lastmod`).
-- `tests/index.html.test.js` checks structure: menu ↔ section ids, one `h1`, image `alt`/`width`/`height`, `rel=noopener`, SEO limits from `llms.txt`, JSON-LD, local asset paths, and a matching `?v=` cache-busting version.
+- `tests/static-files.test.js` checks `404.html` (one `h1`, `noindex`, no relative asset paths, home and section links), `robots.txt` (sitemap pointer), `sitemap.xml` (well-formed, home URL, ISO `lastmod`, listed images exist) and that the old template pages stay deleted.
+- `tests/index.html.test.js` checks structure: menu ↔ section ids, one `h1` with the name as real text, hero social links (approved profiles, labelled), canonical/Open Graph/Twitter tags, image `alt`/`width`/`height`, `rel=noopener`, SEO limits from `llms.txt`, JSON-LD, local asset paths, and a matching `?v=` cache-busting version.
 - Coverage is measured on `assets/js/main.js` only, with thresholds in `jest.config.js` (statements, functions and lines 95%; branches 90%). The one uncovered branch is the defensive `if (!el) return` in `scrollto`, which its callers never reach.
 - jsdom can't follow `mailto:` links or replace `window.location`, so the contact-form test checks the composed email by spying on `encodeURIComponent`.
 - `node_modules/` and `coverage/` are git-ignored, and `.dockerignore` keeps the test tooling out of the Docker image.

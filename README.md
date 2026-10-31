@@ -45,6 +45,7 @@ MyResume/
 │   ├── img/
 │   │   ├── hero-bg.jpg     # Hero and page background
 │   │   ├── favicon.svg
+│   │   ├── og-card.png     # 1200×630 preview image for LinkedIn, Slack and other link shares
 │   │   └── badges/         # AWS, Azure and ISTQB certification badges
 │   └── vendor/             # Typed.js, AOS, Boxicons, Bootstrap Icons (stored locally)
 ├── tests/
@@ -63,8 +64,6 @@ MyResume/
 └── .github/workflows/
     └── LightHouseCI.yml    # Manual Lighthouse audit of the live site
 ```
-
-`Landing Page.html` and `testindex.html` are pages left over from the old template. Their stylesheets and scripts have been removed, so they no longer display correctly, and nothing links to them.
 
 ## Run it locally
 
