@@ -5,7 +5,7 @@
      and refreshed in the background (stale-while-revalidate).
    VERSION must match the ?v= query in index.html; bumping it installs a
    fresh cache and deletes the old one. */
-const VERSION = "20261031";
+const VERSION = "20261101";
 const CACHE = `md-${VERSION}`;
 
 const PRECACHE = [

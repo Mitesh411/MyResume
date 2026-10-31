@@ -347,10 +347,12 @@
   color: #0563bb;
 }
 
-/* ---------- Dark theme for the hero ----------
-   Light mode keeps the original rules above unchanged. Dark mode swaps the
-   white veil for the page's dark veil and lightens text, icons and the
-   mobile menu button. The no-JS fallback follows the OS setting. */
+/* ---------- Dark theme for the hero and side menu ----------
+   Light mode keeps the original template rules above unchanged. Dark mode
+   maps every template colour onto the site's palette tokens (styles.css):
+   dark veil, --ink text, --accent instead of the template blues and gold,
+   --paper-3 pills for the menu (--accent when hovered or active), and a --paper drawer on mobile.
+   The no-JS fallback follows the OS setting. */
 :root[data-theme="dark"] #hero:before {
   background: var(--page-veil);
 }
@@ -364,7 +366,39 @@
 :root[data-theme="dark"] #hero p span,
 :root[data-theme="dark"] #hero .social-links a:hover,
 :root[data-theme="dark"] #hero .social-links .copy-email--icon:hover {
-  color: #5aa9ff;
+  color: var(--accent);
+}
+@media (max-width: 992px) {
+  :root[data-theme="dark"] #header {
+    background: var(--paper);
+    border-right-color: var(--line);
+  }
+}
+:root[data-theme="dark"] .nav-menu a,
+:root[data-theme="dark"] .nav-menu a:focus {
+  color: var(--ink-2);
+  background: var(--paper-3);
+}
+:root[data-theme="dark"] .nav-menu a span,
+:root[data-theme="dark"] .nav-menu a:focus span {
+  color: var(--ink-2);
+}
+:root[data-theme="dark"] .nav-menu a:hover,
+:root[data-theme="dark"] .nav-menu .active,
+:root[data-theme="dark"] .nav-menu .active:focus,
+:root[data-theme="dark"] .nav-menu li:hover > a {
+  color: var(--accent-ink);
+  background: var(--accent);
+}
+:root[data-theme="dark"] .nav-menu a:hover span,
+:root[data-theme="dark"] .nav-menu .active span,
+:root[data-theme="dark"] .nav-menu .active:focus span,
+:root[data-theme="dark"] .nav-menu li:hover > a span {
+  color: var(--accent-ink);
+}
+:root[data-theme="dark"] .mobile-nav-active .mobile-nav-toggle {
+  color: var(--accent-ink);
+  background-color: var(--accent);
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) #hero:before {
@@ -380,7 +414,39 @@
   :root:not([data-theme="light"]) #hero p span,
   :root:not([data-theme="light"]) #hero .social-links a:hover,
   :root:not([data-theme="light"]) #hero .social-links .copy-email--icon:hover {
-    color: #5aa9ff;
+    color: var(--accent);
+  }
+  @media (max-width: 992px) {
+    :root:not([data-theme="light"]) #header {
+      background: var(--paper);
+      border-right-color: var(--line);
+    }
+  }
+  :root:not([data-theme="light"]) .nav-menu a,
+  :root:not([data-theme="light"]) .nav-menu a:focus {
+    color: var(--ink-2);
+    background: var(--paper-3);
+  }
+  :root:not([data-theme="light"]) .nav-menu a span,
+  :root:not([data-theme="light"]) .nav-menu a:focus span {
+    color: var(--ink-2);
+  }
+  :root:not([data-theme="light"]) .nav-menu a:hover,
+  :root:not([data-theme="light"]) .nav-menu .active,
+  :root:not([data-theme="light"]) .nav-menu .active:focus,
+  :root:not([data-theme="light"]) .nav-menu li:hover > a {
+    color: var(--accent-ink);
+    background: var(--accent);
+  }
+  :root:not([data-theme="light"]) .nav-menu a:hover span,
+  :root:not([data-theme="light"]) .nav-menu .active span,
+  :root:not([data-theme="light"]) .nav-menu .active:focus span,
+  :root:not([data-theme="light"]) .nav-menu li:hover > a span {
+    color: var(--accent-ink);
+  }
+  :root:not([data-theme="light"]) .mobile-nav-active .mobile-nav-toggle {
+    color: var(--accent-ink);
+    background-color: var(--accent);
   }
 }
 

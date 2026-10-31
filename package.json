@@ -4,9 +4,12 @@
   "description": "Mitesh Dandade's resume/portfolio site — unit tests for index.html and assets/js/main.js",
   "scripts": {
     "test": "jest",
-    "test:coverage": "jest --coverage"
+    "test:coverage": "jest --coverage",
+    "test:mutation": "stryker run"
   },
   "devDependencies": {
+    "@stryker-mutator/core": "10.0.0",
+    "@stryker-mutator/jest-runner": "10.0.0",
     "jest": "30.5.2",
     "jest-environment-jsdom": "30.5.2"
   }
