@@ -64,6 +64,7 @@ MyResume/
 │   └── helpers.js          # Loads the page into jsdom and mocks browser APIs
 ├── package.json            # Test scripts and dev dependencies (Jest + jsdom)
 ├── jest.config.js          # Test environment, coverage target and thresholds
+├── stryker.config.json     # Mutation testing (Stryker) for assets/js/main.js
 ├── DEPLOY.md               # Step-by-step publishing guide for beginners
 ├── ROADMAP.md              # Prioritised future work (static HTML/CSS/JS only)
 ├── Dockerfile              # nginx image that serves the site
@@ -95,6 +96,7 @@ The tests use [Jest](https://jestjs.io/) with jsdom, a simulated browser. They n
 npm install             # once
 npm test                # run all tests
 npm run test:coverage   # run tests and write a coverage report
+npm run test:mutation   # Stryker mutation testing on main.js (about 19 min; report in reports/mutation/)
 ```
 
 The coverage report opens from `coverage/lcov-report/index.html`. Coverage is measured on `assets/js/main.js`, the site's only script with logic, and the run fails if it drops below the thresholds in `jest.config.js`.
