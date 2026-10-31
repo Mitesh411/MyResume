@@ -1,0 +1,29 @@
+{
+  "$schema": "./node_modules/@stryker-mutator/core/schema/stryker-schema.json",
+  "_comment": "Mutation testing for assets/js/main.js. Only tests/main.test.js exercises main.js, so the run is limited to it. Run with: npm run test:mutation",
+  "packageManager": "npm",
+  "testRunner": "jest",
+  "jest": {
+    "configFile": "jest.config.js",
+    "config": {
+      "testMatch": ["<rootDir>/tests/main.test.js"]
+    }
+  },
+  "mutate": ["assets/js/main.js"],
+  "coverageAnalysis": "perTest",
+  "reporters": ["clear-text", "progress", "html"],
+  "htmlReporter": {
+    "fileName": "reports/mutation/index.html"
+  },
+  "thresholds": {
+    "high": 90,
+    "low": 80,
+    "break": null
+  },
+  "incremental": true,
+  "incrementalFile": "reports/stryker-incremental.json",
+  "ignorePatterns": ["coverage", "reports", "docker"],
+  "tempDirName": ".stryker-tmp",
+  "cleanTempDir": true,
+  "concurrency": 4
+}

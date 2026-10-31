@@ -10,3 +10,6 @@ package.json
 package-lock.json
 jest.config.js
 *.md
+reports
+.stryker-tmp
+stryker.config.json

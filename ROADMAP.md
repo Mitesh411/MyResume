@@ -59,7 +59,7 @@ Timeline: 2–3 weeks. This phase uses the site itself as a showcase of the owne
 | 2.8 | Mutation testing | M | S | Run Stryker on `main.js`. Line coverage is already 99%; a mutation score shows whether the tests actually catch bugs. |
 | 2.9 | Docker build check in CI | L | S | Build the image and assert that `/nope` returns the 404 page with status 404, `/sw.js` is `no-cache`, `/Dockerfile` isn't served and the healthcheck is healthy. Automates the manual check done for the Docker 404 work. |
 | 2.10 | Offline check in CI | M | M | A Playwright test that loads the site, waits for the service worker, goes offline and reloads. Also assert no CSP violations on `index.html` and `404.html`. Automates the manual DevTools-protocol checks. |
-| 2.11 | 404 page colour-token sync test | L | S | `404.html` carries its own copy of the colour tokens. A test that compares them with `styles.css` stops the two drifting apart. |
+| 2.11 | 🚀 404 page colour-token sync test | L | S | Built 2026-11-01, awaiting commit and deploy. `tests/static-files.test.js` compares every token in `404.html`'s light, dark and OS-dark blocks with `styles.css`, and fails with the token name and both values on drift. |
 | 2.12 | Automatic sitemap date | L | S | A CI step sets `<lastmod>` in `sitemap.xml` from the last commit that changed `index.html`, so the date isn't edited by hand. |
 
 ---
@@ -110,7 +110,7 @@ Timeline: later. Every item here needs real content from the owner.
 | # | Item | Impact | Effort | Notes |
 |---|------|:-:|:-:|-------|
 | 6.1 | Three-way theme switch | L | S | Light, Dark and System. Today, once someone toggles the theme, the site stops following their device setting and there's no way back. Keep the `md-theme` key; add a `system` value. |
-| 6.2 | 🔒 Bring the hero's colours into the palette | L | S | The hero and menu still use the template's blue (`#0563bb` light, `#5aa9ff` dark), which clashes with the site's accent colour. |
+| 6.2 | 🚀 🔒 Bring the hero's colours into the palette | L | S | Built 2026-11-01, awaiting commit and deploy. Dark mode only (light stays as the template). The hero highlights, menu pills, mobile drawer and open-menu button now use `--accent`, `--ink`, `--paper` and `--paper-3`; active and hover pills are accent-filled. A test bans hard-coded colours in the block. Contrast: 6.5:1 to 14.9:1. |
 | 6.3 | Pause button for the ticker | L | S | The ticker pauses on hover and respects reduced-motion settings, but keyboard and touch users can't stop it. WCAG 2.2.2 asks for a pause control on moving content. |
 
 ---

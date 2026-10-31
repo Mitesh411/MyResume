@@ -168,3 +168,61 @@ describe("Docker image (nginx)", () => {
     expect(conf).toContain("application/manifest+json");
   });
 });
+
+/* Colour tokens are defined in three blocks: light (:root), forced dark
+   ([data-theme="dark"]) and OS dark (prefers-color-scheme, :not([data-theme="light"])). */
+const tokenBlock = (css, selector) => {
+  const start = css.indexOf(`${selector} {`);
+  if (start < 0) throw new Error(`no block for ${selector}`);
+  const body = css.slice(start, css.indexOf("}", start));
+  return Object.fromEntries([...body.matchAll(/(--[\w-]+):\s*([^;]+);/g)].map((m) => [m[1], m[2].trim()]));
+};
+const SCHEMES = {
+  light: ":root",
+  dark: ':root[data-theme="dark"]',
+  "OS dark": ':root:not([data-theme="light"])',
+};
+
+describe("404.html colour tokens match styles.css", () => {
+  const site = read("assets/css/styles.css");
+  const page = read("404.html");
+
+  test.each(Object.entries(SCHEMES))("%s tokens", (scheme, selector) => {
+    const ours = tokenBlock(page, selector);
+    const theirs = tokenBlock(site, selector);
+    expect(Object.keys(ours).length).toBeGreaterThan(5);
+    Object.entries(ours).forEach(([name, value]) =>
+      expect({ scheme, name, value }).toEqual({ scheme, name, value: theirs[name] })
+    );
+  });
+
+  test("the light block also matches the shared font and layout tokens", () => {
+    const ours = tokenBlock(page, ":root");
+    ["--serif", "--sans", "--mono", "--gutter", "--ease"].forEach((name) => expect(ours[name]).toBeDefined());
+  });
+});
+
+describe("hero.css dark theme uses the palette", () => {
+  const css = read("assets/css/hero.css");
+  const dark = css
+    .slice(css.indexOf("/* ---------- Dark theme for the hero"), css.indexOf("/* ---------- Fit the rest"))
+    .replace(/\/\*[\s\S]*?\*\//g, "");
+  const rules = (text, root) =>
+    [...text.matchAll(/([^{}]+)\{([^{}]*)\}/g)]
+      .map((m) => `${m[1].replace(/\s+/g, " ").split(root).join("ROOT").trim()} {${m[2].replace(/\s+/g, " ").trim()}}`)
+      .filter((r) => r.includes("ROOT"));
+
+  test("has no hard-coded colours, only tokens from styles.css", () => {
+    expect(dark).not.toMatch(/#[0-9a-f]{3,8}\b|rgba?\(/i);
+    const site = read("assets/css/styles.css");
+    [...dark.matchAll(/var\((--[\w-]+)\)/g)].forEach((m) => expect(site).toContain(`${m[1]}:`));
+  });
+
+  test("forced dark and OS dark apply the same rules", () => {
+    const media = dark.indexOf("@media (prefers-color-scheme: dark)");
+    const forced = rules(dark.slice(0, media), ':root[data-theme="dark"]');
+    const os = rules(dark.slice(media), ':root:not([data-theme="light"])');
+    expect(forced.length).toBeGreaterThan(8);
+    expect(os).toEqual(forced);
+  });
+});
