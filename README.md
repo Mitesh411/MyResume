@@ -67,6 +67,8 @@ MyResume/
 ├── DEPLOY.md               # Step-by-step publishing guide for beginners
 ├── ROADMAP.md              # Prioritised future work (static HTML/CSS/JS only)
 ├── Dockerfile              # nginx image that serves the site
+├── docker/
+│   └── nginx.conf          # nginx site config: 404 page, no-cache sw.js, manifest type
 ├── .dockerignore           # Keeps tests, node_modules and docs out of the image
 ├── llms.txt                # Site facts and SEO guidance for search engines and AI tools
 ├── CLAUDE.md               # Notes for AI coding assistants
@@ -126,15 +128,13 @@ The site is published from the `master` branch. Push to `master` and GitHub Page
 
 ### Docker
 
-The `Dockerfile` serves the site with nginx and includes a healthcheck:
+The `Dockerfile` serves the site with nginx (Alpine, slim) and includes a healthcheck. It installs `docker/nginx.conf`, which makes the container behave like GitHub Pages:
 
-```dockerfile
-FROM nginx:1.29.3-alpine3.22
-COPY . /usr/share/nginx/html
-EXPOSE 80
-HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 CMD wget --quiet --tries=1 --spider http://localhost || exit 1
-CMD [ "nginx", "-g", "daemon off;" ]
-```
+- Missing URLs show `404.html` with a 404 status.
+- `sw.js` is sent with `Cache-Control: no-cache`, so site updates reach returning visitors.
+- `manifest.webmanifest` is served as `application/manifest+json`.
+
+The build files (`Dockerfile`, `docker/`) are removed from the web root, and `.dockerignore` keeps tests, tooling and docs out of the image.
 
 ```bash
 docker build -t my-resume .

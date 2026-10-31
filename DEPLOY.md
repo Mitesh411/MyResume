@@ -81,6 +81,7 @@ Wait one to two minutes, then visit `https://mitesh411.github.io/MyResume/`. To 
 - [ ] On your phone, open the live link and choose **Add to Home screen** (Android: browser menu; iPhone: Share button). The site should open full-screen from the new icon.
 - [ ] Turn on airplane mode and reopen the site. It should still load, because the service worker keeps a copy.
 - [ ] After you change `styles.css`, `hero.css` or `main.js`, update the `?v=` date in `index.html` **and** `VERSION` in `sw.js` to the same value. Otherwise returning visitors keep seeing the old version.
+- [ ] If you use Docker, run the image and open a made-up address such as http://localhost/nope. The "Page not found" page should appear.
 - [ ] Add the live link to your LinkedIn profile (**Contact info → Website**) and to your résumé.
 
 ## About the contact form

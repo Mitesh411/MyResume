@@ -51,11 +51,8 @@ Timeline: next, 2–3 weeks. This phase uses the site itself as a showcase of th
 |---|------|:-:|:-:|-------|
 | 3.1 | Modern hero image formats | M | S | Add AVIF/WebP versions of `hero-bg.jpg`, served with `image-set()` and a JPEG fallback, and `<link rel="preload">` the hero image. Never lazy-load it, because it's the LCP image. |
 | 3.2 | Font diet | M | M | Six font families are loaded. Drop unused weights, subset the fonts, and consider self-hosting them as WOFF2 files with `font-display: swap`. |
-| 3.3 | 🚀 SVG icon sprite | M | M | Built 2026-10-31, awaiting commit and deploy. 11 inline symbols (Boxicons and Bootstrap Icons paths, MIT) replace both icon fonts; about 2.4 MB of vendor files deleted. |
 | 3.4 | Defer the vendor scripts | L | S | Add `defer` to `aos.js` and `typed.js`, and skip Typed when `prefers-reduced-motion` is on. |
-| 3.5 | 🚀 PWA basics | L | M | Built 2026-10-31, awaiting commit and deploy. `manifest.webmanifest`, 192/512/maskable/Apple icons, and `sw.js` (network-first pages, stale-while-revalidate assets). Verified offline reload in Chrome. |
-| 3.6 | 🚀 Content Security Policy | M | S | Built 2026-10-31, awaiting commit and deploy. CSP and referrer `<meta>` tags on `index.html` and `404.html`, with hashed inline scripts. Styles still need `'unsafe-inline'` for `style=` attributes and Typed.js. |
-| 3.7 | Serve `404.html` from Docker | L | S | Add an nginx `error_page 404 /404.html;` config to the Docker image. GitHub Pages already serves it. |
+| 3.7 | 🚀 Serve `404.html` from Docker | L | S | Built 2026-10-31, awaiting commit and deploy. `docker/nginx.conf` adds `error_page 404 /404.html`, `no-cache` for `sw.js` and the manifest media type. Verified with a local build: missing URLs return the 404 page with status 404, the build files aren't served, and the healthcheck is healthy. |
 
 ---
 
@@ -69,7 +66,6 @@ Timeline: later. Every item here needs real content from the owner.
 | 4.2 | 🧾 Writing section ("Field notes") | M | L | Hand-written HTML articles with an RSS `feed.xml`. |
 | 4.3 | 🧾 Testimonials | M | S | Quotes from LinkedIn recommendations, used with permission. |
 | 4.4 | 🧾 Speaking, mentoring and open source | L | S | Expand the ISTQB CTFL 4.0 Exam Prep project into its own section. |
-| 4.5 | 🚀 Interactive skills matrix | M | M | Built 2026-10-31, awaiting commit and deploy. Built as a tool cloud generated from the case-study tags, each tool linking to its case studies. No proficiency or years data, because those aren't on the résumé. |
 | 4.6 | 🧾 Hindi and Gujarati versions | L | L | Separate `/hi/` and `/gu/` pages with `hreflang` tags. The hero already types the name in both scripts. |
 
 ---
@@ -92,7 +88,7 @@ Timeline: later. Every item here needs real content from the owner.
 |--------|-------|---------|
 | 1 | 1.1 and 1.3 | A recruiter can download the CV or send a message without an email app |
 | 2 | 2.1 – 2.5 | Every change is gated by tests, accessibility checks and Lighthouse |
-| 3 | 3.1, 3.2, 3.4 and 3.7 | Faster load, measured by the Sprint 2 Lighthouse gate |
+| 3 | 3.1, 3.2 and 3.4 | Faster load, measured by the Sprint 2 Lighthouse gate |
 | Ongoing | Phases 4 and 5 | Deeper content and growth, as the owner supplies material |
 
 ## Open decisions

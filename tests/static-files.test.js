@@ -143,3 +143,28 @@ describe("404.html security headers", () => {
     expect(html).toContain('<meta name="referrer" content="strict-origin-when-cross-origin">');
   });
 });
+
+describe("Docker image (nginx)", () => {
+  const dockerfile = read("Dockerfile");
+  const conf = read("docker/nginx.conf");
+
+  test("installs the site config and doesn't serve the build files", () => {
+    expect(dockerfile).toContain("COPY docker/nginx.conf /etc/nginx/conf.d/default.conf");
+    expect(dockerfile).toMatch(/rm -rf \/usr\/share\/nginx\/html\/docker \/usr\/share\/nginx\/html\/Dockerfile/);
+  });
+
+  test("serves 404.html for missing URLs, like GitHub Pages", () => {
+    expect(conf).toMatch(/error_page 404 \/404\.html;/);
+    expect(conf).toMatch(/try_files \$uri \$uri\/ =404;/);
+  });
+
+  test("404.html stays directly reachable, because sw.js precaches it", () => {
+    expect(read("sw.js")).toContain('"404.html"');
+    expect(conf).not.toMatch(/location = \/404\.html\s*\{[^}]*internal/);
+  });
+
+  test("sw.js is never cached and the manifest has its media type", () => {
+    expect(conf).toMatch(/location = \/sw\.js\s*\{[^}]*Cache-Control "no-cache"/);
+    expect(conf).toContain("application/manifest+json");
+  });
+});

@@ -13,7 +13,7 @@ Site structure:
   - /#portfolio — Nine case studies with measured outcomes
   - /#services — Eight areas of specialisation
   - /#contact — Email, LinkedIn, GitHub and a contact form (opens the visitor's email app)
-- /404.html — "Page not found" page, served by GitHub Pages for any missing URL (noindex)
+- /404.html — "Page not found" page, served for any missing URL by GitHub Pages and by the Docker image's nginx (noindex)
 - /sitemap.xml — XML sitemap listing the home page
 - /robots.txt — Allows all crawlers and points to the sitemap
 - /manifest.webmanifest — Web app manifest: the site can be installed on a phone or desktop
