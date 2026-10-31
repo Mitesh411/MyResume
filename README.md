@@ -25,8 +25,10 @@ The site is one static page made of HTML, CSS and plain JavaScript. It has no fr
 - **Responsive layout.** The editorial 12-column grid stacks into one column on phones.
 - **Verified certifications.** The AWS and Azure badges link to their Credly records, and the ISTQB badge links to ISTQB India.
 - **Static contact form.** It opens the visitor's own email app with the message filled in, so no server is needed.
+- **Copy email.** Every email address has a **Copy** button that copies it and shows a "Copied" toast.
+- **Printable résumé.** Printing the page (or saving it as PDF) gives a clean one-page A4 résumé: experience, skills and certifications in black on white, without the menu, portfolio or contact form.
 - **Accessibility.** The site has a skip link, semantic headings, focus styles and labelled controls, and it respects reduced-motion settings.
-- **Structured data.** The page includes Schema.org `Person` JSON-LD and an `llms.txt` for search engines and AI tools.
+- **Structured data.** The page includes Schema.org `Person` JSON-LD (employer, university, the three certifications, skills, email and image) and an `llms.txt` for search engines and AI tools.
 
 ## Project structure
 
@@ -88,14 +90,15 @@ npm run test:coverage   # run tests and write a coverage report
 
 The coverage report opens from `coverage/lcov-report/index.html`. Coverage is measured on `assets/js/main.js`, the site's only script with logic, and the run fails if it drops below the thresholds in `jest.config.js`.
 
-- **`tests/main.test.js`** loads the real `index.html` and checks every behaviour in `main.js`: the theme toggle, side menu and scroll highlighting, Typed and AOS start-up, reveal-on-scroll, the clock, the portfolio filters and contact-form validation. It also covers fallbacks, such as missing libraries or blocked storage.
+- **`tests/main.test.js`** loads the real `index.html` and checks every behaviour in `main.js`: the theme toggle, side menu and scroll highlighting, Typed and AOS start-up, reveal-on-scroll, the clock, the portfolio filters, the copy-email buttons and contact-form validation. It also covers fallbacks, such as missing libraries or blocked storage.
 - **`tests/index.html.test.js`** checks the page itself:
   - menu links match section IDs
   - there is one `h1`
   - images have alt text and dimensions
   - links that open a new tab use `noopener`
   - the title and meta description follow the length rules
-  - the JSON-LD is valid
+  - the JSON-LD is valid and its employer, university, certifications and skills match `llms.txt`
+  - the print-only résumé header is present
   - every local file the page references exists
 
 ## Editing content

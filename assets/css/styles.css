@@ -1059,6 +1059,66 @@ em {
   margin: 4px 0 0;
 }
 
+/* ---------- Copy-email button and toast ---------- */
+.copy-email {
+  align-self: flex-start;
+  margin-left: 6px;
+  padding: 3px 10px;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ink-2);
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  vertical-align: middle;
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s;
+}
+
+.site-footer__col .copy-email {
+  margin-left: 0;
+}
+
+.contact-info__item .copy-email {
+  display: block;
+  margin: 8px 0 0;
+}
+
+.copy-email:hover,
+.copy-email:focus-visible {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 24px;
+  z-index: 9999;
+  padding: 10px 18px;
+  border-radius: 999px;
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, 12px);
+  transition: opacity 0.25s var(--ease), transform 0.25s var(--ease);
+}
+
+.toast:empty {
+  padding: 0;
+}
+
+.toast.is-shown {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
 .form {
   grid-column: 6 / span 7;
   display: grid;
@@ -1258,17 +1318,266 @@ em {
   }
 }
 
+/* Screen-only: the résumé header is used by the print stylesheet below. */
+.print-header {
+  display: none;
+}
+
+/* ---------- Print: a clean one-page résumé ----------
+   Keeps the summary, experience, skills and credentials, in black on white,
+   under a compact name-and-contact header. Everything else is screen-only. */
 @media print {
+  @page {
+    size: A4;
+    margin: 11mm 13mm;
+  }
+
+  :root,
+  :root[data-theme="dark"] {
+    --paper: #fff;
+    --paper-2: #fff;
+    --ink: #000;
+    --ink-2: #333;
+    --line: #bbb;
+    --line-strong: #000;
+    --accent: #000;
+    color-scheme: light;
+  }
+
+  html,
+  body {
+    background: #fff !important;
+    color: #000;
+    font-size: 8.6pt;
+    line-height: 1.35;
+  }
+
   body::before,
+  .page-bg,
+  .skip-link,
   #header,
   .mobile-nav-toggle,
+  .theme-toggle,
+  #hero,
   .ticker,
-  .theme-toggle {
+  #main > section,
+  #about > .page-hero,
+  #about .split__aside,
+  #about .split__main > :not(.lede),
+  #about > section:last-child,
+  #portfolio,
+  #services,
+  #contact,
+  .site-footer,
+  .toast,
+  .copy-email,
+  .cred__badge-link,
+  .cred__link,
+  .cred p:has(> a) {
+    display: none !important;
+  }
+
+  #main {
+    margin: 0 !important;
+  }
+
+  .js [data-reveal],
+  [data-aos] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .wrap,
+  .grid,
+  .section,
+  .chapter {
+    display: block;
+    max-width: none;
+    margin: 0;
+    padding: 0 !important;
+    border: 0 !important;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  /* Header */
+  .print-header {
+    display: block;
+    margin-bottom: 8pt;
+    padding-bottom: 6pt;
+    border-bottom: 1.5pt solid #000;
+  }
+
+  .print-header p {
+    margin: 0;
+  }
+
+  .print-header__name {
+    font-family: var(--serif);
+    font-size: 22pt;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+  }
+
+  .print-header__role {
+    margin-top: 2pt !important;
+    font-size: 10pt;
+    font-weight: 600;
+  }
+
+  .print-header__contact {
+    margin-top: 2pt !important;
+    font-size: 8pt;
+  }
+
+  /* Section titles replace the editorial headlines. */
+  .section-head {
+    display: block;
+    margin: 8pt 0 4pt;
+    padding-bottom: 2pt;
+    border-bottom: 0.75pt solid #000;
+  }
+
+  .section-head > * {
     display: none;
   }
 
-  .js [data-reveal] {
-    opacity: 1;
-    transform: none;
+  .section-head::before,
+  #about .split__main::before {
+    display: block;
+    font-family: var(--mono);
+    font-size: 8pt;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  #about .split__main::before {
+    content: "Summary";
+    margin-bottom: 3pt;
+    padding-bottom: 2pt;
+    border-bottom: 0.75pt solid #000;
+  }
+
+  [aria-labelledby="journey-title"] .section-head::before { content: "Experience"; }
+  [aria-labelledby="skills-title"] .section-head::before { content: "Skills"; }
+  [aria-labelledby="creds-title"] .section-head::before { content: "Certifications & education"; }
+
+  .lede {
+    margin: 0;
+    font-family: var(--sans);
+    font-size: 9pt;
+    line-height: 1.4;
+  }
+
+  /* Experience */
+  .role {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 1pt 12pt;
+    padding: 4pt 0;
+    border: 0 !important;
+    break-inside: avoid;
+  }
+
+  /* A4 is narrower than 760px, so these beat the small-screen
+     `grid-column: 1 / -1 !important` rule. */
+  .role__head {
+    grid-column: 1 !important;
+    grid-row: 1;
+  }
+
+  .role__when {
+    grid-column: 2 !important;
+    grid-row: 1;
+    text-align: right;
+  }
+
+  .role__when .label {
+    font-size: 7.5pt;
+    color: #000;
+  }
+
+  .role__head h3 {
+    display: inline;
+    font-size: 10.5pt;
+    margin: 0 6pt 0 0;
+  }
+
+  .role__head br {
+    display: none;
+  }
+
+  .award {
+    margin: 0 0 0 6pt;
+    padding: 0 5pt;
+    font-size: 7pt;
+  }
+
+  .role__points {
+    grid-column: 1 / -1 !important;
+    gap: 1pt;
+    margin: 2pt 0 0;
+    padding: 0;
+    color: #000;
+  }
+
+  .role__points li {
+    padding-left: 1em;
+  }
+
+  .role__points li::before {
+    content: "•";
+  }
+
+  /* Skills */
+  .skill-row {
+    grid-template-columns: 9.5em 1fr;
+    column-gap: 8pt;
+    padding: 1.5pt 0;
+    border: 0 !important;
+  }
+
+  .skill-row dt,
+  .skill-row dd {
+    grid-column: auto !important;
+    font-family: var(--sans);
+    font-size: 8.6pt;
+    color: #000;
+  }
+
+  .skill-row dt {
+    font-weight: 600;
+  }
+
+  /* Credentials */
+  .creds {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 3pt 16pt;
+  }
+
+  .cred {
+    padding: 0;
+    border: 0;
+    background: none;
+    break-inside: avoid;
+  }
+
+  .cred .label {
+    font-size: 7pt;
+  }
+
+  .cred h3 {
+    font-family: var(--sans);
+    font-size: 8.6pt;
+    font-weight: 600;
+    margin: 0;
+  }
+
+  .cred p {
+    margin: 0;
   }
 }

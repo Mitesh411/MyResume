@@ -141,6 +141,56 @@ describe("SEO metadata (llms.txt rules)", () => {
   });
 });
 
+describe("Person JSON-LD (rich results)", () => {
+  const data = () => JSON.parse($('script[type="application/ld+json"]').textContent);
+  const llms = fs.readFileSync(path.join(ROOT, "llms.txt"), "utf8");
+
+  test("names the current employer and university from llms.txt", () => {
+    expect(data().worksFor).toMatchObject({ "@type": "Organization", name: "CREST InfoSystems Pvt. Ltd." });
+    expect(data().alumniOf).toMatchObject({ "@type": "CollegeOrUniversity", name: "UKA Tarsadia University" });
+    expect(llms).toContain("CREST InfoSystems Pvt. Ltd.");
+    expect(llms).toContain("UKA Tarsadia University");
+  });
+
+  test("lists all three certifications, with Credly links matching the page", () => {
+    const creds = data().hasCredential;
+    expect(creds).toHaveLength(3);
+    creds.forEach((c) => {
+      expect(c["@type"]).toBe("EducationalOccupationalCredential");
+      expect(c.credentialCategory).toBe("certification");
+      expect($(`a[href="${c.url}"]`)).not.toBeNull();
+    });
+  });
+
+  test("knowsAbout covers every skill listed in llms.txt", () => {
+    const skills = llms.match(/^- Skills: (.+)$/m)[1].split(", ").flatMap((s) => s.split("/"));
+    expect(data().knowsAbout).toEqual(expect.arrayContaining(skills));
+  });
+
+  test("has email, url and an image that exists locally", () => {
+    const d = data();
+    expect(d.email).toBe("mailto:dandademitesh@gmail.com");
+    expect(d.url).toBe("https://mitesh411.github.io/MyResume/");
+    expect(fs.existsSync(path.join(ROOT, d.image.replace(d.url, "")))).toBe(true);
+  });
+});
+
+describe("print résumé", () => {
+  test("has a print-only header with name and contact details, hidden from screen readers", () => {
+    const header = $(".print-header");
+    expect(header.getAttribute("aria-hidden")).toBe("true");
+    expect(header.textContent).toContain("Mitesh Dandade");
+    expect(header.textContent).toContain("dandademitesh@gmail.com");
+  });
+
+  test("styles.css has a print stylesheet that shows the header", () => {
+    const css = fs.readFileSync(path.join(ROOT, "assets/css/styles.css"), "utf8");
+    const print = css.slice(css.indexOf("@media print"));
+    expect(print).toMatch(/@page\s*\{/);
+    expect(print).toMatch(/\.print-header\s*\{\s*display:\s*block/);
+  });
+});
+
 describe("hero (from the original template)", () => {
   test("typed name list includes the English and Devanagari spellings", () => {
     const items = $(".typed").getAttribute("data-typed-items").split(",");

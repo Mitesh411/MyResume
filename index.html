@@ -32,14 +32,26 @@
   <link rel="stylesheet" href="assets/vendor/aos/aos.css">
   <link rel="stylesheet" href="assets/vendor/bootstrap-icons/bootstrap-icons.css">
   <link rel="stylesheet" href="assets/vendor/boxicons/css/boxicons.min.css">
-  <link rel="stylesheet" href="assets/css/styles.css?v=20261029">
-  <link rel="stylesheet" href="assets/css/hero.css?v=20261029">
+  <link rel="stylesheet" href="assets/css/styles.css?v=20261031">
+  <link rel="stylesheet" href="assets/css/hero.css?v=20261031">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "Person",
+    "@id": "https://mitesh411.github.io/MyResume/#person",
     "name": "Mitesh Dandade",
+    "url": "https://mitesh411.github.io/MyResume/",
+    "image": "https://mitesh411.github.io/MyResume/assets/img/og-card.png",
+    "email": "mailto:dandademitesh@gmail.com",
     "jobTitle": "QA Lead – Test Automation",
+    "worksFor": { "@type": "Organization", "name": "CREST InfoSystems Pvt. Ltd.", "address": { "@type": "PostalAddress", "addressLocality": "Surat", "addressRegion": "Gujarat", "addressCountry": "IN" } },
+    "alumniOf": { "@type": "CollegeOrUniversity", "name": "UKA Tarsadia University", "address": { "@type": "PostalAddress", "addressLocality": "Bardoli", "addressRegion": "Gujarat", "addressCountry": "IN" } },
+    "hasCredential": [
+      { "@type": "EducationalOccupationalCredential", "name": "ISTQB Certified Tester Foundation Level v4.0 (CTFL)", "credentialCategory": "certification", "recognizedBy": { "@type": "Organization", "name": "ISTQB" }, "url": "https://www.istqb.in/about-us/certified-tester/foundation-level" },
+      { "@type": "EducationalOccupationalCredential", "name": "AWS Certified Cloud Practitioner", "credentialCategory": "certification", "recognizedBy": { "@type": "Organization", "name": "Amazon Web Services" }, "url": "https://www.credly.com/badges/ed9ba8f1-8e4a-47c5-81a8-22e13ba5bf16/public_url" },
+      { "@type": "EducationalOccupationalCredential", "name": "Microsoft Certified: Azure Fundamentals (AZ-900)", "credentialCategory": "certification", "recognizedBy": { "@type": "Organization", "name": "Microsoft" }, "url": "https://www.credly.com/badges/0afcb821-9c80-415a-a6ae-c29b014ab589/public_url" }
+    ],
+    "knowsAbout": ["Selenium WebDriver", "Playwright", "TestNG", "Cucumber (BDD)", "REST Assured", "Java", "JavaScript", "TypeScript", "Jenkins", "GitHub Actions", "GitLab CI", "Docker", "Maven", "Postman", "JMeter", "OWASP ZAP", "MobSF", "Gremlin", "MySQL", "PostgreSQL", "Claude", "GitHub Copilot", "Cursor", "OpenAI Codex", "Playwright MCP"],
     "address": { "@type": "PostalAddress", "addressLocality": "Surat", "addressRegion": "Gujarat", "addressCountry": "IN" },
     "sameAs": ["https://www.linkedin.com/in/mitesh-dandade-1a62085b", "https://github.com/Mitesh411"]
   }
@@ -86,11 +98,19 @@
         <a href="https://www.linkedin.com/in/mitesh-dandade-1a62085b" class="linkedin" target="_blank" rel="me noopener" aria-label="LinkedIn profile (opens in a new tab)"><i class="bx bxl-linkedin" aria-hidden="true"></i></a>
         <a href="https://github.com/Mitesh411" class="github" target="_blank" rel="me noopener" aria-label="GitHub profile (opens in a new tab)"><i class="bx bxl-github" aria-hidden="true"></i></a>
         <a href="mailto:dandademitesh@gmail.com" class="email" aria-label="Email dandademitesh@gmail.com"><i class="bx bx-envelope" aria-hidden="true"></i></a>
+        <button class="copy-email copy-email--icon" type="button" data-copy="dandademitesh@gmail.com" aria-label="Copy email address" title="Copy email address"><i class="bx bx-copy" aria-hidden="true"></i></button>
       </div>
     </div>
   </section><!-- End Hero -->
 
   <main id="main">
+    <!-- Printed résumé header: shown only by the print stylesheet. -->
+    <div class="print-header" aria-hidden="true">
+      <p class="print-header__name">Mitesh Dandade</p>
+      <p class="print-header__role">QA Lead — Test Automation · 8+ years in CI-driven QA for SaaS and product companies</p>
+      <p class="print-header__contact">dandademitesh@gmail.com · linkedin.com/in/mitesh-dandade-1a62085b · github.com/Mitesh411 · Surat, India · mitesh411.github.io/MyResume</p>
+    </div>
+
     <!-- Ticker -->
     <div class="ticker" aria-label="Tools I work with">
       <div class="ticker__track">
@@ -700,7 +720,7 @@
         <div class="contact-info" data-reveal>
           <div class="contact-info__item">
             <span class="label">Email</span>
-            <p><a href="mailto:dandademitesh@gmail.com">dandademitesh@gmail.com</a></p>
+            <p><a href="mailto:dandademitesh@gmail.com">dandademitesh@gmail.com</a> <button class="copy-email" type="button" data-copy="dandademitesh@gmail.com" aria-label="Copy email address">Copy</button></p>
           </div>
           <div class="contact-info__item">
             <span class="label">LinkedIn</span>
@@ -768,6 +788,7 @@
       <div class="site-footer__col">
         <span class="label">Write</span>
         <a href="mailto:dandademitesh@gmail.com">dandademitesh@gmail.com</a>
+        <button class="copy-email" type="button" data-copy="dandademitesh@gmail.com" aria-label="Copy email address">Copy</button>
       </div>
       <div class="site-footer__col">
         <span class="label">Based in</span>
@@ -781,8 +802,10 @@
     </div>
   </footer>
 
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
   <script src="assets/vendor/aos/aos.js"></script>
   <script src="assets/vendor/typed.js/typed.min.js"></script>
-  <script src="assets/js/main.js?v=20261029" defer></script>
+  <script src="assets/js/main.js?v=20261031" defer></script>
 </body>
 </html>

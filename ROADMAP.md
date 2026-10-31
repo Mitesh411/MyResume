@@ -37,11 +37,11 @@ Timeline: now, 1–2 weeks.
 | # | Item | Impact | Effort | Notes |
 |---|------|:-:|:-:|-------|
 | 1.1 | 🧾 Downloadable résumé PDF | H | S | Add a "Download CV" button to the hero and footer, and store the PDF in `assets/docs/`. |
-| 1.2 | Print stylesheet | M | S | Add `@media print` styles so that printing the page produces a clean résumé: hide the menu, ticker and backgrounds. |
+| 1.2 | ✅ Print stylesheet | M | S | Done 2026-10-31. Prints a one-page A4 résumé (header, summary, experience, skills, certifications) in black on white, in either theme. |
 | 1.3 | A contact form that actually sends | H | M | Post to a static form endpoint such as Formspree, Web3Forms or Getform, and keep `mailto:` as a no-JS fallback. Add a honeypot field against spam. Update the tests that currently spy on `encodeURIComponent`. |
 | 1.4 | 🧾 "Open to work" status and booking link | M | S | An availability badge near the contact section, plus a Cal.com or Calendly link for intro calls. |
-| 1.5 | Copy-email button | L | S | Uses the Clipboard API and shows an `aria-live` "Copied" message. |
-| 1.6 | Fuller JSON-LD | M | S | Add `worksFor`, `alumniOf`, `hasCredential` (all three certifications), `knowsAbout`, `email` and `url`. Mirror the changes in `llms.txt`. |
+| 1.5 | ✅ Copy-email button | L | S | Done 2026-10-31. Next to all three email links (hero, contact, footer), with a "Copied" toast and a fallback for browsers without the Clipboard API. |
+| 1.6 | ✅ Fuller JSON-LD | M | S | Done 2026-10-31. Adds `worksFor`, `alumniOf`, `hasCredential` (3), `knowsAbout`, `email`, `url` and `image`, mirrored in `llms.txt`. |
 
 ---
 

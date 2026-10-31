@@ -349,3 +349,67 @@ describe("contact form", () => {
     expect(() => loadPage({ mutate: (doc) => doc.getElementById("contact-form").remove() })).not.toThrow();
   });
 });
+
+describe("copy email", () => {
+  const flush = async () => {
+    await Promise.resolve();
+    await Promise.resolve();
+  };
+  const setClipboard = (value) =>
+    Object.defineProperty(navigator, "clipboard", { configurable: true, value });
+
+  afterEach(() => {
+    setClipboard(undefined);
+    delete document.execCommand;
+  });
+
+  test("every copy button is next to a matching email link", () => {
+    loadPage();
+    const btns = $$("[data-copy]");
+    expect(btns.length).toBe($$('a[href^="mailto:"]').length);
+    btns.forEach((b) =>
+      expect(b.parentElement.querySelector(`a[href="mailto:${b.dataset.copy}"]`)).not.toBeNull()
+    );
+  });
+
+  test("copies with the Clipboard API and shows a toast that fades after 2 seconds", async () => {
+    jest.useFakeTimers();
+    const writeText = jest.fn().mockResolvedValue();
+    setClipboard({ writeText });
+    loadPage();
+
+    click($(".contact-info [data-copy]"));
+    await flush();
+    expect(writeText).toHaveBeenCalledWith("dandademitesh@gmail.com");
+    expect($("#toast").textContent).toBe("Copied");
+    expect($("#toast").classList.contains("is-shown")).toBe(true);
+
+    jest.advanceTimersByTime(2000);
+    expect($("#toast").classList.contains("is-shown")).toBe(false);
+    expect($("#toast").textContent).toBe("");
+  });
+
+  test("falls back to the copy command when the Clipboard API is missing", async () => {
+    document.execCommand = jest.fn(() => true);
+    loadPage();
+    click($(".site-footer [data-copy]"));
+    await flush();
+    expect(document.execCommand).toHaveBeenCalledWith("copy");
+    expect($("textarea[readonly]")).toBeNull();
+    expect($("#toast").textContent).toBe("Copied");
+  });
+
+  test("tells the visitor when copying fails", async () => {
+    loadPage();
+    click($("#hero [data-copy]"));
+    await flush();
+    expect($("#toast").textContent).toMatch(/Couldn’t copy/);
+  });
+
+  test("works without the toast element", async () => {
+    setClipboard({ writeText: jest.fn().mockResolvedValue() });
+    loadPage({ mutate: (doc) => doc.getElementById("toast").remove() });
+    click($("#hero [data-copy]"));
+    await expect(flush()).resolves.toBeUndefined();
+  });
+});

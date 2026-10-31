@@ -172,6 +172,51 @@
     });
   });
 
+  /* ---------- Copy email address ---------- */
+  const toast = document.getElementById("toast");
+  let toastTimer;
+
+  const showToast = (msg) => {
+    if (!toast) return;
+    toast.textContent = msg;
+    toast.classList.add("is-shown");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => {
+      toast.classList.remove("is-shown");
+      toast.textContent = "";
+    }, 2000);
+  };
+
+  /* Clipboard API where available; older browsers and file:// pages fall back
+     to selecting a hidden textarea and running the copy command. */
+  const copyText = (text) => {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      return navigator.clipboard.writeText(text);
+    }
+    return new Promise((resolve, reject) => {
+      const area = document.createElement("textarea");
+      area.value = text;
+      area.setAttribute("readonly", "");
+      area.style.position = "fixed";
+      area.style.opacity = "0";
+      document.body.appendChild(area);
+      area.select();
+      const ok = typeof document.execCommand === "function" && document.execCommand("copy");
+      area.remove();
+      if (ok) resolve();
+      else reject(new Error("Copy command failed"));
+    });
+  };
+
+  document.querySelectorAll("[data-copy]").forEach((btn) => {
+    btn.addEventListener("click", () =>
+      copyText(btn.dataset.copy).then(
+        () => showToast("Copied"),
+        () => showToast("Couldn’t copy. Please select the address instead.")
+      )
+    );
+  });
+
   /* ---------- Contact form → pre-filled email ----------
      The site is static, so the form composes a message in the visitor's
      own mail app instead of posting to a server. */
