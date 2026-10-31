@@ -74,3 +74,72 @@ describe("sitemap.xml", () => {
     );
   });
 });
+
+describe("manifest.webmanifest", () => {
+  const manifest = JSON.parse(read("manifest.webmanifest"));
+  const pngSize = (file) => {
+    const buf = fs.readFileSync(path.join(ROOT, file));
+    return `${buf.readUInt32BE(16)}x${buf.readUInt32BE(20)}`;
+  };
+
+  test("is installable: name, start URL and scope relative to the site, standalone display", () => {
+    expect(manifest.name).toMatch(/Mitesh Dandade/);
+    expect(manifest.short_name.length).toBeLessThanOrEqual(12);
+    expect(manifest.start_url).toBe("./");
+    expect(manifest.scope).toBe("./");
+    expect(manifest.display).toBe("standalone");
+  });
+
+  test("has 192px and 512px icons plus a maskable one, all at their stated sizes", () => {
+    const pngs = manifest.icons.filter((i) => i.type === "image/png");
+    pngs.forEach((i) => expect({ src: i.src, size: pngSize(i.src) }).toEqual({ src: i.src, size: i.sizes }));
+    expect(pngs.map((i) => i.sizes)).toEqual(expect.arrayContaining(["192x192", "512x512"]));
+    expect(pngs.some((i) => i.purpose === "maskable")).toBe(true);
+    manifest.icons.forEach((i) => expect(fs.existsSync(path.join(ROOT, i.src))).toBe(true));
+  });
+
+  test("Apple touch icon is 180×180", () => {
+    expect(pngSize("assets/img/icons/apple-touch-icon.png")).toBe("180x180");
+  });
+});
+
+describe("sw.js", () => {
+  const sw = read("sw.js");
+  const version = sw.match(/const VERSION = "(\d{8})";/)[1];
+  const precache = [...sw.match(/const PRECACHE = \[([\s\S]*?)\];/)[1].matchAll(/["`]([^"`]+)["`]/g)].map((m) =>
+    m[1].replace("${VERSION}", version)
+  );
+
+  test("cache version matches the ?v= version in index.html", () => {
+    expect(read("index.html")).toContain(`?v=${version}`);
+  });
+
+  test("precaches the page, its versioned CSS and JS, and files that exist", () => {
+    const index = read("index.html");
+    expect(precache).toEqual(expect.arrayContaining(["./", "index.html", "manifest.webmanifest"]));
+    index.match(/assets\/(css|js)\/[\w.]+\?v=\d{8}/g).forEach((ref) => expect(precache).toContain(ref));
+    precache
+      .filter((f) => f !== "./")
+      .forEach((f) => {
+        const file = f.split("?")[0];
+        expect({ file, exists: fs.existsSync(path.join(ROOT, file)) }).toEqual({ file, exists: true });
+      });
+  });
+});
+
+describe("404.html security headers", () => {
+  const crypto = require("crypto");
+  const html = read("404.html").replace(/\r\n?/g, "\n");
+  const hash = (text) => `'sha256-${crypto.createHash("sha256").update(text).digest("base64")}'`;
+  const csp = html.match(/http-equiv="Content-Security-Policy" content="([^"]+)"/)[1];
+
+  test("CSP hashes match the inline scripts and style block", () => {
+    [...html.matchAll(/<script>([\s\S]*?)<\/script>/g)].forEach((m) => expect(csp).toContain(hash(m[1])));
+    [...html.matchAll(/<style>([\s\S]*?)<\/style>/g)].forEach((m) => expect(csp).toContain(hash(m[1])));
+    expect(csp).toContain("object-src 'none'");
+  });
+
+  test("sets a referrer policy", () => {
+    expect(html).toContain('<meta name="referrer" content="strict-origin-when-cross-origin">');
+  });
+});

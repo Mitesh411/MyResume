@@ -315,6 +315,19 @@
   z-index: 101;
 }
 
+/* Inline SVG icons replace the icon fonts: give them the sizes the
+   template gave its <i> icons, and swap the menu button's icon by state. */
+.nav-menu a .icon {
+  font-size: 20px;
+}
+.mobile-nav-toggle .icon-close,
+.mobile-nav-active .mobile-nav-toggle .icon-open {
+  display: none;
+}
+.mobile-nav-active .mobile-nav-toggle .icon-close {
+  display: inline-block;
+}
+
 /* Copy-email button in the social links: looks like the icon links. */
 #hero .social-links .copy-email--icon {
   font-size: 50px;

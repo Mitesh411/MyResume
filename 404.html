@@ -3,6 +3,10 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Hashes cover the inline scripts and style block: recompute them after
+       any edit (tests/static-files.test.js checks them). -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'sha256-PHZ7tXCtPC1cmRJP2jKldfFB7pTDFBMOMhleLxkzdsU=' 'sha256-kTu/8NxyKozQgvHPKsSO8alADPEyVEqbPVdst3UopxU='; style-src 'sha256-4IHxwTz5HorLqGtEcp5O/kAufVkFTMjNXksY2xo6jyw=' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src data:; base-uri 'none'; form-action 'none'; object-src 'none'">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
   <title>Page not found — Mitesh Dandade</title>
   <meta name="description" content="This page doesn't exist. Head back to Mitesh Dandade's QA Lead and test automation portfolio.">
   <meta name="robots" content="noindex">

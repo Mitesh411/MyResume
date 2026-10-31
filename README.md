@@ -14,7 +14,7 @@ The site is one static page made of HTML, CSS and plain JavaScript. It has no fr
 |---|---|---|
 | Home | `#hero` | Animated name and a short introduction, with social links |
 | About | `#about` | Background, working approach and principles |
-| Resume | `#resume` | Career timeline, toolbox, certifications with badges, and education |
+| Resume | `#resume` | Career timeline, toolbox, a tool cloud linking each tool to its case studies, certifications with badges, and education |
 | Portfolio | `#portfolio` | Nine case studies with measured outcomes, filterable by area |
 | Services | `#services` | Eight areas of specialisation, each backed by a real result |
 | Contact | `#contact` | Email, LinkedIn, GitHub and a contact form |
@@ -25,6 +25,10 @@ The site is one static page made of HTML, CSS and plain JavaScript. It has no fr
 - **Responsive layout.** The editorial 12-column grid stacks into one column on phones.
 - **Verified certifications.** The AWS and Azure badges link to their Credly records, and the ISTQB badge links to ISTQB India.
 - **Static contact form.** It opens the visitor's own email app with the message filled in, so no server is needed.
+- **Tool cloud.** Every tool tagged on a case study appears as a button, sized by how many projects used it. Choosing one lists links to those case studies.
+- **Works offline and installs like an app.** A web app manifest and a small service worker (`sw.js`) cache the page after the first visit, so it opens without a connection and can be added to a phone's home screen.
+- **Security policy.** A Content Security Policy and a referrer policy are set with `<meta>` tags, because GitHub Pages can't send custom headers.
+- **Light icons.** Icons are an inline SVG sprite of 11 symbols instead of two icon fonts (about 2.4 MB removed).
 - **Copy email.** Every email address has a **Copy** button that copies it and shows a "Copied" toast.
 - **Printable résumé.** Printing the page (or saving it as PDF) gives a clean one-page A4 résumé: experience, skills and certifications in black on white, without the menu, portfolio or contact form.
 - **Accessibility.** The site has a skip link, semantic headings, focus styles and labelled controls, and it respects reduced-motion settings.
@@ -36,6 +40,8 @@ The site is one static page made of HTML, CSS and plain JavaScript. It has no fr
 MyResume/
 ├── index.html              # The whole site
 ├── 404.html                # "Page not found" page (self-contained: inline CSS, no relative paths)
+├── manifest.webmanifest    # Web app manifest (name, colours, icons) for installing the site
+├── sw.js                   # Service worker: offline cache (VERSION must match the ?v= in index.html)
 ├── robots.txt              # Crawler rules and sitemap pointer
 ├── sitemap.xml             # XML sitemap for search engines
 ├── assets/
@@ -47,9 +53,10 @@ MyResume/
 │   ├── img/
 │   │   ├── hero-bg.jpg     # Hero and page background
 │   │   ├── favicon.svg
+│   │   ├── icons/          # App icons: 192, 512, maskable 512, Apple touch 180
 │   │   ├── og-card.png     # 1200×630 preview image for LinkedIn, Slack and other link shares
 │   │   └── badges/         # AWS, Azure and ISTQB certification badges
-│   └── vendor/             # Typed.js, AOS, Boxicons, Bootstrap Icons (stored locally)
+│   └── vendor/             # Typed.js and AOS (stored locally)
 ├── tests/
 │   ├── main.test.js        # Unit tests for assets/js/main.js, run against the real index.html
 │   ├── index.html.test.js  # Structural checks: navigation, accessibility, SEO, asset paths
@@ -90,7 +97,7 @@ npm run test:coverage   # run tests and write a coverage report
 
 The coverage report opens from `coverage/lcov-report/index.html`. Coverage is measured on `assets/js/main.js`, the site's only script with logic, and the run fails if it drops below the thresholds in `jest.config.js`.
 
-- **`tests/main.test.js`** loads the real `index.html` and checks every behaviour in `main.js`: the theme toggle, side menu and scroll highlighting, Typed and AOS start-up, reveal-on-scroll, the clock, the portfolio filters, the copy-email buttons and contact-form validation. It also covers fallbacks, such as missing libraries or blocked storage.
+- **`tests/main.test.js`** loads the real `index.html` and checks every behaviour in `main.js`: the theme toggle, side menu and scroll highlighting, Typed and AOS start-up, reveal-on-scroll, the clock, the portfolio filters, the tool cloud, the copy-email buttons, service-worker registration and contact-form validation. It also covers fallbacks, such as missing libraries or blocked storage.
 - **`tests/index.html.test.js`** checks the page itself:
   - menu links match section IDs
   - there is one `h1`
@@ -99,6 +106,9 @@ The coverage report opens from `coverage/lcov-report/index.html`. Coverage is me
   - the title and meta description follow the length rules
   - the JSON-LD is valid and its employer, university, certifications and skills match `llms.txt`
   - the print-only résumé header is present
+  - the Content Security Policy is placed first and its script hash matches the inline script
+  - every icon points at a symbol in the SVG sprite, and no icon fonts are used
+- **`tests/static-files.test.js`** checks `404.html`, `robots.txt`, `sitemap.xml`, the web app manifest and its icon sizes, and that `sw.js` caches files that exist under the same version as `index.html`.
   - every local file the page references exists
 
 ## Editing content

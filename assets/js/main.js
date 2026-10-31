@@ -41,13 +41,10 @@
   const body = document.body;
   const sideToggle = document.querySelector(".mobile-nav-toggle");
 
+  /* The button's list/close icons swap in CSS, keyed on body.mobile-nav-active. */
   const toggleSideMenu = () => {
-    body.classList.toggle("mobile-nav-active");
-    const icon = sideToggle && sideToggle.querySelector(".bi");
-    if (icon) {
-      icon.classList.toggle("bi-list");
-      icon.classList.toggle("bi-x");
-    }
+    const open = body.classList.toggle("mobile-nav-active");
+    if (sideToggle) sideToggle.setAttribute("aria-expanded", String(open));
   };
 
   if (sideToggle) sideToggle.addEventListener("click", toggleSideMenu);
@@ -172,6 +169,71 @@
     });
   });
 
+  /* ---------- Tool cloud ----------
+     Built from the tags on each case study, so it never drifts from the
+     portfolio. Choosing a tool lists the case studies that used it. */
+  const cloud = document.getElementById("tool-cloud");
+  const toolResult = document.getElementById("tool-result");
+
+  if (cloud && toolResult) {
+    const tools = new Map();
+    cases.forEach((c) => {
+      c.querySelectorAll(".tags .tag").forEach((tag) => {
+        const name = tag.textContent.trim();
+        if (!tools.has(name)) tools.set(name, []);
+        tools.get(name).push(c);
+      });
+    });
+
+    const showTool = (name, uses) => {
+      toolResult.textContent = "";
+      if (!name) return;
+      const label = document.createElement("p");
+      label.className = "label";
+      label.textContent = `${name} · used in ${uses.length} ${uses.length === 1 ? "case study" : "case studies"}`;
+      const list = document.createElement("ul");
+      uses.forEach((c) => {
+        const link = document.createElement("a");
+        link.href = `#${c.id}`;
+        const num = document.createElement("span");
+        num.className = "case-num";
+        num.textContent = c.querySelector(".case__num").textContent;
+        link.append(num, c.querySelector(".case__title").textContent);
+        // A portfolio filter may be hiding this case: show all before jumping.
+        link.addEventListener("click", () => {
+          const all = document.querySelector('.filter[data-filter="all"]');
+          if (c.hidden && all) all.click();
+        });
+        const item = document.createElement("li");
+        item.append(link);
+        list.append(item);
+      });
+      toolResult.append(label, list);
+    };
+
+    [...tools]
+      .sort((a, b) => b[1].length - a[1].length || a[0].localeCompare(b[0]))
+      .forEach(([name, uses]) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "tool";
+        btn.dataset.weight = String(Math.min(uses.length, 3));
+        btn.setAttribute("aria-pressed", "false");
+        const count = document.createElement("span");
+        count.className = "tool__count";
+        count.textContent = String(uses.length);
+        count.setAttribute("aria-label", `${uses.length} ${uses.length === 1 ? "project" : "projects"}`);
+        btn.append(name, count);
+        btn.addEventListener("click", () => {
+          const pressed = btn.getAttribute("aria-pressed") !== "true";
+          cloud.querySelectorAll(".tool").forEach((b) => b.setAttribute("aria-pressed", "false"));
+          btn.setAttribute("aria-pressed", String(pressed));
+          showTool(pressed ? name : "", uses);
+        });
+        cloud.append(btn);
+      });
+  }
+
   /* ---------- Copy email address ---------- */
   const toast = document.getElementById("toast");
   let toastTimer;
@@ -266,6 +328,17 @@
       if (status) {
         status.textContent = "Opening your email app with the message ready to send…";
       }
+    });
+  }
+
+  /* ---------- Offline support ----------
+     sw.js caches the page for offline viewing and installing as an app.
+     Service workers need http(s), so local file:// previews skip this. */
+  if ("serviceWorker" in navigator && /^https?:$/.test(window.location.protocol)) {
+    window.addEventListener("load", () => {
+      navigator.serviceWorker.register("sw.js").catch(() => {
+        /* unsupported or blocked — the site works the same without it */
+      });
     });
   }
 })();

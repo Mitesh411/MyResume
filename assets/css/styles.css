@@ -131,6 +131,28 @@ svg {
   max-width: 100%;
 }
 
+/* Inline SVG icon sprite (replaces the Boxicons and Bootstrap Icons fonts).
+   Icons are 1em square and use the text colour, like the font glyphs did;
+   the vertical offsets match each font's descent. */
+.sprite {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+.icon {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  fill: currentColor;
+  vertical-align: -0.0625em;
+}
+
+.icon--bi {
+  vertical-align: -0.125em;
+}
+
 a {
   color: inherit;
   text-decoration-thickness: 1px;
@@ -940,6 +962,100 @@ em {
   color: var(--ink-2);
 }
 
+/* ---------- Tool cloud ----------
+   Built by main.js from the case-study tags, so it needs JavaScript. */
+html:not(.js) .toolcloud-section {
+  display: none;
+}
+
+.toolcloud {
+  grid-column: 4 / span 9;
+}
+
+.toolcloud__hint {
+  margin: 0 0 20px;
+}
+
+.toolcloud__tools {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.tool {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+  padding: 6px 14px;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+}
+
+.tool[data-weight="2"] {
+  font-size: 1.08rem;
+}
+
+.tool[data-weight="3"] {
+  font-size: 1.3rem;
+}
+
+.tool:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.tool[aria-pressed="true"] {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--paper);
+}
+
+.tool__count {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  color: inherit;
+  opacity: 0.7;
+}
+
+.toolcloud__result:not(:empty) {
+  margin-top: 24px;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+}
+
+.toolcloud__result ul {
+  margin: 10px 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 8px;
+}
+
+.toolcloud__result a {
+  font-family: var(--serif);
+  font-size: 1.15rem;
+  text-decoration: none;
+}
+
+.toolcloud__result a:hover {
+  color: var(--accent);
+  text-decoration: underline;
+}
+
+.toolcloud__result .case-num {
+  margin-right: 10px;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  color: var(--accent);
+}
+
 .creds {
   grid-column: 1 / -1;
   display: grid;
@@ -1365,6 +1481,7 @@ em {
   #about .split__aside,
   #about .split__main > :not(.lede),
   #about > section:last-child,
+  .toolcloud-section,
   #portfolio,
   #services,
   #contact,
