@@ -33,6 +33,9 @@ The site is one static page made of HTML, CSS and plain JavaScript. It has no fr
 ```
 MyResume/
 ├── index.html              # The whole site
+├── 404.html                # "Page not found" page (self-contained: inline CSS, no relative paths)
+├── robots.txt              # Crawler rules and sitemap pointer
+├── sitemap.xml             # XML sitemap for search engines
 ├── assets/
 │   ├── css/
 │   │   ├── styles.css      # Design system: colour tokens, light/dark themes, grid, components
@@ -47,10 +50,12 @@ MyResume/
 ├── tests/
 │   ├── main.test.js        # Unit tests for assets/js/main.js, run against the real index.html
 │   ├── index.html.test.js  # Structural checks: navigation, accessibility, SEO, asset paths
+│   ├── static-files.test.js # Checks for 404.html, robots.txt and sitemap.xml
 │   └── helpers.js          # Loads the page into jsdom and mocks browser APIs
 ├── package.json            # Test scripts and dev dependencies (Jest + jsdom)
 ├── jest.config.js          # Test environment, coverage target and thresholds
 ├── DEPLOY.md               # Step-by-step publishing guide for beginners
+├── ROADMAP.md              # Prioritised future work (static HTML/CSS/JS only)
 ├── Dockerfile              # nginx image that serves the site
 ├── .dockerignore           # Keeps tests, node_modules and docs out of the image
 ├── llms.txt                # Site facts and SEO guidance for search engines and AI tools

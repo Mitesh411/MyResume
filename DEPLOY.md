@@ -76,6 +76,8 @@ Wait one to two minutes, then visit `https://mitesh411.github.io/MyResume/`. To 
 - [ ] Click every item in the left menu, and every project link.
 - [ ] Try the theme button.
 - [ ] Fill in the contact form and click **Compose email**. Your email app should open with the message ready to send.
+- [ ] Visit a made-up address, such as `https://mitesh411.github.io/MyResume/nope`. The "Page not found" page should appear, and its buttons should take you back to the site.
+- [ ] Submit `https://mitesh411.github.io/MyResume/sitemap.xml` in Google Search Console (**Sitemaps**). This is needed because search engines only read `robots.txt` at the root of a domain, so the copy under `/MyResume/` is ignored until the site has its own domain.
 - [ ] Add the live link to your LinkedIn profile (**Contact info → Website**) and to your résumé.
 
 ## About the contact form

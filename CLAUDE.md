@@ -30,6 +30,13 @@ Mitesh Dandade's resume/portfolio site, published with GitHub Pages at https://m
 - **Fonts** come from Google Fonts: Fraunces, Instrument Sans and JetBrains Mono for the site; Open Sans, Raleway and Poppins for the hero and menu.
 - **Certification badges** are stored locally in `assets/img/badges/`. The AWS and Azure badges link to Credly, and the ISTQB badge links to ISTQB India. The badges belong to their issuers; the ISTQB logo may only be shown while the certification is valid.
 
+## Supporting files
+
+- **`404.html`** is served by GitHub Pages for any missing URL, at any path depth. Because of that it's self-contained: inline CSS (tokens copied from `styles.css`, so keep them in sync), an inline data-URI favicon, and no relative asset paths. It reads the same `md-theme` key as `index.html`. Its links default to `/MyResume/…`, and a small inline script switches them to `/…` when the page is served from the root (local preview, Docker). It has `noindex`. Docker's nginx doesn't serve it for 404s; that would need an `error_page` config.
+- **`sitemap.xml`** lists only the home page. Update `<lastmod>` when content changes.
+- **`robots.txt`** allows everything, disallows the 404 and leftover pages, and points to the sitemap. Crawlers only read `robots.txt` at a host's root, so under `/MyResume/` it has no effect until the site has a custom domain. Submit the sitemap in Google Search Console instead (see `DEPLOY.md`).
+- **`ROADMAP.md`** is the prioritised future-work list (static HTML/CSS/JS only). Mark items ✅ when they ship.
+
 ## Leftovers
 
 - `Landing Page.html` and `testindex.html` are old template pages. They now load the new `assets/js/main.js` against old markup, and their template CSS, Bootstrap and other vendor files have been deleted. Console errors from these pages don't indicate bugs in `index.html`. Nothing links to them.
@@ -37,6 +44,7 @@ Mitesh Dandade's resume/portfolio site, published with GitHub Pages at https://m
 ## Tests
 
 - `tests/main.test.js` loads the real `index.html` into jsdom and runs `assets/js/main.js` through `tests/helpers.js` (`loadPage()`). `loadPage()` mocks what jsdom lacks (`matchMedia`, `scrollTo`, `IntersectionObserver`, `Typed`, `AOS`), accepts a `mutate(doc)` hook for edge cases, and removes the previous test's window/document listeners.
+- `tests/static-files.test.js` checks `404.html` (one `h1`, `noindex`, no relative asset paths, home and section links), `robots.txt` (sitemap pointer) and `sitemap.xml` (well-formed, home URL, ISO `lastmod`).
 - `tests/index.html.test.js` checks structure: menu ↔ section ids, one `h1`, image `alt`/`width`/`height`, `rel=noopener`, SEO limits from `llms.txt`, JSON-LD, local asset paths, and a matching `?v=` cache-busting version.
 - Coverage is measured on `assets/js/main.js` only, with thresholds in `jest.config.js` (statements, functions and lines 95%; branches 90%). The one uncovered branch is the defensive `if (!el) return` in `scrollto`, which its callers never reach.
 - jsdom can't follow `mailto:` links or replace `window.location`, so the contact-form test checks the composed email by spying on `encodeURIComponent`.

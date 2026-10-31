@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Page not found — Mitesh Dandade</title>
+  <meta name="description" content="This page doesn't exist. Head back to Mitesh Dandade's QA Lead and test automation portfolio.">
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#f2ede3" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#15130f" media="(prefers-color-scheme: dark)">
+  <!-- GitHub Pages serves this file for any missing URL, at any depth, so it is
+       self-contained: inline styles and favicon, no relative asset paths. -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231c1a16'/%3E%3Cpath d='M17 33.5l9.5 9.5L47 21' fill='none' stroke='%23ec8456' stroke-width='6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <script>(function(){var d=document.documentElement,t;try{t=localStorage.getItem("md-theme")}catch(e){}if(t!=="light"&&t!=="dark"){t=window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"}d.setAttribute("data-theme",t)})();</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,100..900,0..100,0..1;1,9..144,100..900,0..100,0..1&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+  <style>
+    /* Tokens and components copied from assets/css/styles.css — keep in sync. */
+    :root {
+      --paper: #f2ede3;
+      --ink: #1c1a16;
+      --ink-2: #57514a;
+      --line: rgba(28, 26, 22, 0.16);
+      --line-strong: rgba(28, 26, 22, 0.42);
+      --accent: #b0421a;
+      --accent-ink: #fff8f0;
+      --pass: #356243;
+      --grain-opacity: 0.07;
+      --serif: "Fraunces", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+      --sans: "Instrument Sans", "Segoe UI", system-ui, -apple-system, sans-serif;
+      --mono: "JetBrains Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+      --gutter: clamp(16px, 4vw, 48px);
+      --ease: cubic-bezier(0.2, 0.7, 0.1, 1);
+      color-scheme: light;
+    }
+
+    :root[data-theme="dark"] {
+      --paper: #15130f;
+      --ink: #ece6da;
+      --ink-2: #b2aa9c;
+      --line: rgba(236, 230, 218, 0.14);
+      --line-strong: rgba(236, 230, 218, 0.4);
+      --accent: #ec8456;
+      --accent-ink: #1a0f08;
+      --pass: #8cc198;
+      --grain-opacity: 0.05;
+      color-scheme: dark;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        --paper: #15130f;
+        --ink: #ece6da;
+        --ink-2: #b2aa9c;
+        --line: rgba(236, 230, 218, 0.14);
+        --line-strong: rgba(236, 230, 218, 0.4);
+        --accent: #ec8456;
+        --accent-ink: #1a0f08;
+        --pass: #8cc198;
+        --grain-opacity: 0.05;
+        color-scheme: dark;
+      }
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--sans);
+      font-size: clamp(1rem, 0.96rem + 0.2vw, 1.0625rem);
+      line-height: 1.6;
+    }
+
+    /* Paper grain — same SVG noise tile as the main site. */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      pointer-events: none;
+      opacity: var(--grain-opacity);
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+
+    a { color: inherit; text-underline-offset: 0.2em; }
+    a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+    main {
+      flex: 1;
+      width: 100%;
+      max-width: 1240px;
+      margin-inline: auto;
+      padding: clamp(56px, 9vw, 120px) var(--gutter) clamp(48px, 7vw, 96px);
+    }
+
+    .label {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink-2);
+    }
+
+    .label--accent { color: var(--accent); }
+
+    .meta { display: flex; flex-wrap: wrap; gap: 6px 24px; margin-bottom: clamp(24px, 4vw, 40px); }
+
+    h1 {
+      margin: 0;
+      font-family: var(--serif);
+      font-weight: 400;
+      font-size: clamp(2.8rem, 1.6rem + 6vw, 7rem);
+      line-height: 0.95;
+      letter-spacing: -0.035em;
+      font-variation-settings: "SOFT" 50, "WONK" 1, "opsz" 144;
+    }
+
+    h1 em { color: var(--accent); }
+
+    .lede {
+      max-width: 36em;
+      margin: clamp(24px, 4vw, 40px) 0 0;
+      font-family: var(--serif);
+      font-size: clamp(1.2rem, 1.05rem + 0.6vw, 1.55rem);
+      line-height: 1.4;
+      font-variation-settings: "SOFT" 100, "opsz" 24;
+    }
+
+    /* A failing-assertion block, in keeping with the QA theme. */
+    .report {
+      max-width: 40em;
+      margin: clamp(32px, 5vw, 56px) 0;
+      padding: 18px 20px;
+      border: 1px solid var(--line-strong);
+      border-left: 3px solid var(--accent);
+      font-family: var(--mono);
+      font-size: 0.85rem;
+      line-height: 1.7;
+      overflow-wrap: anywhere;
+    }
+
+    .report p { margin: 0; }
+    .report .fail { color: var(--accent); }
+    .report .pass { color: var(--pass); }
+    .report .muted { color: var(--ink-2); }
+    .report .indent { padding-left: 1.2em; }
+
+    .btn-row { display: flex; flex-wrap: wrap; gap: 12px; }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 22px;
+      border: 1px solid var(--ink);
+      border-radius: 999px;
+      background: var(--ink);
+      color: var(--paper);
+      font-size: 0.95rem;
+      font-weight: 500;
+      text-decoration: none;
+      transition: background-color 0.25s, color 0.25s, border-color 0.25s;
+    }
+
+    .btn:hover { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+    .btn--ghost { background: transparent; color: var(--ink); }
+    .btn .arrow { transition: transform 0.3s var(--ease); }
+    .btn:hover .arrow { transform: translateX(4px); }
+
+    footer {
+      border-top: 1px solid var(--line);
+      padding: 24px var(--gutter);
+      text-align: center;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * { transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <main id="main">
+    <div class="meta">
+      <span class="label label--accent">Error 404</span>
+      <span class="label">Page not found</span>
+    </div>
+
+    <h1>This page didn’t <em>pass.</em></h1>
+    <p class="lede">The link may be old, mistyped, or pointing at something that has moved. Everything on this site lives on one page, so the way back is short.</p>
+
+    <div class="report" role="note" aria-label="Test report">
+      <p class="fail">✕ expect(page).toExist()</p>
+      <p class="muted indent">Expected: 200 OK</p>
+      <p class="muted indent">Received: 404 Not Found <span data-path></span></p>
+      <p class="pass">✓ Suggested fix: return to the home page</p>
+    </div>
+
+    <div class="btn-row">
+      <a class="btn" href="/MyResume/" data-home>Back to home <span class="arrow" aria-hidden="true">→</span></a>
+      <a class="btn btn--ghost" href="/MyResume/#portfolio" data-home="#portfolio">See the portfolio</a>
+      <a class="btn btn--ghost" href="/MyResume/#contact" data-home="#contact">Get in touch</a>
+    </div>
+  </main>
+
+  <footer>
+    <span class="label">© Mitesh Dandade · QA Lead &amp; Test Automation</span>
+  </footer>
+
+  <script>
+    /* The site lives under /MyResume/ on GitHub Pages but at / when served
+       locally or from Docker, so point the links at whichever base is in use. */
+    (function () {
+      var path = window.location.pathname;
+      var base = /^\/MyResume(\/|$)/i.test(path) ? "/MyResume/" : "/";
+      document.querySelectorAll("[data-home]").forEach(function (a) {
+        a.setAttribute("href", base + a.getAttribute("data-home"));
+      });
+      var slot = document.querySelector("[data-path]");
+      if (slot) slot.textContent = "for " + path;
+    })();
+  </script>
+</body>
+</html>

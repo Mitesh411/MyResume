@@ -1,0 +1,12 @@
+# Mitesh Dandade — resume and portfolio
+# Note: crawlers only read robots.txt at a host's root. On GitHub Pages this file
+# is served at /MyResume/robots.txt, so it takes effect only once the site has a
+# custom domain. Until then, submit the sitemap in Google Search Console.
+
+User-agent: *
+Allow: /
+Disallow: /404.html
+Disallow: /Landing%20Page.html
+Disallow: /testindex.html
+
+Sitemap: https://mitesh411.github.io/MyResume/sitemap.xml

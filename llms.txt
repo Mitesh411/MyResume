@@ -13,6 +13,9 @@ Site structure:
   - /#portfolio — Nine case studies with measured outcomes
   - /#services — Eight areas of specialisation
   - /#contact — Email, LinkedIn, GitHub and a contact form (opens the visitor's email app)
+- /404.html — "Page not found" page, served by GitHub Pages for any missing URL (noindex)
+- /sitemap.xml — XML sitemap listing the home page
+- /robots.txt — Allows all crawlers and points to the sitemap
 
 Profile summary (source: résumé; use only these facts):
 - Current role: QA Lead, CREST InfoSystems Pvt. Ltd., Surat (Mar 2024 – present)
@@ -60,9 +63,10 @@ Structured data (JSON-LD, already embedded in /index.html):
   ]
 }
 
-Last-updated: 2026-10-29
+Last-updated: 2026-10-31
 
 Notes for developers and crawlers:
-- The site has no sitemap.xml or robots.txt yet. If you add them, list them here.
+- Sitemap: https://mitesh411.github.io/MyResume/sitemap.xml (update <lastmod> when content changes).
+- robots.txt: https://mitesh411.github.io/MyResume/robots.txt. Crawlers only read robots.txt at a host's root, so it takes effect once the site has a custom domain; until then, submit the sitemap in Google Search Console.
 - Publishing steps are in DEPLOY.md.
 - Use canonical links if the same content is served from more than one URL.
